@@ -1,0 +1,51 @@
+Arguments: 
+  /home/honza/.nvm/versions/node/v8.4.0/bin/node /usr/share/yarn/bin/yarn.js add typescript tslint -D
+
+PATH: 
+  /home/honza/.nvm/versions/node/v8.4.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/home/honza/bin:/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:/home/honza/bin:/usr/lib/jvm/java-8-openjdk-amd64/bin:/home/honza/Android/Sdk/tools:/home/honza/Android/Sdk/tools/bin:/home/honza/Android/Sdk/platform-tools
+
+Yarn version: 
+  1.0.1
+
+Node version: 
+  8.4.0
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  {
+    "name": "empty-project-template",
+    "main": "node_modules/expo/AppEntry.js",
+    "private": true,
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "^30.0.1",
+      "react": "16.3.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: https://npm.signageos.io/babylon/-/babylon-7.0.0-beta.0-ranges.tgz: Request failed "404 Not Found"
+      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:57662:26)
+      at emitOne (events.js:115:13)
+      at Request.emit (events.js:210:7)
+      at Request.module.exports.Request.onRequestResponse (/usr/share/yarn/lib/cli.js:118210:10)
+      at emitOne (events.js:115:13)
+      at ClientRequest.emit (events.js:210:7)
+      at HTTPParser.parserOnIncomingClient (_http_client.js:565:21)
+      at HTTPParser.parserOnHeadersComplete (_http_common.js:116:23)
+      at TLSSocket.socketOnData (_http_client.js:454:20)
+      at emitOne (events.js:115:13)
