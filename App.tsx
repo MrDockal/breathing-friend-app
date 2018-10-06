@@ -1,44 +1,25 @@
 import React from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import { Hello } from './Components/Hello';
-
-const instructions = Platform.select({
-	ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-	android:
-	  'Double tap R on your keyboard to reload,\n' +
-	  'Shake or press menu button for dev menu',
-  });
+import { TabNavigation } from './src/Components/TabNavigation';
+import { DrawerNavigation } from './src/Components/DrawerNavigation';
+import { Drawer } from './src/Components/Drawer';
 
 export default class App extends React.Component {
 	public render() {
 		return (
-			<View style={styles.container}>
-				<Text style={styles.welcome}>
-					Weolcome to React Native!
-				</Text>
-				<Text style={styles.instructions}>To get started, edit App.js</Text>
-        		<Text style={styles.instructions}>{instructions}</Text>
-				<Hello name='docky' enthusiasmLevel={1}/>
-			</View>
+			<Drawer/>
+			// <React.Fragment>
+			// 	<DrawerNavigation/>
+			// 	<TabNavigation/>
+			// </React.Fragment>
+			// <View style={styles.container}>
+			// 	<Text style={styles.welcome}>
+			// 		Weolcome to React Native!
+			// 	</Text>
+			// 	<Text style={styles.instructions}>To get started, edit App.js</Text>
+        	// 	<Text style={styles.instructions}>{instructions}</Text>
+			// 	<Hello name='docky' enthusiasmLevel={1}/>
+			// 	{BottomNavigation()}
+			// </View>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#f5fcff',
-	},
-	welcome: {
-		fontSize: 20,
-		textAlign: 'center',
-		margin: 10,
-	},
-	instructions: {
-		textAlign: 'center',
-		color: '#333333',
-		marginBottom: 5,
-	}
-})

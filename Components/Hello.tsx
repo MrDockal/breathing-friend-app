@@ -10,6 +10,12 @@ interface State {
 	enthusiasmLevel: number;
 }
 
+const wait = (ms: number) => {
+	return new Promise((resolve: () => void) => {
+		setTimeout(resolve, ms);
+	});
+}
+
 export class Hello extends React.Component<Props, State> {
 	public constructor(props: Props) {
 		super(props);
@@ -23,8 +29,11 @@ export class Hello extends React.Component<Props, State> {
 		};
 	}
 
-	public onIncrement = () =>
+	public onIncrement = async() => {
+		await wait(200);
 		this.setState({ enthusiasmLevel: this.state.enthusiasmLevel + 1 });
+	}
+
 	public onDecrement = () =>
 		this.setState({ enthusiasmLevel: this.state.enthusiasmLevel - 1 });
 	public getExclamationMarks = (numChars: number) => Array(numChars + 1).join('!');
