@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { StyleSheet, ScrollView, Text } from 'react-native';
 
 const deviceScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -12,9 +12,9 @@ const deviceScreenStyles = StyleSheet.create({
 export class DeviceScreen extends React.Component {
 	public render() {
 		return (
-			<View style={deviceScreenStyles.wrapper}>
+			<ScrollView contentContainerStyle={deviceScreenStyles.wrapper}>
 				<Text>Devices!!</Text>
-			</View>
+			</ScrollView>
 		)
 	}
 }
