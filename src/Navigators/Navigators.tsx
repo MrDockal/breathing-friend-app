@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator, createNavigationContainer } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // TabNavigation Screens
@@ -68,4 +68,4 @@ const SwitchNavigation = createSwitchNavigator(
 	}
 );
 
-export default SwitchNavigation;
+export default createNavigationContainer(SwitchNavigation);

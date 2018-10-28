@@ -7,7 +7,10 @@ export interface DeviceState {
 }
 
 export const devicesInitialState: DeviceState = {
-	devices: [],
+	devices: [{
+		name: 'Mišák',
+		uid: '017ab2',
+	}],
 }
 
 type Action = SetActiveDevice;

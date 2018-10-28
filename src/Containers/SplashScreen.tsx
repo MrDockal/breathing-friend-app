@@ -33,13 +33,9 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 class SplashScreenHOC extends React.Component<Props, {}> {
 
-	constructor(props: Props) {
-		super(props);
-		this.bootstrapAsync();
-	}
-
 	public componentDidMount() {
 		SplashScreenRN.hide();
+		this.bootstrapAsync();
 	}
 
 	public render() {

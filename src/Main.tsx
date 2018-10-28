@@ -3,38 +3,27 @@ import Navigator from './Navigators/Navigators';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from "redux-saga";
 import { createStore, applyMiddleware, Store } from 'redux';
-import { reducer, initialState } from './Store/configureStore';
+import { reducer } from './Store/configureStore';
 import { rootSagas } from './Store/Sagas/rootSaga';
 import { createFirebaseConnection } from './Core/Database/createFirebaseConnection';
 import { BreathingInitLoadAction } from './Store/Actions/breathingActions';
-import { Device } from './Core/Entities/Device';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore, Persistor } from 'redux-persist';
 
 export default class App extends React.Component<{}, {}> {
 
 	private readonly store: Store;
+	private readonly persistor: Persistor;
 
 	public constructor(props: {}) {
 		super(props);
 		const firebase = createFirebaseConnection();
 		const sagaMiddleware = createSagaMiddleware();
-		const device: Device = {
-			name: 'Mišák',
-			uid: '017ab2',
-		}
 		this.store = createStore(
 			reducer,
-			{
-				...initialState,
-				device: {
-					...initialState.device,
-					devices: [
-						...initialState.device.devices,
-						device,
-					]
-				}
-			},
-			applyMiddleware(sagaMiddleware)
+			applyMiddleware(sagaMiddleware),
 		);
+		this.persistor = persistStore(this.store);
 		sagaMiddleware.run(() => rootSagas(firebase));
 		this.store.dispatch(BreathingInitLoadAction());
 	}
@@ -42,7 +31,9 @@ export default class App extends React.Component<{}, {}> {
 	public render() {
 		return (
 			<Provider store={this.store}>
-				<Navigator/>
+				<PersistGate loading={null} persistor={this.persistor}>
+					<Navigator/>
+				</PersistGate>
 			</Provider>
 		);
 	}
