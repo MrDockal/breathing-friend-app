@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { breathingReducer, BreathingState, breathingInitialState } from './Reducers/breathingReducer';
 import { DeviceState, devicesInitialState, devicesReducer } from './Reducers/devicesReducer';
 
@@ -7,12 +9,20 @@ export interface State {
 	device: DeviceState;
 };
 
+const config = {
+	key: 'primary',
+	storage,
+	whitelist: ['device']
+}
+
 export const initialState = {
 	breathing: breathingInitialState,
 	device: devicesInitialState,
 }
 
-export const reducer = combineReducers<State>({
+const rootReducer = combineReducers<State>({
 	breathing: breathingReducer,
 	device: devicesReducer,
 });
+
+export const reducer = persistReducer(config, rootReducer);
