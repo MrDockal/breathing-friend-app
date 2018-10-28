@@ -1,4 +1,3 @@
-
 import { put, takeEvery } from 'redux-saga/effects';
 import { RNFirebase } from 'react-native-firebase';
 import { BreathingInitLoad, BreathingInitLoadedAction } from '../Actions/breathingActions';
