@@ -1,5 +1,6 @@
 import React from 'react';
-import {ScrollView, Text, StyleSheet} from 'react-native';
+import {ScrollView, Text, StyleSheet, Button} from 'react-native';
+import { NavigationInjectedProps } from 'react-navigation';
 
 const settingsScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -9,10 +10,22 @@ const settingsScreenStyles = StyleSheet.create({
 	}
 })
 
-export class SettingsScreen extends React.Component {
+export class SettingsScreen extends React.Component<NavigationInjectedProps> {
 	public render() {
 		return (
 			<ScrollView contentContainerStyle={settingsScreenStyles.wrapper}>
+				<Button 
+					onPress={() => {
+						this.props.navigation.navigate('About')
+					}}
+					title='About'
+				/>
+				<Button 
+					onPress={() => {
+						this.props.navigation.navigate('ReportBug')
+					}}
+					title='ReportBug'
+				/>
 				<Text>Settings!!</Text>
 			</ScrollView>
 		)

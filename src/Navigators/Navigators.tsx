@@ -11,13 +11,42 @@ import { StatsScreen } from '../Containers/StatsScreen';
 // SwitchNavigation Screen
 import { SplashScreen } from '../Containers/SplashScreen';
 import { SynchronizeDeviceScreen } from '../Containers/SynchronizeDevice';
+import { SettingsAboutApp } from '../Components/SettingsAboutApp';
+import { SeetingsReportBug } from '../Components/SettingsReportBug';
+
+export const routeNames = {
+	Home: 'Home',
+	Stats: 'Stats',
+	Settings: 'Settings',
+	Devices: 'Devices',
+}
+
+const SettingsStackNavigation = createStackNavigator(
+	{
+		Settings: {
+			screen: SettingsScreen,
+			navigationOptions: {
+				header: null,
+			},
+		},
+		About: {
+			screen: SettingsAboutApp,
+		},
+		ReportBug: {
+			screen: SeetingsReportBug,
+		}
+	}, {
+		initialRouteName: 'Settings',
+		headerMode: 'screen'
+	}
+);
 
 const TabNavigation = createBottomTabNavigator(
 	{
 		Home: HomeScreen,
 		Stats: StatsScreen,
-		Settings: SettingsScreen,
 		Devices: DeviceScreen,
+		Settings: SettingsStackNavigation,
 	},
 	{
 		navigationOptions: ({ navigation }) => ({
@@ -52,7 +81,7 @@ const TabNavigation = createBottomTabNavigator(
 const SwitchNavigation = createSwitchNavigator(
 	{
 		Main: {
-			screen: TabNavigation
+			screen: TabNavigation,
 		},
 		SyncDevice: {
 			screen: SynchronizeDeviceScreen,
