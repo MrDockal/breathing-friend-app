@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-ble-manager')
     compile project(':react-native-splash-screen')
     implementation project(':react-native-firebase')
       // Firebase dependencies
