@@ -8,14 +8,7 @@ import { Device } from '../Core/Entities/Device';
 import { State } from '../Store/configureStore';
 import { Dispatch } from 'redux';
 import { setActiveDeviceAction } from '../Store/Actions/deviceActions';
-
-const splashScreensStyles = StyleSheet.create({
-	wrapper: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	}
-});
+import { routeNames } from '../Navigators/Navigators';
 
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */
@@ -25,11 +18,7 @@ export interface StateProps {
 	devices: DeviceState;
 }
 
-export interface DispatchProps {
-	setActiveDevice: (device: Device) => void;
-}
-
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = OwnProps & StateProps;
 
 class SplashScreenHOC extends React.Component<Props, {}> {
 
@@ -40,24 +29,8 @@ class SplashScreenHOC extends React.Component<Props, {}> {
 
 	public render() {
 		return (
-			<View style={splashScreensStyles.wrapper}>
-				<Text>This is the home screen of the app</Text>
-				{
-					this.props.devices.devices.map((device: Device, index: number) => (
-						<Button
-							key={index}
-							onPress={() => {
-								this.props.setActiveDevice(device);
-								this.props.navigation.navigate('Main');
-							}}
-							title={device.name}
-						/>
-					))
-				}
-				<Button
-					onPress={() => this.props.navigation.navigate('SyncDevice')}
-					title="Sync new device"
-				/>
+			<View>
+				<Text>Fofo</Text>
 			</View>
 		)
 	}
@@ -69,13 +42,15 @@ class SplashScreenHOC extends React.Component<Props, {}> {
 		 * 3) Pokud aktivní dýchátko jdi na Main
 		 */
 		if (this.props.devices.activeDevice) {
-			return this.props.navigation.navigate('Main');
+			return this.props.navigation.navigate(routeNames.MainApp);
+		} else {
+			return this.props.navigation.navigate(routeNames.SignpostScreen);
 		}
 	}
 }
 
-export const SplashScreen = connect<StateProps, DispatchProps, OwnProps>(
-	(state: State, ownProps: OwnProps) => ({
+export const SplashScreen = connect<StateProps, {}, OwnProps>(
+	(state: State, _ownProps: OwnProps) => ({
 		devices: state.device,
 	}),
 	(dispatch: Dispatch) => ({

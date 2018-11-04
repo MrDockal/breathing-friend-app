@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, Text, StyleSheet, Button} from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
+import { routeNames } from '../Navigators/Navigators';
 
 const settingsScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -16,15 +17,21 @@ export class SettingsScreen extends React.Component<NavigationInjectedProps> {
 			<ScrollView contentContainerStyle={settingsScreenStyles.wrapper}>
 				<Button 
 					onPress={() => {
-						this.props.navigation.navigate('About')
+						this.props.navigation.navigate(routeNames.About)
 					}}
 					title='About'
 				/>
 				<Button 
 					onPress={() => {
-						this.props.navigation.navigate('ReportBug')
+						this.props.navigation.navigate(routeNames.ReportBug)
 					}}
 					title='ReportBug'
+				/>
+				<Button 
+					onPress={() => {
+						this.props.navigation.navigate(routeNames.SignpostScreen)
+					}}
+					title='Switch devices'
 				/>
 				<Text>Settings!!</Text>
 			</ScrollView>

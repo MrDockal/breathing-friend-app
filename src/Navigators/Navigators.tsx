@@ -4,7 +4,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // TabNavigation Screens
 import { HomeScreen } from '../Containers/HomeScreen';
-import { DeviceScreen } from '../Containers/DeviceScreen';
 import { SettingsScreen } from '../Containers/SettingsScreen';
 import { StatsScreen } from '../Containers/StatsScreen';
 
@@ -13,54 +12,72 @@ import { SplashScreen } from '../Containers/SplashScreen';
 import { SynchronizeDeviceScreen } from '../Containers/SynchronizeDevice';
 import { SettingsAboutApp } from '../Components/SettingsAboutApp';
 import { SeetingsReportBug } from '../Components/SettingsReportBug';
+import { SignpostScreen } from '../Containers/SignpostScreen';
 
 export const routeNames = {
-	Home: 'Home',
-	Stats: 'Stats',
-	Settings: 'Settings',
-	Devices: 'Devices',
+	HomeTab: 'HomeTab',
+	StatsTab: 'StatsTab',
+	SettingsTab: 'SettingsTab',
+	About: 'About',
+	ReportBug: 'ReportBug',
+	MainApp: 'MainApp',
+	SyncDevice: 'SyncDevice',
+	SplashScreen: 'SplashScreen',
+	SignpostScreen: 'SignpostScreen',
 }
 
 const SettingsStackNavigation = createStackNavigator(
 	{
-		Settings: {
+		[routeNames.SettingsTab]: {
 			screen: SettingsScreen,
 			navigationOptions: {
 				header: null,
 			},
 		},
-		About: {
+		[routeNames.About]: {
 			screen: SettingsAboutApp,
 		},
-		ReportBug: {
+		[routeNames.ReportBug]: {
 			screen: SeetingsReportBug,
 		}
 	}, {
-		initialRouteName: 'Settings',
-		headerMode: 'screen'
+		initialRouteName: routeNames.SettingsTab,
+		headerMode: 'screen',
 	}
 );
 
 const TabNavigation = createBottomTabNavigator(
 	{
-		Home: HomeScreen,
-		Stats: StatsScreen,
-		Devices: DeviceScreen,
-		Settings: SettingsStackNavigation,
+		[routeNames.HomeTab]: {
+			screen: HomeScreen,
+			navigationOptions: () => ({
+				title: `Home`,
+			}),
+		},
+		[routeNames.StatsTab]: {
+			screen: StatsScreen,
+			navigationOptions: () => ({
+				title: `Stats`,
+			}),
+		},
+		[routeNames.SettingsTab]: {
+			screen: SettingsStackNavigation,
+			navigationOptions: () => ({
+				title: `Settings`,
+			}),
+		},
 	},
 	{
 		navigationOptions: ({ navigation }) => ({
 			tabBarIcon: ({ focused, tintColor }: {focused: boolean, tintColor: string}) => {
 				const { routeName } = navigation.state;
 				let iconName;
-				if (routeName === 'Home') {
+				if (routeName === routeNames.HomeTab) {
 					iconName = `home`;
-				} else if (routeName === 'Stats') {
+				} else if (routeName === routeNames.StatsTab) {
 					iconName = `show-chart`;
-				} else if (routeName === 'Settings') {
+				} else if (routeName === routeNames.SettingsTab) {
 					iconName = `settings`;
-				} else if (routeName === 'Devices') {
-					iconName = `favorite`
 				}
 
 				// You can return any component that you like here! We usually use an
@@ -80,18 +97,21 @@ const TabNavigation = createBottomTabNavigator(
 
 const SwitchNavigation = createSwitchNavigator(
 	{
-		Main: {
+		[routeNames.MainApp]: {
 			screen: TabNavigation,
 		},
-		SyncDevice: {
+		[routeNames.SyncDevice]: {
 			screen: SynchronizeDeviceScreen,
 		},
-		SplashScreen: {
+		[routeNames.SplashScreen]: {
 			screen: SplashScreen,
+		},
+		[routeNames.SignpostScreen]: {
+			screen: SignpostScreen,
 		}
 	},
 	{
-		initialRouteName: 'SplashScreen',
+		initialRouteName: routeNames.SplashScreen,
 		resetOnBlur: true,
 		backBehavior: 'none',
 	}
