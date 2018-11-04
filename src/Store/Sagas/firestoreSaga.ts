@@ -1,7 +1,8 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { RNFirebase } from 'react-native-firebase';
-import { BreathingInitLoad, BreathingInitLoadedAction } from '../Actions/breathingActions';
+import { BreathingInitLoad, BreathingInitLoadedAction, FirestoreReinitialize, FirestoreReinitializedAction } from '../Actions/breathingActions';
 import { BreathingMode } from '../../Core/Entities/BreathingMode';
+import { breathingModes } from '../../Core/Mocks/breathingModes';
 
 export function* firestoreSaga (firestore: RNFirebase.firestore.Firestore) {
 	const breathingModesCollection = firestore.collection('breathing-modes');
@@ -14,5 +15,12 @@ export function* firestoreSaga (firestore: RNFirebase.firestore.Firestore) {
 			});
 			yield put(BreathingInitLoadedAction(breathingModes));
 		}),
+		yield takeEvery(FirestoreReinitialize, function* (_action: FirestoreReinitialize) {
+			const created = breathingModes.map((mode: BreathingMode) => (
+				breathingModesCollection.add(mode)
+			));
+			yield Promise.all(created);
+			yield put(FirestoreReinitializedAction());
+		})
 	];
 }

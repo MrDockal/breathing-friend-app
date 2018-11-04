@@ -23,3 +23,25 @@ export const BreathingInitLoadedAction = (modes: BreathingMode[]): BreathingInit
 	type: BreathingInitLoaded,
 	modes,
 });
+
+/** --- Breathing.Purge --- */
+
+/** GET */
+export const FirestoreReinitialize = "Firestore.Reinitialize";
+export interface FirestoreReinitialize {
+	type: typeof FirestoreReinitialize;
+}
+
+export const FirestoreReinitializeAction = (): FirestoreReinitialize => ({
+	type: FirestoreReinitialize,
+});
+
+	/** RESPONSE */
+export const FirestoreReinitialized = "Firestore.Reinitialized";
+export interface FirestoreReinitialized {
+	type: typeof FirestoreReinitialized;
+}
+
+export const FirestoreReinitializedAction = (): FirestoreReinitialized => ({
+	type: FirestoreReinitialized,
+});
