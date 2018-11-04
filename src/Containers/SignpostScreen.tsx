@@ -50,7 +50,7 @@ class SignpostScreenHOC extends React.Component<Props> {
 					))
 				}
 				<Button
-					onPress={() => this.props.navigation.navigate(routeNames.SyncDevice)}
+					onPress={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
 					title="Sync new device"
 				/>
 			</View>

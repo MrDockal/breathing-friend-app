@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator, createNavigationContainer } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createNavigationContainer } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // TabNavigation Screens
@@ -9,7 +9,7 @@ import { StatsScreen } from '../Containers/StatsScreen';
 
 // SwitchNavigation Screen
 import { SplashScreen } from '../Containers/SplashScreen';
-import { SynchronizeDeviceScreen } from '../Containers/SynchronizeDevice';
+import { SynchronizeDeviceScreen } from '../Containers/SynchronizeDeviceScreen';
 import { SettingsAboutApp } from '../Components/SettingsAboutApp';
 import { SeetingsReportBug } from '../Components/SettingsReportBug';
 import { SignpostScreen } from '../Containers/SignpostScreen';
@@ -21,9 +21,10 @@ export const routeNames = {
 	About: 'About',
 	ReportBug: 'ReportBug',
 	MainApp: 'MainApp',
-	SyncDevice: 'SyncDevice',
 	SplashScreen: 'SplashScreen',
 	SignpostScreen: 'SignpostScreen',
+	BluetoothSearchDevices: 'BluetoothSearchDevices',
+	RenameDeviceScreen: 'RenameDeviceScreen',
 }
 
 const SettingsStackNavigation = createStackNavigator(
@@ -95,25 +96,34 @@ const TabNavigation = createBottomTabNavigator(
 	}
 );
 
-const SwitchNavigation = createSwitchNavigator(
+const SwitchNavigation = createStackNavigator(
 	{
 		[routeNames.MainApp]: {
 			screen: TabNavigation,
+			navigationOptions: {
+				header: null,
+			},
 		},
-		[routeNames.SyncDevice]: {
+		[routeNames.BluetoothSearchDevices]: {
 			screen: SynchronizeDeviceScreen,
+		},
+		[routeNames.RenameDeviceScreen]: {
+			screen: SeetingsReportBug,
 		},
 		[routeNames.SplashScreen]: {
 			screen: SplashScreen,
 		},
 		[routeNames.SignpostScreen]: {
 			screen: SignpostScreen,
+			navigationOptions: {
+				header: null,
+			},
 		}
 	},
 	{
 		initialRouteName: routeNames.SplashScreen,
-		resetOnBlur: true,
-		backBehavior: 'none',
+		//resetOnBlur: true,
+		//backBehavior: 'none',
 	}
 );
 
