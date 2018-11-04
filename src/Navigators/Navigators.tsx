@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createBottomTabNavigator, createStackNavigator, createNavigationContainer } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createNavigationContainer, createSwitchNavigator } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // TabNavigation Screens
@@ -25,6 +25,7 @@ export const routeNames = {
 	SignpostScreen: 'SignpostScreen',
 	BluetoothSearchDevices: 'BluetoothSearchDevices',
 	RenameDeviceScreen: 'RenameDeviceScreen',
+	App: 'App',
 }
 
 const SettingsStackNavigation = createStackNavigator(
@@ -96,7 +97,7 @@ const TabNavigation = createBottomTabNavigator(
 	}
 );
 
-const SwitchNavigation = createStackNavigator(
+const MainAppNavigation = createStackNavigator(
 	{
 		[routeNames.MainApp]: {
 			screen: TabNavigation,
@@ -110,9 +111,6 @@ const SwitchNavigation = createStackNavigator(
 		[routeNames.RenameDeviceScreen]: {
 			screen: SeetingsReportBug,
 		},
-		[routeNames.SplashScreen]: {
-			screen: SplashScreen,
-		},
 		[routeNames.SignpostScreen]: {
 			screen: SignpostScreen,
 			navigationOptions: {
@@ -121,10 +119,24 @@ const SwitchNavigation = createStackNavigator(
 		}
 	},
 	{
-		initialRouteName: routeNames.SplashScreen,
-		//resetOnBlur: true,
-		//backBehavior: 'none',
+		initialRouteName: routeNames.SignpostScreen,
 	}
 );
 
-export default createNavigationContainer(SwitchNavigation);
+const App = createSwitchNavigator(
+	{
+		[routeNames.SplashScreen]: {
+			screen: SplashScreen,
+		},
+		[routeNames.App]: {
+			screen: MainAppNavigation,
+		}
+	},
+	{
+		initialRouteName: routeNames.SplashScreen,
+		resetOnBlur: true,
+		backBehavior: 'none',
+	}
+)
+
+export default createNavigationContainer(App);
