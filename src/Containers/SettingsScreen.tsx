@@ -4,7 +4,7 @@ import { NavigationInjectedProps } from 'react-navigation';
 import { routeNames } from '../Navigators/Navigators';
 import { connect } from 'react-redux';
 import { State } from '../Store/configureStore';
-import { FirestoreReinitializeAction } from '../Store/Actions/breathingActions';
+import { BreathingReinitializeAction } from '../Store/Actions/breathingActions';
 import { Dispatch } from 'redux';
 
 const settingsScreenStyles = StyleSheet.create({
@@ -61,7 +61,7 @@ export const SettingsScreen = connect<{}, DispatchProps, OwnProps>(
 	}),
 	(dispatch: Dispatch) => ({
 		reinitialize: () => {
-			dispatch(FirestoreReinitializeAction());
+			dispatch(BreathingReinitializeAction());
 		}
 	}),
 )(SettingsScreenHOC);

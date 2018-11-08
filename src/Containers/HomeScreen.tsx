@@ -1,7 +1,6 @@
 import React from 'react';
 import {ScrollView, Text, StyleSheet} from 'react-native';
 import { Button as ButtonRN, Divider } from 'react-native-elements';
-import { createBLEManager, exploreDevices } from '../Core/Bluetooth/createBLEManager';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { Button } from '../Components/Button';
 import { BreathingList } from '../Components/BreathingList';
@@ -16,11 +15,6 @@ const homeScreenStyles = StyleSheet.create({
 })
 
 export class HomeScreen extends React.Component {
-	public async componentDidMount() {
-		await createBLEManager();
-		const peripheral = await exploreDevices();
-		console.warn(peripheral);
-	}
 	public render() {
 		return (
 			<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>

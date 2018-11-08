@@ -4,15 +4,14 @@ import { ScanForAvailablePeripherals, availablePeripheralObtainedAction, periphe
 
 export function* deviceSaga (bleAdapter: BleAdapter) {
 	return [
-		yield takeEvery(ScanForAvailablePeripherals, function* (_action: ScanForAvailablePeripherals) {
-			yield bleAdapter.init(); //TODO may be moved to separate action flow
+		yield takeEvery(ScanForAvailablePeripherals, (_action: ScanForAvailablePeripherals) => {
 			const discoveredPeripheralCb = function* (peripheral: any) {
 				yield put(availablePeripheralObtainedAction(peripheral));
 			}
 			const doneCb = function* () {
 				yield put(peripheralScanStoppedAction());
 			}
-			bleAdapter.scanForPeripherals([], discoveredPeripheralCb, doneCb);
+			bleAdapter.scanForPeripherals( discoveredPeripheralCb, doneCb);
 		}),
 	];
 }

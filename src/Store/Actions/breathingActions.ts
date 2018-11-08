@@ -1,4 +1,4 @@
-import { BreathingMode, SavedBreathingMode } from "../../Core/Entities/BreathingMode";
+import { BreathingMode } from "../../Core/Entities/BreathingMode";
 
 /** --- Breathing.Init --- */
 
@@ -24,36 +24,24 @@ export const BreathingInitLoadedAction = (modes: BreathingMode[]): AvailableBrea
 	modes,
 });
 
-	/** RESPONSE SAVED */
-export const SavedBreathingInitLoaded = "Breathing.Saved.Loaded";
-export interface SavedBreathingInitLoaded {
-	type: typeof SavedBreathingInitLoaded;
-	savedModes: SavedBreathingMode[];
-}
-
-export const SavedBreathingInitLoadedAction = (savedModes: SavedBreathingMode[]): SavedBreathingInitLoaded => ({
-	type: SavedBreathingInitLoaded,
-	savedModes,
-});
-
 /** --- Breathing.Purge --- */
 
 /** GET */
-export const FirestoreReinitialize = "Firestore.Reinitialize";
-export interface FirestoreReinitialize {
-	type: typeof FirestoreReinitialize;
+export const BreathingReinitialize = "Breathing.Reinitialize";
+export interface BreathingReinitialize {
+	type: typeof BreathingReinitialize;
 }
 
-export const FirestoreReinitializeAction = (): FirestoreReinitialize => ({
-	type: FirestoreReinitialize,
+export const BreathingReinitializeAction = (): BreathingReinitialize => ({
+	type: BreathingReinitialize,
 });
 
 	/** RESPONSE */
-export const FirestoreReinitialized = "Firestore.Reinitialized";
-export interface FirestoreReinitialized {
-	type: typeof FirestoreReinitialized;
+export const BreathingReinitialized = "Breathing.Reinitialized";
+export interface BreathingReinitialized {
+	type: typeof BreathingReinitialized;
 }
 
-export const FirestoreReinitializedAction = (): FirestoreReinitialized => ({
-	type: FirestoreReinitialized,
+export const BreathingReinitializedAction = (): BreathingReinitialized => ({
+	type: BreathingReinitialized,
 });

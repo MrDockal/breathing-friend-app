@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import { Device } from '../Core/Entities/Device';
 import { NavigationInjectedProps } from 'react-navigation';
-import { DeviceState } from '../Store/Reducers/devicesReducer';
+import { DeviceState } from '../Store/Reducers/deviceReducer';
 import { State } from '../Store/configureStore';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -41,6 +41,7 @@ class SignpostScreenHOC extends React.Component<Props> {
 					this.props.devices.devices.map((device: Device, index: number) => (
 						<Button
 							key={index}
+							disabled={!device.connected}
 							onPress={() => {
 								this.props.setActiveDevice(device);
 								this.props.navigation.navigate(routeNames.MainApp);
@@ -54,7 +55,7 @@ class SignpostScreenHOC extends React.Component<Props> {
 					title="Sync new device"
 				/>
 			</View>
-		)
+		);
 	}
 }
 

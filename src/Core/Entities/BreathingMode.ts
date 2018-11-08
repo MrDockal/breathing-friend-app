@@ -21,8 +21,3 @@ export interface BreathingMode {
 	name: string;
 	speed: BreathingSpeed;
 }
-
-export interface SavedBreathingMode {
-	uid: string;
-	speed: keyof BreathingSpeed;
-}

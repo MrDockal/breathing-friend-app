@@ -12,6 +12,13 @@ export const devicesInitialState: DeviceState = {
 	devices: [{
 		name: 'Mišák',
 		uid: '017ab2',
+		connected: true,
+		breathingModes: [],
+	}, {
+		name: 'KačKač',
+		uid: '017ab3',
+		connected: false,
+		breathingModes: [],
 	}],
 	scanning: false,
 	scannedPeripherals: [],

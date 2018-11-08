@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Icon} from 'react-native-elements';
 import {Animated} from 'react-native';
+import {TouchableNativeFeedback} from 'react-native';
 
 export interface SyncButtonProps {
 	search: () => void;
@@ -45,18 +46,26 @@ export class SyncButton extends React.Component<SyncButtonProps, State> {
 	public render() {
 		const spin = this.state.spinValue.interpolate({
 			inputRange: [0, 1],
-			outputRange: ['0deg', '360deg']
+			outputRange: ['0deg', '-360deg']
 		});
 		return (
-			<Animated.View style={{transform: [{rotate: spin}, {perspective: 1000}]}} >
-				<Icon
-					name='sync'
-					size={30}
-					onPress={!this.props.searching ? this.props.search: null}
-					containerStyle={{marginRight: 10}}
-				/>
-			</Animated.View>
-		)
+			<TouchableNativeFeedback>
+				<Animated.View style={{
+						transform: [{rotate: spin},{perspective: 1000}],
+						position: 'relative',
+						height: 30,
+						width: 30,
+						marginRight: 10,
+					}} >
+					<Icon
+						name='sync'
+						size={30}
+						onPress={!this.props.searching ? this.props.search: null}
+						containerStyle={{position: 'absolute', top: 0, left: 0 }}
+					/>
+				</Animated.View>
+			</TouchableNativeFeedback>
+		);
 	}
 }
 

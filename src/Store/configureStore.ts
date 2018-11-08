@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { breathingReducer, BreathingState, breathingInitialState } from './Reducers/breathingReducer';
-import { DeviceState, devicesInitialState, devicesReducer } from './Reducers/devicesReducer';
+import { DeviceState, devicesInitialState, devicesReducer } from './Reducers/deviceReducer';
 
 export interface State {
 	breathing: BreathingState;
@@ -12,7 +12,8 @@ export interface State {
 const config = {
 	key: 'primary',
 	storage,
-	whitelist: ['device']
+	//whitelist: ['device']
+	blacklist: ['breathing', 'device']
 }
 
 export const initialState = {
