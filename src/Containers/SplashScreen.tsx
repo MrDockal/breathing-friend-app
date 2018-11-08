@@ -9,7 +9,7 @@ import { State } from '../Store/configureStore';
 import { Dispatch } from 'redux';
 import { setActiveDeviceAction } from '../Store/Actions/deviceActions';
 import { routeNames } from '../Navigators/Navigators';
-
+ 
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */
 }

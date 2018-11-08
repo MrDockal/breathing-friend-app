@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "start:android": "react-native run-android",
     "debug:android-device": "adb -s BYJDU17623000284 reverse tcp:8081 tcp:8081 & adb shell input keyevent 82",
+    "debug:open-menu": "adb shell input keyevent 82",
     "test": "jest"
   },
   "dependencies": {

@@ -2,6 +2,8 @@ import BLEManger from 'react-native-ble-manager';
 import {
 	NativeEventEmitter,
 	NativeModules,
+	Platform,
+	PermissionsAndroid
   } from 'react-native';
 
 const BleManagerModule = NativeModules.BleManager;
@@ -12,21 +14,30 @@ export const createBLEManager = async(_options?: BLEManger.StartOptions) => {
 	bleManagerEmitter.addListener('BleManagerStopScan', (data: any) => console.log('BleManagerStopScan', data));
 	bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', (data: any) => console.log('BleManagerDisconnectPeripheral', data));
 	bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', (data: any) => console.log('BleManagerDidUpdateValueForCharacteristic', data));
-	await BLEManger.start({showAlert: true});
+	await BLEManger.start({showAlert: false});
+
+    if (Platform.OS === 'android' && Platform.Version >= 23) {
+		const granted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
+		if (!granted) {
+			const grantedAfterRequest = await PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
+			if (!grantedAfterRequest) {
+				alert('Sorry you have to grant permissions in order to connect your device!');
+			}
+		}
+    }
 	return BLEManger;
 }
 
+const wait = (ms: number) => {
+	return new Promise((resolve: () => void) => {
+		setTimeout(resolve, ms);
+	})
+}
+
 export const exploreDevices = async() => {
-	console.log('1Xs');
-	const res1 = await BLEManger.scan([], 5, true, {
-		scanMode: 2
-	});
-	console.log('2', res1);
+	const res1 = await BLEManger.scan([], 10, false);
 	const peripherals = await BLEManger.getDiscoveredPeripherals([]);
-	console.log('3', peripherals);
 	const connectedPeripherals = await BLEManger.getConnectedPeripherals([]);
-	console.log('4', connectedPeripherals);
 	const bonded = await BLEManger.getBondedPeripherals([]);
-	console.log('bondeds', bonded);
 	return peripherals;
 }
