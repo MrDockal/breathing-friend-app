@@ -1,8 +1,10 @@
 import { Device } from "../../Core/Entities/Device";
-import { SetActiveDevice } from "../Actions/deviceActions";
+import { SetActiveDevice, AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped } from "../Actions/deviceActions";
 
 export interface DeviceState {
 	devices: Device[];
+	scannedPeripherals: any[];
+	scanning: boolean;
 	activeDevice?: Device;
 }
 
@@ -11,9 +13,11 @@ export const devicesInitialState: DeviceState = {
 		name: 'Mišák',
 		uid: '017ab2',
 	}],
+	scanning: false,
+	scannedPeripherals: [],
 }
 
-type Action = SetActiveDevice;
+type Action = SetActiveDevice & AvailablePeripheralObtained & CleanScannedPeripherals & PeripheralScanStopped;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action) => {
 	switch (action.type) {
@@ -22,6 +26,26 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				...state,
 				activeDevice: action.device
 			};
+		case AvailablePeripheralObtained:
+			return {
+				...state,
+				scanning: true,
+				scannedPeripherals: [
+					...state.scannedPeripherals,
+					action.peripheral
+				]
+			};
+		case CleanScannedPeripherals:
+			return {
+				...state,
+				scanning: false,
+				scannedPeripherals: []
+			};
+		case PeripheralScanStopped:
+			return {
+				...state,
+				scanning: false,
+			}
 		default:
 			return state;
 	}
