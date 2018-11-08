@@ -1,5 +1,5 @@
 import { BreathingMode, SavedBreathingMode } from "../../Core/Entities/BreathingMode";
-import { BreathingInitLoaded } from "../Actions/breathingActions";
+import { AvailableBreathingInitLoaded, SavedBreathingInitLoaded } from "../Actions/breathingActions";
 
 export interface BreathingState {
 	modes: BreathingMode[];
@@ -11,15 +11,20 @@ export const breathingInitialState: BreathingState = {
 	savedModes: [],
 }
 
-type Action = BreathingInitLoaded;
+type Action = AvailableBreathingInitLoaded & SavedBreathingInitLoaded;
 
 export const breathingReducer = (state: BreathingState = breathingInitialState, action: Action) => {
 	switch (action.type) {
-		case BreathingInitLoaded:
+		case AvailableBreathingInitLoaded:
 			return {
 				...state,
 				modes: action.modes,
 			};
+		case SavedBreathingInitLoaded:
+			return {
+				...state,
+				savedModes: action.savedModes,
+			}
 		default:
 			return state;
 	}

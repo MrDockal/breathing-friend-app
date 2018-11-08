@@ -1,4 +1,4 @@
-import { BreathingMode } from "../../Core/Entities/BreathingMode";
+import { BreathingMode, SavedBreathingMode } from "../../Core/Entities/BreathingMode";
 
 /** --- Breathing.Init --- */
 
@@ -13,15 +13,27 @@ export const BreathingInitLoadAction = (): BreathingInitLoad => ({
 });
 
 	/** RESPONSE */
-export const BreathingInitLoaded = "Breathing.Init.Loaded";
-export interface BreathingInitLoaded {
-	type: typeof BreathingInitLoaded;
+export const AvailableBreathingInitLoaded = "Breathing.Available.Loaded";
+export interface AvailableBreathingInitLoaded {
+	type: typeof AvailableBreathingInitLoaded;
 	modes: BreathingMode[];
 }
 
-export const BreathingInitLoadedAction = (modes: BreathingMode[]): BreathingInitLoaded => ({
-	type: BreathingInitLoaded,
+export const BreathingInitLoadedAction = (modes: BreathingMode[]): AvailableBreathingInitLoaded => ({
+	type: AvailableBreathingInitLoaded,
 	modes,
+});
+
+	/** RESPONSE SAVED */
+export const SavedBreathingInitLoaded = "Breathing.Saved.Loaded";
+export interface SavedBreathingInitLoaded {
+	type: typeof SavedBreathingInitLoaded;
+	savedModes: SavedBreathingMode[];
+}
+
+export const SavedBreathingInitLoadedAction = (savedModes: SavedBreathingMode[]): SavedBreathingInitLoaded => ({
+	type: SavedBreathingInitLoaded,
+	savedModes,
 });
 
 /** --- Breathing.Purge --- */
