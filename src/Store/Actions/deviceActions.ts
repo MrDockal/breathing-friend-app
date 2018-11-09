@@ -1,4 +1,5 @@
 import { Device } from "../../Core/Entities/Device";
+import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
 
 /** SET */
 export const SetActiveDevice = "Device.Set.Active";
@@ -17,22 +18,30 @@ export const setActiveDeviceAction = (device: Device): SetActiveDevice => ({
 export const ScanForAvailablePeripherals = "Device.Scan.Available";
 export interface ScanForAvailablePeripherals {
 	type: typeof ScanForAvailablePeripherals;
-	servicesUUIDs: string[];
 }
 
-export const scanForAvailablePeripheralsAction = (servicesUUIDs: string[]): ScanForAvailablePeripherals => ({
+export const scanForAvailablePeripheralsAction = (): ScanForAvailablePeripherals => ({
 	type: ScanForAvailablePeripherals,
-	servicesUUIDs,
+});
+
+/** SCAN STOP */
+export const StopScanForAvailablePeripherals = "Device.StopScan.Available";
+export interface StopScanForAvailablePeripherals {
+	type: typeof StopScanForAvailablePeripherals;
+}
+
+export const stopScanForAvailablePeripheralsAction = (): StopScanForAvailablePeripherals => ({
+	type: StopScanForAvailablePeripherals,
 });
 
 /** SCAN RESPONSE */
 export const AvailablePeripheralObtained = "Device.Scanned.Available";
 export interface AvailablePeripheralObtained {
 	type: typeof AvailablePeripheralObtained;
-	peripheral: any;
+	peripheral: BleManagerDiscoverPeripheralResponse;
 }
 
-export const availablePeripheralObtainedAction = (peripheral: any): AvailablePeripheralObtained => ({
+export const availablePeripheralObtainedAction = (peripheral: BleManagerDiscoverPeripheralResponse): AvailablePeripheralObtained => ({
 	type: AvailablePeripheralObtained,
 	peripheral,
 });

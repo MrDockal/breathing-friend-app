@@ -1,9 +1,10 @@
 import { Device } from "../../Core/Entities/Device";
-import { SetActiveDevice, AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped } from "../Actions/deviceActions";
+import { SetActiveDevice, AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/deviceActions";
+import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
 
 export interface DeviceState {
 	devices: Device[];
-	scannedPeripherals: any[];
+	scannedPeripherals: BleManagerDiscoverPeripheralResponse[];
 	scanning: boolean;
 	activeDevice?: Device;
 }
@@ -24,7 +25,7 @@ export const devicesInitialState: DeviceState = {
 	scannedPeripherals: [],
 }
 
-type Action = SetActiveDevice & AvailablePeripheralObtained & CleanScannedPeripherals & PeripheralScanStopped;
+type Action = SetActiveDevice & AvailablePeripheralObtained & CleanScannedPeripherals & PeripheralScanStopped & ScanForAvailablePeripherals;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action) => {
 	switch (action.type) {
@@ -39,20 +40,26 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				scanning: true,
 				scannedPeripherals: [
 					...state.scannedPeripherals,
-					action.peripheral
-				]
+					action.peripheral,
+				],
 			};
 		case CleanScannedPeripherals:
 			return {
 				...state,
 				scanning: false,
-				scannedPeripherals: []
+				scannedPeripherals: [],
 			};
 		case PeripheralScanStopped:
 			return {
 				...state,
 				scanning: false,
-			}
+			};
+		case ScanForAvailablePeripherals:
+			return {
+				...state,
+				scannedPeripherals: [],
+				scanning: true,
+			};
 		default:
 			return state;
 	}

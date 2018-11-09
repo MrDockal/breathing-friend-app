@@ -26,7 +26,6 @@ type Props = OwnProps & StateProps & DispatchProps;
 class SplashScreenHOC extends React.Component<Props, {}> {
 
 	public componentDidMount() {
-		console.warn('semka sem');
 		SplashScreenRN.hide();
 		this.bootstrapAsync();
 	}

@@ -74,7 +74,7 @@ declare module 'react-native-ble-manager' {
 	interface BleManagerDidUpdateState {
 		state: 'on' | 'off';
 	}
-	interface AdvertisingAndroid {
+	interface ManufacturerData {
 		bytes: Int8Array;
 		data: string;
 	}
@@ -82,13 +82,19 @@ declare module 'react-native-ble-manager' {
 		kCBAdvDataChannel: Int8Array;
 		kCBAdvDataIsConnectable: string;
 		kCBAdvDataLocalName: string;
-		kCBAdvDataManufacturerData: AdvertisingAndroid;
+		kCBAdvDataManufacturerData: ManufacturerData;
+	}
+	interface AdvertisingAndroid {
+		isConnectable: boolean;
+		localName: string;
+		manufacturerData: ManufacturerData;
+		txPowerLevel: number;
 	}
 	interface BleManagerDiscoverPeripheralResponse {
 		id: string;
 		name: string;
 		rssi: string;
-		advertising: AdvertisingAndroid | AdvertisingIOS;
+		advertising: ManufacturerData | AdvertisingIOS;
 	}
 	interface BleManagerDidUpdateValueForCharacteristicResponse {
 		value: any[];

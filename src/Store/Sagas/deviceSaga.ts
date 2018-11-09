@@ -1,17 +1,23 @@
 import { BleAdapter } from "../../Core/Bluetooth/createBleAdapter";
-import { put, takeEvery } from 'redux-saga/effects';
-import { ScanForAvailablePeripherals, availablePeripheralObtainedAction, peripheralScanStoppedAction } from "../Actions/deviceActions";
+import { takeEvery, put } from 'redux-saga/effects';
+import { ScanForAvailablePeripherals, availablePeripheralObtainedAction, peripheralScanStoppedAction, StopScanForAvailablePeripherals } from "../Actions/deviceActions";
+import { Dispatch } from "redux";
+import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
 
-export function* deviceSaga (bleAdapter: BleAdapter) {
+export function* deviceSaga (bleAdapter: BleAdapter, dispatch: Dispatch) {
 	return [
-		yield takeEvery(ScanForAvailablePeripherals, (_action: ScanForAvailablePeripherals) => {
-			const discoveredPeripheralCb = function* (peripheral: any) {
-				yield put(availablePeripheralObtainedAction(peripheral));
+		yield takeEvery(ScanForAvailablePeripherals, function* (_action: ScanForAvailablePeripherals) {
+			const discoveredPeripheralCb = (peripheral: BleManagerDiscoverPeripheralResponse) => {
+				dispatch(availablePeripheralObtainedAction(peripheral));
 			}
-			const doneCb = function* () {
-				yield put(peripheralScanStoppedAction());
+			const doneCb = () => {
+				dispatch(peripheralScanStoppedAction());
 			}
-			bleAdapter.scanForPeripherals( discoveredPeripheralCb, doneCb);
+			yield bleAdapter.scanForPeripherals(discoveredPeripheralCb, doneCb);
+		}),
+		yield takeEvery(StopScanForAvailablePeripherals, function* (_action: StopScanForAvailablePeripherals) {
+			yield bleAdapter.BLEManger.stopScan();
+			yield put(peripheralScanStoppedAction());
 		}),
 	];
 }

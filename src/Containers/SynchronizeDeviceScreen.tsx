@@ -1,71 +1,95 @@
 import React from 'react';
 import { NavigationInjectedProps, NavigationScreenProps } from 'react-navigation';
-import {View, Text, StyleSheet} from 'react-native';
+import {ScrollView, Text, StyleSheet} from 'react-native';
 import { SyncButton } from '../Components/SyncButton';
+import { connect } from 'react-redux';
+import { State } from '../Store/configureStore';
+import { Dispatch } from 'redux';
+import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction } from '../Store/Actions/deviceActions';
+import { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
-		flex: 1,
-		justifyContent: 'center',
+		flexGrow: 1,
 		alignItems: 'center',
 	}
 });
 
 interface NavigationParams {
-	search: () => void;
-	searching: boolean;
+	scan: () => void;
+	scanning: boolean;
 }
 
-interface State {
-	searching: boolean;
+interface StateProps {
+	scanning: boolean;
+	scannedPeripherals: BleManagerDiscoverPeripheralResponse[];
 }
 
-type Props = NavigationInjectedProps<NavigationParams>;
+interface DispatchProps {
+	scan: () => void;
+	stopScan: () => void;
+}
 
-export class SynchronizeDeviceScreen extends React.Component<Props, State> {
+interface OwnProps extends NavigationInjectedProps<NavigationParams> {
+
+}
+
+type Props = OwnProps & DispatchProps & StateProps;
+
+export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 	
-	private timeout: any = null;
-
 	public constructor(props: Props) {
 		super(props);
-		this.state = {
-			searching: false,
-		};
 	}
 
 	static navigationOptions = ({navigation}: NavigationScreenProps<NavigationParams>) => ({
 		title: 'Ahoj',
 		headerRight: <SyncButton
-						searching={navigation.state.params && navigation.state.params.searching}
-						search={navigation.state.params ? navigation.state.params.search : () => false}
+						scanning={navigation.state.params && navigation.state.params.scanning}
+						scan={navigation.state.params ? navigation.state.params.scan : () => false}
 					/>,
 	});
 
 	public componentDidMount() {
+		this.props.navigation.addListener('didBlur', () => this.props.stopScan());
 		this.props.navigation.setParams({
-			search: () => this.search(),
-			searching: this.state.searching,
-		})
+			scan: () => this.props.scan(),
+			scanning: this.props.scanning,
+		});
+		this.props.scan();
 	}
 
-
-	public search() {
+	public componentDidUpdate() {
+		if (this.props.scanning === this.props.navigation.state.params.scanning) {
+			return;
+		}
 		this.props.navigation.setParams({
-			searching: true,
+			scanning: this.props.scanning,
 		});
-		clearTimeout(this.timeout);
-		this.timeout = setTimeout(() => {
-			this.props.navigation.setParams({
-				searching: false,
-			});
-		}, 6E3);
 	}
 
 	public render() {
 		return (
-			<View style={syncrhonizeDeviceScreensStyles.wrapper}>
-				<Text>Sync Device</Text>
-			</View>
-		)
+			<ScrollView contentContainerStyle={syncrhonizeDeviceScreensStyles.wrapper}>
+				{this.props.scannedPeripherals.map((peripheral: BleManagerDiscoverPeripheralResponse, index: number) => (
+					<Text key={index}>{peripheral.id} - {peripheral.name}</Text>
+				))}
+			</ScrollView>
+		);
 	}
 }
+
+export const SynchronizeDeviceScreen = connect<StateProps, DispatchProps, OwnProps>(
+	(state: State) => ({
+		scanning: state.device.scanning,
+		scannedPeripherals: state.device.scannedPeripherals,
+	}),
+	(dispatch: Dispatch) => ({
+		scan: () => (
+			dispatch(scanForAvailablePeripheralsAction())
+		),
+		stopScan: () => (
+			dispatch(stopScanForAvailablePeripheralsAction())
+		)
+	}),
+)(SynchronizeDeviceScreenHOC);

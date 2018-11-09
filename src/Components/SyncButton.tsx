@@ -4,8 +4,8 @@ import {Animated} from 'react-native';
 import {TouchableNativeFeedback} from 'react-native';
 
 export interface SyncButtonProps {
-	search: () => void;
-	searching: boolean;
+	scan: () => void;
+	scanning: boolean;
 }
 
 interface State {
@@ -33,10 +33,10 @@ export class SyncButton extends React.Component<SyncButtonProps, State> {
 	}
 
 	public componentWillReceiveProps(nextProps: SyncButtonProps) {
-		if (nextProps.searching && !this.props.searching) {
+		if (nextProps.scanning && !this.props.scanning) {
 			this.state.animation.start();
 		}
-		if (!nextProps.searching && this.props.searching) {
+		if (!nextProps.scanning && this.props.scanning) {
 			this.state.spinValue.stopAnimation();
 			this.state.spinValue.setValue(0);
 			this.state.animation.stop();
@@ -60,7 +60,7 @@ export class SyncButton extends React.Component<SyncButtonProps, State> {
 					<Icon
 						name='sync'
 						size={30}
-						onPress={!this.props.searching ? this.props.search: null}
+						onPress={!this.props.scanning ? this.props.scan: null}
 						containerStyle={{position: 'absolute', top: 0, left: 0 }}
 					/>
 				</Animated.View>

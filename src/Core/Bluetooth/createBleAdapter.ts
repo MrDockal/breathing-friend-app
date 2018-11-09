@@ -1,4 +1,4 @@
-import BLEManger from 'react-native-ble-manager';
+import BLEManger, { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
 import {
 	NativeEventEmitter,
 	NativeModules,
@@ -10,18 +10,18 @@ const BleManagerModule = NativeModules.BleManager;
 
 export interface BleAdapter {
 	BLEManger: typeof BLEManger;
-	init: () => void;
-	scanForPeripherals: (discoveredPeripheral: (peripheral: any) => void, done: () => void) => void;
+	init: () => Promise<void>;
+	scanForPeripherals: (discoveredPeripheral: (peripheral: BleManagerDiscoverPeripheralResponse) => void, done: () => void) => Promise<void>;
 	syncBreathingModes: (peripheralUid: string) => Promise<DeviceBreathingMode[]>;
 	getPeripherals: () => Promise<any>;
 }
 
 export const createBleAdapter = (serviceUUIDs: string[], options?: BLEManger.StartOptions): BleAdapter => {
 	const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
-	bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', (data: any) => console.log('BleManagerDiscoverPeripheral', data));
-	bleManagerEmitter.addListener('BleManagerStopScan', (data: any) => console.log('BleManagerStopScan', data));
-	bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', (data: any) => console.log('BleManagerDisconnectPeripheral', data));
-	bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', (data: any) => console.log('BleManagerDidUpdateValueForCharacteristic', data));
+	//bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', (data: any) => console.log('BleManagerDiscoverPeripheral', data));
+	//bleManagerEmitter.addListener('BleManagerStopScan', (data: any) => console.log('BleManagerStopScan', data));
+	//bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', (data: any) => console.log('BleManagerDisconnectPeripheral', data));
+	//bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', (data: any) => console.log('BleManagerDidUpdateValueForCharacteristic', data));
 	
 	return {
 		BLEManger,
@@ -29,19 +29,26 @@ export const createBleAdapter = (serviceUUIDs: string[], options?: BLEManger.Sta
 			await BLEManger.start(options);
 			await requestBluetoothPermisions();
 		},
-		scanForPeripherals: async (discoveredPeripheral: (peripheral: any) => void, done: () => void) => {
-			let peripherals: any[] = [];
-			await BLEManger.scan(serviceUUIDs, 10, false);
-			const listener = (data: any) => {
-				peripherals.push(data);
-				discoveredPeripheral(data);
-			};
-			const doneListener = () => {
-				bleManagerEmitter.removeListener('BleManagerDiscoverPeripheral', listener);
-				done();
-			}
-			bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', listener);
-			bleManagerEmitter.once('BleManagerStopScan', doneListener, this);
+		scanForPeripherals: (discoveredPeripheral: (peripheral: BleManagerDiscoverPeripheralResponse) => void, done: () => void) => {
+			return new Promise(async (resolve: () => void) => {
+				let peripherals: any[] = [];
+				await BLEManger.scan(serviceUUIDs, 10, false);
+				const listener = (data: BleManagerDiscoverPeripheralResponse) => {
+					const found = peripherals.findIndex((peripheral: BleManagerDiscoverPeripheralResponse) => peripheral.id === data.id);
+					if (found === -1) {
+						peripherals.push(data);
+						discoveredPeripheral(data);
+					}
+				};
+				const doneListener = () => {
+					bleManagerEmitter.removeListener('BleManagerStopScan', doneListener);
+					bleManagerEmitter.removeListener('BleManagerDiscoverPeripheral', listener);
+					done();
+					resolve();
+				}
+				bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', listener);
+				bleManagerEmitter.addListener('BleManagerStopScan', doneListener);
+			});
 		},
 		syncBreathingModes: async(peripheralUid: string) => {
 			//TODO get brathing modes
