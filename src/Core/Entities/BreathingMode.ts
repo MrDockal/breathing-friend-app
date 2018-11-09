@@ -4,7 +4,7 @@ export interface BreathingDefinition {
 	cycleSpeedEnd: number;
 	duration: number;
 	freqIn: number;
-	freqHold1: number
+	freqHold1: number;
 	freqOut: number;
 	freqHold2: number;
 }

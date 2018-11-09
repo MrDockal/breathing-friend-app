@@ -8,6 +8,7 @@ import { State } from '../Store/configureStore';
 import { Dispatch } from 'redux';
 import { routeNames } from '../Navigators/Navigators';
 import { BreathingInitLoadAction } from '../Store/Actions/breathingActions';
+import { discoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
  
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */
@@ -15,51 +16,67 @@ export interface OwnProps extends NavigationInjectedProps {
 
 export interface StateProps {
 	devices: DeviceState;
+	discovered: boolean;
+	breathingLoaded: boolean;
 }
 
 export interface DispatchProps {
-	init: () => void;
+	breathingInit: () => void;
+	startDiscoverConnectedDevices: () => void;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 class SplashScreenHOC extends React.Component<Props, {}> {
 
+	private timeout: any;
+
 	public componentDidMount() {
-		SplashScreenRN.hide();
-		this.bootstrapAsync();
+		this.props.breathingInit();
+		this.props.startDiscoverConnectedDevices();
 	}
 
 	public render() {
+		this.bootstrapAsync();
 		return (
 			<View>
-				<Text>Fofo</Text>
+				<Text/>
 			</View>
 		)
 	}
 
-	private bootstrapAsync(): any {
-		/**
-		 * 1) Sleduj změny verzí
-		 * 2) Pokud 2 a více dýchátek, renderuj Spashscreen
-		 * 3) Pokud aktivní dýchátko jdi na Main
-		 */
-		this.props.init();
+	private goToScreenWithDelay(screen: string) {
+		clearTimeout(this.timeout);
+		this.timeout = setTimeout(() => {
+			SplashScreenRN.hide(),
+			this.props.navigation.navigate(screen)
+		}, 200);
+	}
+
+	private async bootstrapAsync() {
+		if (!this.props.discovered) {
+			return;
+		}
 		if (this.props.devices.activeDevice && this.props.devices.activeDevice.connected) {
-			return this.props.navigation.navigate(routeNames.MainApp);
+			this.goToScreenWithDelay(routeNames.MainApp);
 		} else {
-			return this.props.navigation.navigate(routeNames.SignpostScreen);
+			this.goToScreenWithDelay(routeNames.SignpostScreen);
 		}
 	}
 }
 
 export const SplashScreen = connect<StateProps, DispatchProps, OwnProps>(
-	(state: State, _ownProps: OwnProps) => ({
+	(state: State, _ownProps: OwnProps): StateProps => ({
 		devices: state.device,
+		discovered: state.device.discover.initialDiscoverDone,
+		breathingLoaded: state.breathing.modes.length > 0,
 	}),
-	(dispatch: Dispatch) => ({
-		init: () => {
+	(dispatch: Dispatch): DispatchProps => ({
+		breathingInit: () => {
 			dispatch(BreathingInitLoadAction());
-		}
+		},
+		startDiscoverConnectedDevices: () => {
+			dispatch(discoverBondedDevicesAction());
+		},
 	}),
 )(SplashScreenHOC);

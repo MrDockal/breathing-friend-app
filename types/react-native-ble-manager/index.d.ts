@@ -29,9 +29,9 @@ declare module 'react-native-ble-manager' {
 
 	function read(peripheralId: string, serviceUUID: string, characteristicUUID: string): Promise<ArrayBuffer>;
 
-	function write(peripheralId: string, serviceUUID: string, characteristicUUID: string, data: Int8Array, maxByteSize: number): Promise<void>; 
+	function write(peripheralId: string, serviceUUID: string, characteristicUUID: string, data: Uint8Array, maxByteSize: number): Promise<void>; 
 
-	function writeWithoutResponse(peripheralId: string, serviceUUID: string, characteristicUUID: string, data: Int8Array, maxByteSize: number, queueSleepTime: number): Promise<void>;
+	function writeWithoutResponse(peripheralId: string, serviceUUID: string, characteristicUUID: string, data: Uint8Array, maxByteSize: number, queueSleepTime: number): Promise<void>;
 
 	type RSSI = any; //TODO need to be explored
 	function readRSSI(peripheralId: string): Promise<RSSI>;

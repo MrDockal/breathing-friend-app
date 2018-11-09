@@ -60,7 +60,7 @@ export class SyncButton extends React.Component<SyncButtonProps, State> {
 					<Icon
 						name='sync'
 						size={30}
-						onPress={!this.props.scanning ? this.props.scan: null}
+						onPress={!this.props.scanning ? this.props.scan : () => false}
 						containerStyle={{position: 'absolute', top: 0, left: 0 }}
 					/>
 				</Animated.View>

@@ -1,7 +1,8 @@
 import { Device } from "../../Core/Entities/Device";
-import { SetActiveDevice, AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals, PeripheralBondStart, PeripheralBondSucceeded, PeripheralBondFailed } from "../Actions/deviceActions";
 import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
-import { ScanForPeripheralResponse } from "../../Core/Bluetooth/createBleAdapter";
+import { DiscoveredBondedDevices, PeripheralBondStart, PeripheralBondFailed, PeripheralBondSucceeded } from "../Actions/Device/devicesBondActions";
+import { SetActiveDevice } from "../Actions/Device/deviceActions";
+import { AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
 
 export interface DeviceBondState {
 	peripheral: BleManagerDiscoverPeripheralResponse;
@@ -9,28 +10,26 @@ export interface DeviceBondState {
 	succeeded: boolean;
 }
 
+export interface DeviceDiscoverState {
+	initialDiscoverDone: boolean;
+}
+
 export interface DeviceState {
 	devices: Device[];
-	scannedPeripherals: ScanForPeripheralResponse[];
+	scannedPeripherals: BleManagerDiscoverPeripheralResponse[];
 	scanning: boolean;
 	activeDevice?: Device;
 	bond?: DeviceBondState;
+	discover: DeviceDiscoverState;
 }
 
 export const devicesInitialState: DeviceState = {
-	devices: [{
-		name: 'Mišák',
-		uid: '017ab2',
-		connected: true,
-		breathingModes: [],
-	}, {
-		name: 'KačKač',
-		uid: '017ab3',
-		connected: false,
-		breathingModes: [],
-	}],
+	devices: [],
 	scanning: false,
 	scannedPeripherals: [],
+	discover: {
+		initialDiscoverDone: false
+	},
 }
 
 type Action =
@@ -41,7 +40,8 @@ type Action =
 	ScanForAvailablePeripherals &
 	PeripheralBondStart &
 	PeripheralBondFailed &
-	PeripheralBondSucceeded
+	PeripheralBondSucceeded &
+	DiscoveredBondedDevices
 	;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action): DeviceState => {
@@ -87,8 +87,18 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				},
 			}
 		case PeripheralBondSucceeded:
+			const devicesIfAlreadyExisted = state.devices.filter((device: Device) => device.uid !== action.bondedPeripheral.id); 
 			return {
 				...state,
+				devices: [
+					...devicesIfAlreadyExisted,
+					{
+						breathingModes: [],
+						connected: true,
+						name: 'Fred',
+						uid: action.bondedPeripheral.id,
+					}
+				],
 				bond: {
 					bonding: true,
 					peripheral: action.peripheral,
@@ -104,7 +114,17 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 					succeeded: false,
 				},
 			}
+		case DiscoveredBondedDevices:
+			return {
+				...state,
+				devices: action.devices,
+				discover: {
+					...state.discover,
+					initialDiscoverDone: true,
+				}
+			}
 		default:
+			console.log(action);
 			return state;
 	}
 }

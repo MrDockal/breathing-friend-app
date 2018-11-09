@@ -1,70 +1,36 @@
-import { Device } from "../../Core/Entities/Device";
+import { Device } from "../../../Core/Entities/Device";
 import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
-import { ScanForPeripheralResponse } from "../../Core/Bluetooth/createBleAdapter";
 
-/** SET */
-export const SetActiveDevice = "Device.Set.Active";
-export interface SetActiveDevice {
-	type: typeof SetActiveDevice;
-	device: Device;
+/** DISCOVER BONDED DEVICES */
+export const DiscoverBondedDevices = "Device.Bond.Discover";
+export interface DiscoverBondedDevices {
+	type: typeof DiscoverBondedDevices;
 }
 
-export const setActiveDeviceAction = (device: Device): SetActiveDevice => ({
-	type: SetActiveDevice,
-	device,
+export const discoverBondedDevicesAction = (): DiscoverBondedDevices => ({
+	type: DiscoverBondedDevices,
 });
 
-
-/** SCAN */
-export const ScanForAvailablePeripherals = "Device.Scan.Available";
-export interface ScanForAvailablePeripherals {
-	type: typeof ScanForAvailablePeripherals;
+/** PAUSE DISCOVER BONDED DEVICES */
+export const PauseDiscoverBondedDevices = "Pause.Device.Bond.Discover";
+export interface PauseDiscoverBondedDevices {
+	type: typeof PauseDiscoverBondedDevices;
 }
 
-export const scanForAvailablePeripheralsAction = (): ScanForAvailablePeripherals => ({
-	type: ScanForAvailablePeripherals,
+export const pauseDiscoverBondedDevicesAction = (): PauseDiscoverBondedDevices => ({
+	type: PauseDiscoverBondedDevices,
 });
 
 /** SCAN STOP */
-export const StopScanForAvailablePeripherals = "Device.StopScan.Available";
-export interface StopScanForAvailablePeripherals {
-	type: typeof StopScanForAvailablePeripherals;
+export const DiscoveredBondedDevices = "Device.Bond.Discovered";
+export interface DiscoveredBondedDevices {
+	type: typeof DiscoveredBondedDevices;
+	devices: Device[];
 }
 
-export const stopScanForAvailablePeripheralsAction = (): StopScanForAvailablePeripherals => ({
-	type: StopScanForAvailablePeripherals,
-});
-
-/** SCAN RESPONSE */
-export const AvailablePeripheralObtained = "Device.Scanned.Available";
-export interface AvailablePeripheralObtained {
-	type: typeof AvailablePeripheralObtained;
-	peripheral: ScanForPeripheralResponse;
-}
-
-export const availablePeripheralObtainedAction = (peripheral: ScanForPeripheralResponse): AvailablePeripheralObtained => ({
-	type: AvailablePeripheralObtained,
-	peripheral,
-});
-
-/** CLEAR SCANNED PERIPHERALS */
-export const CleanScannedPeripherals = "Device.Scanned.Clear";
-export interface CleanScannedPeripherals {
-	type: typeof CleanScannedPeripherals;
-}
-
-export const cleanScannedPeripheralsAction = (): CleanScannedPeripherals => ({
-	type: CleanScannedPeripherals,
-});
-
-/** SCAN STOPPED */
-export const PeripheralScanStopped = "Device.Scan.Stopped";
-export interface PeripheralScanStopped {
-	type: typeof PeripheralScanStopped;
-}
-
-export const peripheralScanStoppedAction = (): PeripheralScanStopped => ({
-	type: PeripheralScanStopped,
+export const discoveredBondedDevicesAction = (devices: Device[]): DiscoveredBondedDevices => ({
+	type: DiscoveredBondedDevices,
+	devices,
 });
 
 /** BONDING START */

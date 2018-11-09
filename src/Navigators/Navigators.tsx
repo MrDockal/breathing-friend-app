@@ -73,7 +73,7 @@ const TabNavigation = createBottomTabNavigator(
 		navigationOptions: ({ navigation }) => ({
 			tabBarIcon: ({ focused, tintColor }: {focused: boolean, tintColor: string}) => {
 				const { routeName } = navigation.state;
-				let iconName;
+				let iconName = 'N/A';
 				if (routeName === routeNames.HomeTab) {
 					iconName = `home`;
 				} else if (routeName === routeNames.StatsTab) {

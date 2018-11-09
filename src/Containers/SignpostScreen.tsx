@@ -1,13 +1,14 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import { Device } from '../Core/Entities/Device';
-import { NavigationInjectedProps } from 'react-navigation';
+import { NavigationInjectedProps, NavigationEventSubscription } from 'react-navigation';
 import { DeviceState } from '../Store/Reducers/deviceReducer';
 import { State } from '../Store/configureStore';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { setActiveDeviceAction } from '../Store/Actions/deviceActions';
 import { routeNames } from '../Navigators/Navigators';
+import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
+import { setActiveDeviceAction } from '../Store/Actions/Device/deviceActions';
 
 const mainScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -28,11 +29,35 @@ export interface StateProps {
 
 export interface DispatchProps {
 	setActiveDevice: (device: Device) => void;
+	startDiscoverConnectedDevices: () => void;
+	pauseDiscoverConnectedDevices: () => void;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 class SignpostScreenHOC extends React.Component<Props> {
+
+	private didFocusSubscription: NavigationEventSubscription;
+	private didBlurSubscription: NavigationEventSubscription;
+	
+	private didFocus = () => {
+		this.props.startDiscoverConnectedDevices();
+	}
+
+	private didBlur = () => {
+		this.props.pauseDiscoverConnectedDevices();
+	}
+
+	public componentDidMount() {
+		this.didFocusSubscription = this.props.navigation.addListener('didFocus', this.didFocus);
+		this.didBlurSubscription = this.props.navigation.addListener('didBlur', this.didBlur);
+	}
+
+	public componentWillUnmount() {
+		this.didBlurSubscription.remove();
+		this.didFocusSubscription.remove();
+	}
+
 	public render() {
 		return (
 			<View style={mainScreenStyles.wrapper}>
@@ -66,6 +91,12 @@ export const SignpostScreen = connect<StateProps, DispatchProps, OwnProps>(
 	(dispatch: Dispatch) => ({
 		setActiveDevice: (device: Device) => (
 			dispatch(setActiveDeviceAction(device))
-		)
+		),
+		startDiscoverConnectedDevices: () => {
+			dispatch(discoverBondedDevicesAction());
+		},
+		pauseDiscoverConnectedDevices: () => {
+			dispatch(pauseDiscoverBondedDevicesAction());
+		},
 	}),
 )(SignpostScreenHOC);
