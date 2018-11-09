@@ -58,8 +58,8 @@ export const SplashScreen = connect<StateProps, DispatchProps, OwnProps>(
 		devices: state.device,
 	}),
 	(dispatch: Dispatch) => ({
-		init: () => (
-			dispatch(BreathingInitLoadAction())
-		)
+		init: () => {
+			dispatch(BreathingInitLoadAction());
+		}
 	}),
 )(SplashScreenHOC);

@@ -1,12 +1,20 @@
 import { Device } from "../../Core/Entities/Device";
-import { SetActiveDevice, AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/deviceActions";
+import { SetActiveDevice, AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals, PeripheralBondStart, PeripheralBondSucceeded, PeripheralBondFailed } from "../Actions/deviceActions";
 import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
+import { ScanForPeripheralResponse } from "../../Core/Bluetooth/createBleAdapter";
+
+export interface DeviceBondState {
+	peripheral: BleManagerDiscoverPeripheralResponse;
+	bonding: boolean;
+	succeeded: boolean;
+}
 
 export interface DeviceState {
 	devices: Device[];
-	scannedPeripherals: BleManagerDiscoverPeripheralResponse[];
+	scannedPeripherals: ScanForPeripheralResponse[];
 	scanning: boolean;
 	activeDevice?: Device;
+	bond?: DeviceBondState;
 }
 
 export const devicesInitialState: DeviceState = {
@@ -25,9 +33,18 @@ export const devicesInitialState: DeviceState = {
 	scannedPeripherals: [],
 }
 
-type Action = SetActiveDevice & AvailablePeripheralObtained & CleanScannedPeripherals & PeripheralScanStopped & ScanForAvailablePeripherals;
+type Action =
+	SetActiveDevice &
+	AvailablePeripheralObtained &
+	CleanScannedPeripherals &
+	PeripheralScanStopped &
+	ScanForAvailablePeripherals &
+	PeripheralBondStart &
+	PeripheralBondFailed &
+	PeripheralBondSucceeded
+	;
 
-export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action) => {
+export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action): DeviceState => {
 	switch (action.type) {
 		case SetActiveDevice:
 			return {
@@ -60,6 +77,33 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				scannedPeripherals: [],
 				scanning: true,
 			};
+		case PeripheralBondStart:
+			return {
+				...state,
+				bond: {
+					bonding: true,
+					peripheral: action.peripheral,
+					succeeded: false,
+				},
+			}
+		case PeripheralBondSucceeded:
+			return {
+				...state,
+				bond: {
+					bonding: true,
+					peripheral: action.peripheral,
+					succeeded: true,
+				},
+			}
+		case PeripheralBondFailed:
+			return {
+				...state,
+				bond: {
+					bonding: true,
+					peripheral: action.peripheral,
+					succeeded: false,
+				},
+			}
 		default:
 			return state;
 	}

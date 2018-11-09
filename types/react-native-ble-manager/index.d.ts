@@ -56,6 +56,8 @@ declare module 'react-native-ble-manager' {
 	}
 	function getConnectedPeripherals(serviceUUIDs: string[]): Promise<ConnectedPeripheral[]>;
 
+	function removeBond(peripheralId: string): Promise<void>;
+
 	function createBond(peripheralId: string): Promise<void>;
 
 	interface BondedPeripheral {
@@ -89,12 +91,14 @@ declare module 'react-native-ble-manager' {
 		localName: string;
 		manufacturerData: ManufacturerData;
 		txPowerLevel: number;
+		serviceUUIDs: string[];
 	}
 	interface BleManagerDiscoverPeripheralResponse {
 		id: string;
 		name: string;
 		rssi: string;
-		advertising: ManufacturerData | AdvertisingIOS;
+		advertising: AdvertisingAndroid;
+		//advertising: AdvertisingAndroid | AdvertisingIOS;
 	}
 	interface BleManagerDidUpdateValueForCharacteristicResponse {
 		value: any[];

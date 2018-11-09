@@ -6,8 +6,8 @@ export const themeSchema = {
 		buttonFontColor: '#fff',
 	},
 	fontSize: {
-		h1: 40,
-		h2: 30,
-		normal: 20,
+		h1: 35,
+		h2: 25,
+		normal: 16,
 	}
 }

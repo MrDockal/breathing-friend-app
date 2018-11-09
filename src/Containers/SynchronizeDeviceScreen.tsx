@@ -1,17 +1,22 @@
 import React from 'react';
 import { NavigationInjectedProps, NavigationScreenProps } from 'react-navigation';
-import {ScrollView, Text, StyleSheet} from 'react-native';
+import { ScrollView, Text, StyleSheet } from 'react-native';
 import { SyncButton } from '../Components/SyncButton';
 import { connect } from 'react-redux';
 import { State } from '../Store/configureStore';
 import { Dispatch } from 'redux';
-import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction } from '../Store/Actions/deviceActions';
+import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction, peripheralBondStartAction, peripheralRemoveBondAction } from '../Store/Actions/deviceActions';
 import { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
+import { AppList } from '../Components/AppList';
+import { themeSchema } from '../Core/ThemeSchema/themeSchema';
+import { ScanForPeripheralResponse } from '../Core/Bluetooth/createBleAdapter';
+import { Icon } from 'react-native-elements';
+import { Alert } from 'react-native';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
-		alignItems: 'center',
+		paddingTop: 20,
 	}
 });
 
@@ -22,12 +27,14 @@ interface NavigationParams {
 
 interface StateProps {
 	scanning: boolean;
-	scannedPeripherals: BleManagerDiscoverPeripheralResponse[];
+	scannedPeripherals: ScanForPeripheralResponse[];
 }
 
 interface DispatchProps {
 	scan: () => void;
 	stopScan: () => void;
+	bond: (peripheral: BleManagerDiscoverPeripheralResponse) => void;
+	unbond: (peripheral: BleManagerDiscoverPeripheralResponse) => void;
 }
 
 interface OwnProps extends NavigationInjectedProps<NavigationParams> {
@@ -43,7 +50,7 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 	}
 
 	static navigationOptions = ({navigation}: NavigationScreenProps<NavigationParams>) => ({
-		title: 'Ahoj',
+		title: 'Synchronize devices',
 		headerRight: <SyncButton
 						scanning={navigation.state.params && navigation.state.params.scanning}
 						scan={navigation.state.params ? navigation.state.params.scan : () => false}
@@ -69,13 +76,55 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 	}
 
 	public render() {
+		const bondedDevices = this.getBondedDevices();
+		const newDevices = this.getNewDevices();
 		return (
 			<ScrollView contentContainerStyle={syncrhonizeDeviceScreensStyles.wrapper}>
-				{this.props.scannedPeripherals.map((peripheral: BleManagerDiscoverPeripheralResponse, index: number) => (
-					<Text key={index}>{peripheral.id} - {peripheral.name}</Text>
-				))}
+				{
+					newDevices.length > 0 &&
+					<React.Fragment>
+						<Text style={{fontSize: themeSchema.fontSize.normal, paddingLeft: 20}}>Found Devices</Text>
+						<AppList list={newDevices}/>
+					</React.Fragment>
+				}
+				{
+					bondedDevices.length > 0 &&
+					<React.Fragment>
+						<Text style={{fontSize: themeSchema.fontSize.normal, paddingLeft: 20}}>Connected Devices</Text>
+						<AppList list={bondedDevices}/>
+					</React.Fragment>
+				}
 			</ScrollView>
 		);
+	}
+
+	private getBondedDevices() {
+		const bondedDevices = this.props.scannedPeripherals.filter((device: ScanForPeripheralResponse) => device.bonded);
+		return bondedDevices.map((device: ScanForPeripheralResponse) => ({
+			title: `${device.peripheral.id} - ${device.peripheral.name}`,
+			rightIcon: <Icon name='cross' type='entypo'/>,
+			onPress: () => {
+				Alert.alert(
+					'Unlink device',
+					'This action will remove connection between your phone and breathing device',
+					[
+						{ text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+						{ text: 'Unlink', onPress: () => this.props.unbond(device.peripheral) },
+					],
+					{ cancelable: true }
+				);
+			},
+		}));
+	}
+
+	private getNewDevices() {
+		const newDevices = this.props.scannedPeripherals.filter((device: ScanForPeripheralResponse) => !device.bonded);
+		return newDevices.map((device: ScanForPeripheralResponse) => ({
+			title: `${device.peripheral.id} - ${device.peripheral.name}`,
+			onPress: () => {
+				this.props.bond(device.peripheral);
+			},
+		}));
 	}
 }
 
@@ -90,6 +139,12 @@ export const SynchronizeDeviceScreen = connect<StateProps, DispatchProps, OwnPro
 		),
 		stopScan: () => (
 			dispatch(stopScanForAvailablePeripheralsAction())
-		)
+		),
+		bond: (peripheral: BleManagerDiscoverPeripheralResponse) => (
+			dispatch(peripheralBondStartAction(peripheral))
+		),
+		unbond: (peripheral: BleManagerDiscoverPeripheralResponse) => (
+			dispatch(peripheralRemoveBondAction(peripheral))
+		),
 	}),
 )(SynchronizeDeviceScreenHOC);

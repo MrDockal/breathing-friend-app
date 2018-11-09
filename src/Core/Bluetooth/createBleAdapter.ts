@@ -1,4 +1,4 @@
-import BLEManger, { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
+import BLEManger, { BleManagerDiscoverPeripheralResponse, BondedPeripheral } from 'react-native-ble-manager';
 import {
 	NativeEventEmitter,
 	NativeModules,
@@ -8,10 +8,15 @@ import { DeviceBreathingMode } from '../Entities/Device';
 
 const BleManagerModule = NativeModules.BleManager;
 
+export interface ScanForPeripheralResponse {
+	bonded: boolean,
+	peripheral: BleManagerDiscoverPeripheralResponse,
+}
+
 export interface BleAdapter {
 	BLEManger: typeof BLEManger;
 	init: () => Promise<void>;
-	scanForPeripherals: (discoveredPeripheral: (peripheral: BleManagerDiscoverPeripheralResponse) => void, done: () => void) => Promise<void>;
+	scanForPeripherals: (discoveredPeripheral: (peripheral: ScanForPeripheralResponse) => void, done: () => void) => Promise<void>;
 	syncBreathingModes: (peripheralUid: string) => Promise<DeviceBreathingMode[]>;
 	getPeripherals: () => Promise<any>;
 }
@@ -29,15 +34,21 @@ export const createBleAdapter = (serviceUUIDs: string[], options?: BLEManger.Sta
 			await BLEManger.start(options);
 			await requestBluetoothPermisions();
 		},
-		scanForPeripherals: (discoveredPeripheral: (peripheral: BleManagerDiscoverPeripheralResponse) => void, done: () => void) => {
+		scanForPeripherals: (discoveredPeripheral: (peripheral: ScanForPeripheralResponse) => void, done: () => void) => {
 			return new Promise(async (resolve: () => void) => {
+				const bonded = await BLEManger.getBondedPeripherals(serviceUUIDs);
 				let peripherals: any[] = [];
-				await BLEManger.scan(serviceUUIDs, 10, false);
+				await BLEManger.scan([], 10, false);
 				const listener = (data: BleManagerDiscoverPeripheralResponse) => {
 					const found = peripherals.findIndex((peripheral: BleManagerDiscoverPeripheralResponse) => peripheral.id === data.id);
-					if (found === -1) {
+					const isBonded = bonded.findIndex((peripheral: BondedPeripheral) => peripheral.id === data.id) > -1;
+					const isValid = data.advertising.serviceUUIDs.sort().join('') === serviceUUIDs.sort().join('');
+					if (found === -1 && isValid) {
 						peripherals.push(data);
-						discoveredPeripheral(data);
+						discoveredPeripheral({
+							bonded: isBonded,
+							peripheral: data
+						});
 					}
 				};
 				const doneListener = () => {

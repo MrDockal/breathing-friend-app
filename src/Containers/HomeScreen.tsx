@@ -3,7 +3,7 @@ import {ScrollView, Text, StyleSheet} from 'react-native';
 import { Button as ButtonRN, Divider } from 'react-native-elements';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { Button } from '../Components/Button';
-import { BreathingList } from '../Components/BreathingList';
+import { AppList } from '../Components/AppList';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -16,6 +16,38 @@ const homeScreenStyles = StyleSheet.create({
 
 export class HomeScreen extends React.Component {
 	public render() {
+		const list = [
+			{
+				title: 'Odpočiň si',
+				subtitle: '10 minut',
+				icon: 'heart'
+			},
+			{
+				title: 'Sladké sny',
+				subtitle: '3 minuty',
+				icon: 'smileo'
+			},
+			{
+				title: 'Odpočiň si',
+				subtitle: '10 minut',
+				icon: 'heart'
+			},
+			{
+				title: 'Sladké sny',
+				subtitle: '3 minuty',
+				icon: 'smileo'
+			},
+			{
+				title: 'Odpočiň si',
+				subtitle: '10 minut',
+				icon: 'heart'
+			},
+			{
+				title: 'Sladké sny',
+				subtitle: '3 minuty',
+				icon: 'smileo'
+			}
+		];
 		return (
 			<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
 				<Text style={{color: themeSchema.color.fontColor, fontSize: themeSchema.fontSize.h1}}>Lorem ipsum dole more</Text>
@@ -30,7 +62,7 @@ export class HomeScreen extends React.Component {
 				<Divider/>
 				<Button title='DISABLED' disabled={true} onPress={() => false}/>
 				<Divider/>
-				<BreathingList/>
+				<AppList list={list}/>
 			</ScrollView>
 		)
 	}
