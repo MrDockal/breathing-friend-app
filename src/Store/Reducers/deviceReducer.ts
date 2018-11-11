@@ -1,7 +1,7 @@
 import { Device } from "../../Core/Entities/Device";
 import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
 import { DiscoveredBondedDevices, PeripheralBondStart, PeripheralBondFailed, PeripheralBondSucceeded } from "../Actions/Device/devicesBondActions";
-import { SetActiveDevice } from "../Actions/Device/deviceActions";
+import { SetActiveDevice, DeviceSetName } from "../Actions/Device/deviceActions";
 import { AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
 
 export interface DeviceBondState {
@@ -41,7 +41,8 @@ type Action =
 	PeripheralBondStart &
 	PeripheralBondFailed &
 	PeripheralBondSucceeded &
-	DiscoveredBondedDevices
+	DiscoveredBondedDevices &
+	DeviceSetName
 	;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action): DeviceState => {
@@ -122,6 +123,21 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 					...state.discover,
 					initialDiscoverDone: true,
 				}
+			}
+		case DeviceSetName:
+			const changedName = state.devices.map((device: Device) => {
+				if (device.uid === action.uid) {
+					return {
+						...device,
+						name: action.name
+					};
+				} else {
+					return device;
+				}
+			});
+			return {
+				...state,
+				devices: changedName,
 			}
 		default:
 			console.log(action);

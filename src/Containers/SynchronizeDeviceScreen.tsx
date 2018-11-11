@@ -32,7 +32,6 @@ interface StateProps {
 interface DispatchProps {
 	scan: () => void;
 	stopScan: () => void;
-	bond: (peripheral: BleManagerDiscoverPeripheralResponse) => void;
 }
 
 interface OwnProps extends NavigationInjectedProps<NavigationParams> {
@@ -114,9 +113,6 @@ export const SynchronizeDeviceScreen = connect<StateProps, DispatchProps, OwnPro
 		),
 		stopScan: () => (
 			dispatch(stopScanForAvailablePeripheralsAction())
-		),
-		bond: (peripheral: BleManagerDiscoverPeripheralResponse) => (
-			dispatch(peripheralBondStartAction(peripheral))
 		),
 	}),
 )(SynchronizeDeviceScreenHOC);
