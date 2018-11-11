@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1070520182644:android:bdda3018bb58ca0a",
+        "mobilesdk_app_id": "1:1070520182644:android:fe7c7b28fd3c8141",
         "android_client_info": {
-          "package_name": "com.awesomeproject"
+          "package_name": "com.breathingfriend.remotecontol"
         }
       },
       "oauth_client": [

@@ -1,4 +1,4 @@
-package com.awesomeproject;
+package com.breathingfriend.remotecontol;
 
 import android.app.Application;
 
