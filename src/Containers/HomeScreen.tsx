@@ -12,7 +12,7 @@ const homeScreenStyles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: themeSchema.color.backgroundColor,
 	}
-})
+});
 
 export class HomeScreen extends React.Component {
 	public render() {

@@ -13,6 +13,7 @@ import { SynchronizeDeviceScreen } from '../Containers/SynchronizeDeviceScreen';
 import { SettingsAboutApp } from '../Components/SettingsAboutApp';
 import { SeetingsReportBug } from '../Components/SettingsReportBug';
 import { SignpostScreen } from '../Containers/SignpostScreen';
+import { RenameDeviceScreen } from '../Containers/RenameDeviceScreen';
 
 export const routeNames = {
 	HomeTab: 'HomeTab',
@@ -109,7 +110,7 @@ const MainAppNavigation = createStackNavigator(
 			screen: SynchronizeDeviceScreen,
 		},
 		[routeNames.RenameDeviceScreen]: {
-			screen: SeetingsReportBug,
+			screen: RenameDeviceScreen,
 		},
 		[routeNames.SignpostScreen]: {
 			screen: SignpostScreen,

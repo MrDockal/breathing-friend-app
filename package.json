@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "faker": "^4.1.0",
     "react": "^16.6.0",
     "react-native": "^0.57.4",
     "react-native-ble-manager": "^6.5.1",
@@ -27,6 +28,7 @@
     "redux-saga": "^0.16.2"
   },
   "devDependencies": {
+    "@types/faker": "^4.1.4",
     "@types/react": "^16.4.18",
     "@types/react-native": "^0.57.7",
     "@types/react-native-elements": "^0.18.0",

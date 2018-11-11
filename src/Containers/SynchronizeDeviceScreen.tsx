@@ -10,6 +10,7 @@ import { AppList } from '../Components/AppList';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { peripheralBondStartAction } from '../Store/Actions/Device/devicesBondActions';
 import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction } from '../Store/Actions/Device/deviceScanActions';
+import { routeNames } from '../Navigators/Navigators';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
@@ -91,7 +92,8 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 		return this.props.scannedPeripherals.map((device: BleManagerDiscoverPeripheralResponse) => ({
 			title: `${device.id} - ${device.name}`,
 			onPress: () => {
-				this.props.bond(device);
+				this.props.navigation.navigate(routeNames.RenameDeviceScreen, {device});
+				//this.props.bond(device);
 			},
 		}));
 	}
