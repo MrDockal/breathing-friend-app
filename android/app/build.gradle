@@ -140,6 +140,7 @@ android {
 dependencies {
     compile project(':react-native-ble-manager')
     compile project(':react-native-splash-screen')
+    compile project(':react-native-bluetooth-status')
     implementation project(':react-native-firebase')
       // Firebase dependencies
     implementation "com.google.android.gms:play-services-base:15.0.1"
