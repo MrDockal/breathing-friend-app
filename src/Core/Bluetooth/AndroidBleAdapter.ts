@@ -1,10 +1,11 @@
-import BLEManager, { BleManagerDiscoverPeripheralResponse, BondedPeripheral } from 'react-native-ble-manager';
+import BLEManager, { BleManagerDiscoverPeripheralResponse, BondedPeripheral, BleManagerDidUpdateValueForCharacteristicResponse } from 'react-native-ble-manager';
 import {
 	NativeEventEmitter,
 	NativeModules,
   } from 'react-native';
 import { requestBluetoothPermisions } from './requestBluetoothPermisions';
 import { Buffer } from 'buffer';
+import { parseBluetoothMessage } from '../Helpers/parseBluetoothMessage';
 
 export class AndroidBleAdapter {
 
@@ -50,7 +51,33 @@ export class AndroidBleAdapter {
 
 	public async read(peripheralId: string, serviceUUID: string, characteristicUUID: string) {
 		const data = await BLEManager.read(peripheralId, serviceUUID, characteristicUUID);
-		const buffer = Buffer.from(new Uint8Array(data) as any);
-		return JSON.parse(buffer.toString('utf8'));
+		return parseBluetoothMessage(data);
+	}
+
+	public async write(peripheralId: string, serviceUUID: string, characteristicUUID: string, data: any, maxByteSize?: number) {
+		let strData;
+		try {
+			strData = JSON.parse(data);
+		} catch(e) {
+			strData = '{}';
+		}
+		const buffer = Buffer.from(strData, 'utf8');
+		let myBuffer = [];
+		for (var i = 0; i < buffer.length; i++) {
+			myBuffer.push(buffer[i]);
+		}
+		return await this.BLEManager.write(peripheralId, serviceUUID, characteristicUUID, myBuffer, maxByteSize);
+	}
+
+	public async startNotification(peripheralId: string, serviceUUID: string, characteristicUUID: string) {
+		return await this.BLEManager.startNotification(peripheralId, serviceUUID, characteristicUUID);
+	}
+
+	public onNewNotificationListener(cb: (data: BleManagerDidUpdateValueForCharacteristicResponse) => void) {
+		this.nativeEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', cb);
+	}
+
+	public removeNotificationListener(cb: (data: BleManagerDidUpdateValueForCharacteristicResponse) => void) {
+		this.nativeEmitter.removeListener('BleManagerDidUpdateValueForCharacteristic', cb);
 	}
 }

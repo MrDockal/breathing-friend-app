@@ -1,4 +1,5 @@
 import { DeviceSavedBreathingMode } from "../../../Core/Entities/BreathingMode";
+import { Statistics } from "../../../Core/Entities/Statistics";
 
 /** --- LOAD DEVICE BREATHING MODES --- */
 
@@ -25,5 +26,34 @@ export interface DeviceBreathingModesLoaded {
 export const DeviceBreathingModesLoadedAction = (peripheralUid: string, modes: DeviceSavedBreathingMode[]): DeviceBreathingModesLoaded => ({
 	type: DeviceBreathingModesLoaded,
 	modes,
+	peripheralUid,
+});
+
+
+/** --- LOAD DEVICE BREATHING MODES STATISTICS --- */
+
+export const DeviceBreathingModesStatsLoad = "Device.BreathingModesStats.Load";
+export interface DeviceBreathingModesStatsLoad {
+	type: typeof DeviceBreathingModesStatsLoad;
+	peripheralUid: string;
+}
+
+export const DeviceBreathingModesStatsLoadAction = (peripheralUid: string): DeviceBreathingModesStatsLoad => ({
+	type: DeviceBreathingModesStatsLoad,
+	peripheralUid,
+});
+
+/** --- DEVICE BREATHING MODES STATISTICS LOADED --- */
+
+export const DeviceBreathingModesStatsLoaded = "Device.BreathingModesStats.Loaded";
+export interface DeviceBreathingModesStatsLoaded {
+	type: typeof DeviceBreathingModesStatsLoaded;
+	stats: Statistics[];
+	peripheralUid: string;
+}
+
+export const DeviceBreathingModesStatsLoadedAction = (peripheralUid: string, stats: Statistics[]): DeviceBreathingModesStatsLoaded => ({
+	type: DeviceBreathingModesStatsLoaded,
+	stats,
 	peripheralUid,
 });

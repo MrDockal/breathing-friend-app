@@ -57,7 +57,7 @@ class SplashScreenHOC extends React.Component<Props, {}> {
 		if (!this.props.discovered) {
 			return;
 		}
-		if (this.props.devices.activeDevice && this.props.devices.activeDevice.connected) {
+		if (this.props.devices.activeDeviceIndex >= 0) {
 			this.goToScreenWithDelay(routeNames.MainApp);
 		} else {
 			this.goToScreenWithDelay(routeNames.SignpostScreen);

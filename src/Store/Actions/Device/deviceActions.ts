@@ -25,3 +25,27 @@ export const deviceSetNameAction = (uid: string, name: string): DeviceSetName =>
 	uid,
 	name,
 });
+
+/** CONNECTION INTIALIZE */
+export const DeviceConnectionInitialize = "Device.Connection.Initialize";
+export interface DeviceConnectionInitialize {
+	type: typeof DeviceConnectionInitialize;
+	device: Device;
+}
+
+export const DeviceConnectionInitializeAction = (device: Device): DeviceConnectionInitialize => ({
+	type: DeviceConnectionInitialize,
+	device,
+});
+
+/** CONNECTION INTIALIZED */
+export const DeviceConnectionInitialized = "Device.Connection.Initialized";
+export interface DeviceConnectionInitialized {
+	type: typeof DeviceConnectionInitialized;
+	uid: string;
+}
+
+export const DeviceConnectionInitializedAction = (uid: string): DeviceConnectionInitialized => ({
+	type: DeviceConnectionInitialized,
+	uid,
+});
