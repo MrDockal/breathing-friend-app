@@ -8,7 +8,7 @@ import { rootSagas } from './Store/Sagas/rootSaga';
 import { createFirebaseConnection } from './Core/Database/createFirebaseConnection';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore, Persistor } from 'redux-persist';
-import { DEVICE_SERVICE, BREATHING_SERVICE, USAGE_SERVICE } from './Core/Bluetooth/BLEConstants';
+import { DEVICE_SERVICE, BREATHING_SERVICE, STATS_SERVICE } from './Core/Bluetooth/BLEConstants';
 import { AndroidBleAdapter } from './Core/Bluetooth/AndroidBleAdapter';
 
 export default class App extends React.Component<{}, {}> {
@@ -19,7 +19,7 @@ export default class App extends React.Component<{}, {}> {
 	public constructor(props: {}) {
 		super(props);
 		const firebase = createFirebaseConnection();
-		const bleAdapter = new AndroidBleAdapter([DEVICE_SERVICE, BREATHING_SERVICE]);
+		const bleAdapter = new AndroidBleAdapter([DEVICE_SERVICE, BREATHING_SERVICE, STATS_SERVICE]);
 		const sagaMiddleware = createSagaMiddleware();
 		this.store = createStore(
 			reducer,

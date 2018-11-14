@@ -4,6 +4,10 @@ import { Button as ButtonRN, Divider } from 'react-native-elements';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { Button } from '../Components/Button';
 import { AppList } from '../Components/AppList';
+import { NavigationInjectedProps } from 'react-navigation';
+import { Device } from '../Core/Entities/Device';
+import { connect } from 'react-redux';
+import { State } from '../Store/configureStore';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -14,7 +18,13 @@ const homeScreenStyles = StyleSheet.create({
 	}
 });
 
-export class HomeScreen extends React.Component {
+interface StateProps {
+	activeDevice?: Device;
+}
+
+export type Props = NavigationInjectedProps & StateProps;
+
+class HomeScreenHOC extends React.Component<Props> {
 	public render() {
 		const list = [
 			{
@@ -67,3 +77,17 @@ export class HomeScreen extends React.Component {
 		)
 	}
 }
+
+export const HomeScreen = connect<StateProps>(
+	(state: State): StateProps => {
+		try {
+			const activeDevice = state.device.devices[state.device.activeDeviceIndex];
+			return {
+				activeDevice,
+			}
+		} catch(e) {
+			console.warn(e);
+			return {};
+		}
+	}
+)(HomeScreenHOC);

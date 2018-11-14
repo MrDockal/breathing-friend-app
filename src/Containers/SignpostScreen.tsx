@@ -9,6 +9,7 @@ import { Dispatch } from 'redux';
 import { routeNames } from '../Navigators/Navigators';
 import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
 import { setActiveDeviceAction } from '../Store/Actions/Device/deviceActions';
+import { DeviceBreathingModesLoadAction } from '../Store/Actions/Device/deviceBreathingModesActions';
 
 const mainScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -28,6 +29,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
+	loadDeviceBreathingModes: (device: Device) => void;
 	setActiveDevice: (device: Device) => void;
 	startDiscoverConnectedDevices: () => void;
 	pauseDiscoverConnectedDevices: () => void;
@@ -68,6 +70,7 @@ class SignpostScreenHOC extends React.Component<Props> {
 							key={index}
 							disabled={!device.connected}
 							onPress={() => {
+								this.props.loadDeviceBreathingModes(device);
 								this.props.setActiveDevice(device);
 								this.props.navigation.navigate(routeNames.MainApp);
 							}}
@@ -89,6 +92,9 @@ export const SignpostScreen = connect<StateProps, DispatchProps, OwnProps>(
 		devices: state.device,
 	}),
 	(dispatch: Dispatch) => ({
+		loadDeviceBreathingModes: (device: Device) => (
+			dispatch(DeviceBreathingModesLoadAction(device.uid))
+		),
 		setActiveDevice: (device: Device) => (
 			dispatch(setActiveDeviceAction(device))
 		),

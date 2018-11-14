@@ -4,6 +4,7 @@ import { deviceSaga } from './deviceSaga';
 import { breathingSaga } from './breathingSaga';
 import { Dispatch } from 'redux';
 import { AndroidBleAdapter } from '../../Core/Bluetooth/AndroidBleAdapter';
+import { deviceBreathingModesSaga } from './deviceBreathingModesSaga';
 
 export function* rootSagas(
 	firebase: FirebaseConnection,
@@ -12,6 +13,7 @@ export function* rootSagas(
 ) {
 	yield all([
 		breathingSaga(firebase.firestore),
+		deviceBreathingModesSaga(bleAdapter),
 		deviceSaga(bleAdapter, dispatch),
 	]);
 }

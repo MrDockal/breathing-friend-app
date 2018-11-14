@@ -4,6 +4,7 @@ import {
 	NativeModules,
   } from 'react-native';
 import { requestBluetoothPermisions } from './requestBluetoothPermisions';
+import { Buffer } from 'buffer';
 
 export class AndroidBleAdapter {
 
@@ -45,5 +46,11 @@ export class AndroidBleAdapter {
 	private async getBondedPeripherals() {
 		const peripherals = await BLEManager.getBondedPeripherals([]);
 		//return peripherals.filter((peripheral: BondedPeripheral) => peripheral.)
+	}
+
+	public async read(peripheralId: string, serviceUUID: string, characteristicUUID: string) {
+		const data = await BLEManager.read(peripheralId, serviceUUID, characteristicUUID);
+		const buffer = Buffer.from(new Uint8Array(data) as any);
+		return JSON.parse(buffer.toString('utf8'));
 	}
 }

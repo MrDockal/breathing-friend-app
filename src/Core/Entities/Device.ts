@@ -1,13 +1,8 @@
-import { BreathingSpeed } from "./BreathingMode";
-
-export interface DeviceBreathingMode {
-	uid: string;
-	speed: keyof BreathingSpeed;
-}
+import { DeviceSavedBreathingMode } from "./BreathingMode";
 
 export interface Device {
 	uid: string;
 	name: string;
 	connected: boolean;
-	breathingModes: DeviceBreathingMode[];
+	breathingModes: DeviceSavedBreathingMode[];
 }

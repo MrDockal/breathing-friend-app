@@ -3,6 +3,7 @@ import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
 import { DiscoveredBondedDevices, PeripheralBondStart, PeripheralBondFailed, PeripheralBondSucceeded } from "../Actions/Device/devicesBondActions";
 import { SetActiveDevice, DeviceSetName } from "../Actions/Device/deviceActions";
 import { AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
+import { DeviceBreathingModesLoaded } from "../Actions/Device/deviceBreathingModesActions";
 
 export interface DeviceBondState {
 	peripheral: BleManagerDiscoverPeripheralResponse;
@@ -16,15 +17,16 @@ export interface DeviceDiscoverState {
 
 export interface DeviceState {
 	devices: Device[];
+	activeDeviceIndex: number;
 	scannedPeripherals: BleManagerDiscoverPeripheralResponse[];
 	scanning: boolean;
-	activeDevice?: Device;
 	bond?: DeviceBondState;
 	discover: DeviceDiscoverState;
 }
 
 export const devicesInitialState: DeviceState = {
 	devices: [],
+	activeDeviceIndex: -1,
 	scanning: false,
 	scannedPeripherals: [],
 	discover: {
@@ -42,15 +44,17 @@ type Action =
 	PeripheralBondFailed &
 	PeripheralBondSucceeded &
 	DiscoveredBondedDevices &
-	DeviceSetName
+	DeviceSetName &
+	DeviceBreathingModesLoaded
 	;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action): DeviceState => {
 	switch (action.type) {
 		case SetActiveDevice:
+			const activeDeviceIndex = state.devices.findIndex((device: Device) => device.uid === action.device.uid);
 			return {
 				...state,
-				activeDevice: action.device
+				activeDeviceIndex,
 			};
 		case AvailablePeripheralObtained:
 			return {
@@ -139,8 +143,22 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				...state,
 				devices: changedName,
 			}
+		case DeviceBreathingModesLoaded:
+			const devices = state.devices.map((device: Device) => {
+				if (device.uid === action.peripheralUid) {
+					return {
+						...device,
+						breathingModes: action.modes,
+					}
+				} else {
+					return device;
+				}
+			});
+			return {
+				...state,
+				devices,
+			}
 		default:
-			console.log(action);
 			return state;
 	}
 }
