@@ -1,4 +1,3 @@
-
 {
   "compilerOptions": {
       "module":"es2015",
@@ -15,8 +14,11 @@
       "noUnusedLocals": true,
       "noUnusedParameters": true,
       "noImplicitReturns": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
       "skipLibCheck": true,
-      "moduleResolution":"Node"
+      "moduleResolution":"Node",
+      "typeRoots": [ "./types", "./node_modules/@types"]
   },
   "filesGlob": [
       "typings/index.d.ts",
@@ -33,8 +35,8 @@
       "build", 
       "node_modules",
       "jest.config.js",
-      "App.js"
-      
+      "App.js",
+      "types"
   ],
   "compileOnSave": false
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1070520182644",
+    "firebase_url": "https://breathing-friend.firebaseio.com",
+    "project_id": "breathing-friend",
+    "storage_bucket": "breathing-friend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070520182644:android:fe7c7b28fd3c8141",
+        "android_client_info": {
+          "package_name": "com.breathingfriend.remotecontol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070520182644-vg5ng60emr7b2750tgnsaiot98qui3kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0KTYybcykSxePGsMysZlxo8aSec7d5Eg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
