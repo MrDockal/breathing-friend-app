@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { State } from '../Store/configureStore';
 import { LoadingModal } from '../Components/LoadingModal';
 import { DeviceBreathingModes } from '../Components/DeviceBreathingModes';
-import { BreathingMode } from '../Core/Entities/BreathingMode';
+import { BreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
 import { routeNames } from '../Navigators/Navigators';
 
 const homeScreenStyles = StyleSheet.create({
@@ -29,8 +29,6 @@ export type Props = NavigationInjectedProps & StateProps;
 
 class HomeScreenHOC extends React.Component<Props> {
 	public render() {
-		console.log('this.props.breathingModes', this.props.breathingModes);
-		console.log('this.props.activeDevice', this.props.activeDevice);
 		return (
 			<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
 				{ (this.props.loading || !this.props.breathingModes || !this.props.activeDevice) ?
@@ -41,8 +39,8 @@ class HomeScreenHOC extends React.Component<Props> {
 		)
 	}
 
-	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add') => {
-		this.props.navigation.navigate(routeNames.BreathingModeDetail, {mode, action});
+	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', defaultSpeed?: keyof BreathingSpeed) => {
+		this.props.navigation.navigate(routeNames.BreathingModeDetail, {mode, action, defaultSpeed});
 	}
 }
 

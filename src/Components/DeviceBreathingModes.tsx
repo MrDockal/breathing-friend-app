@@ -14,7 +14,7 @@ interface BreathingModeWithActiveSpeed extends BreathingMode {
 export interface OwnProps {
 	activeDevice: Device;
 	breathingModes: BreathingMode[];
-	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit' ) => void;
+	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit',  defaultSpeed?: keyof BreathingSpeed) => void;
 }
 
 export class DeviceBreathingModes extends React.Component<OwnProps> {
@@ -36,9 +36,9 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 			subtitle: `${mode.speed[mode.activeSpeed].duration} minut`,
 			rightTitle: `Pozice ${index + 1}`,
 			rightTitleStyle: { paddingTop: 25 },
-			onPress: () => this.props.goToModeDetail(mode, 'edit'),
+			onPress: () => this.props.goToModeDetail(mode, 'edit', mode.activeSpeed),
 		}));
-		const availableModesList = availableModes.map((mode: BreathingMode, index: number): ListItemProps => ({
+		const availableModesList = availableModes.map((mode: BreathingMode): ListItemProps => ({
 			title: mode.name,
 			subtitle: `${mode.speed.normal.duration} minut`,
 			onPress: () => this.props.goToModeDetail(mode, 'add'),
@@ -48,15 +48,6 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 				<Text style={{color: themeSchema.color.fontColor, fontSize: themeSchema.fontSize.h1}}>Lorem ipsum dole more</Text>
 				<Text style={{color: themeSchema.color.fontColor, fontSize: themeSchema.fontSize.h2}}>Lorem ipsum dole more</Text>
 				<Text style={{color: themeSchema.color.fontColor, fontSize: themeSchema.fontSize.normal}}>Lorem ipsum dole more</Text>
-				<Divider/>
-				<ButtonRN title='SUBMIT' color={'pink'} disabled={true} buttonStyle={{width: 150}} borderRadius={30} underlayColor={'#fff'} backgroundColor={"blue"} raised onPress={() => false}/>
-				<Divider/>
-				<ButtonRN title='HAHA' raised onPress={() => false}/>
-				<Divider/>
-				<Button title='TAP ME' onPress={() => false}/>
-				<Divider/>
-				<Button title='DISABLED' disabled={true} onPress={() => false}/>
-				<Divider/>
 				<AppList list={activeModesList}/>
 				<Divider/>
 				<AppList list={availableModesList}/>
