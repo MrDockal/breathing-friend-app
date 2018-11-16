@@ -9,8 +9,8 @@ import { AndroidBleAdapter } from '../../Core/Bluetooth/AndroidBleAdapter';
 import { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
 import { DeviceConnectionInitialize, DeviceConnectionInitializedAction, setActiveDeviceAction } from '../Actions/Device/deviceActions';
 import { BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS } from '../../Core/Bluetooth/BLEConstants';
-import { getDeviceBreathingModes } from '../../Core/Helpers/convertEntities';
-import { DeviceBreathingModesLoadedAction } from '../Actions/Device/deviceBreathingModesActions';
+import { decodeDeviceBreathingModes } from '../../Core/Helpers/convertEntities';
+import { DeviceBreathingModesLoadedAction, DeviceBreathingModeUpdate } from '../Actions/Device/deviceBreathingModesActions';
 import { NotificationListenerStartAction } from '../Actions/notificationActions';
 
 export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
@@ -89,7 +89,7 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 
 		yield takeEvery(DeviceConnectionInitialize, function* (action: DeviceConnectionInitialize) {
 			const breathingModesBytes = yield bleAdapter.read(action.device.uid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS);
-			const modes = getDeviceBreathingModes(breathingModesBytes);
+			const modes = decodeDeviceBreathingModes(breathingModesBytes);
 			yield put(DeviceBreathingModesLoadedAction(action.device.uid, modes));
 			yield put(NotificationListenerStartAction());
 			yield bleAdapter.startNotification(action.device.uid, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS);
@@ -98,6 +98,10 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 
 			yield put(setActiveDeviceAction(action.device))
 			yield put(DeviceConnectionInitializedAction(action.device.uid));
+		}),
+
+		yield takeEvery(DeviceBreathingModeUpdate, function* (action: DeviceBreathingModeUpdate) {
+
 		}),
 	];
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Device } from '../Core/Entities/Device';
@@ -9,6 +9,8 @@ import { LoadingModal } from '../Components/LoadingModal';
 import { DeviceBreathingModes } from '../Components/DeviceBreathingModes';
 import { BreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
 import { routeNames } from '../Navigators/Navigators';
+import { Dispatch } from 'redux';
+import { DeviceBreathingModeUpdateAction } from '../Store/Actions/Device/deviceBreathingModesActions';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -25,7 +27,11 @@ interface StateProps {
 	loading: boolean;
 }
 
-export type Props = NavigationInjectedProps & StateProps;
+interface DispatchProps {
+	updateDeviceBreathingMode: (device: Device, mode: BreathingMode) => void;
+}
+
+export type Props = NavigationInjectedProps & StateProps & DispatchProps;
 
 class HomeScreenHOC extends React.Component<Props> {
 	public render() {
@@ -40,11 +46,17 @@ class HomeScreenHOC extends React.Component<Props> {
 	}
 
 	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', defaultSpeed?: keyof BreathingSpeed) => {
-		this.props.navigation.navigate(routeNames.BreathingModeDetail, {mode, action, defaultSpeed});
+		const updateDeviceCallback = (mode: BreathingMode) => this.props.updateDeviceBreathingMode(this.props.activeDevice!, mode);
+		this.props.navigation.navigate(routeNames.BreathingModeDetail, {
+			mode,
+			action,
+			defaultSpeed,
+			updateSpeed: updateDeviceCallback
+		});
 	}
 }
 
-export const HomeScreen = connect<StateProps>(
+export const HomeScreen = connect<StateProps, DispatchProps>(
 	(state: State): StateProps => {
 		if (state.device.activeDeviceIndex === -1) {
 			return {
@@ -58,5 +70,10 @@ export const HomeScreen = connect<StateProps>(
 				breathingModes: state.breathing.modes
 			}
 		}
-	}
+	},
+	(dispatch: Dispatch) => ({
+		updateDeviceBreathingMode: (device: Device, mode: BreathingMode) => {
+			dispatch(DeviceBreathingModeUpdateAction(device, mode));
+		}
+	})
 )(HomeScreenHOC);
