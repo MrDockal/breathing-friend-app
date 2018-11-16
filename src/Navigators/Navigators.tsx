@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createBottomTabNavigator, createStackNavigator, createNavigationContainer, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createNavigationContainer, createSwitchNavigator, NavigationScreenConfig } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // TabNavigation Screens
@@ -14,6 +14,7 @@ import { SettingsAboutApp } from '../Components/SettingsAboutApp';
 import { SeetingsReportBug } from '../Components/SettingsReportBug';
 import { SignpostScreen } from '../Containers/SignpostScreen';
 import { RenameDeviceScreen } from '../Containers/RenameDeviceScreen';
+import { BreathingModeDetailScreen } from '../Containers/BreathingModeDetailScreen';
 
 export const routeNames = {
 	HomeTab: 'HomeTab',
@@ -27,6 +28,7 @@ export const routeNames = {
 	BluetoothSearchDevices: 'BluetoothSearchDevices',
 	RenameDeviceScreen: 'RenameDeviceScreen',
 	App: 'App',
+	BreathingModeDetail: 'BreathingModeDetail',
 }
 
 const SettingsStackNavigation = createStackNavigator(
@@ -49,13 +51,37 @@ const SettingsStackNavigation = createStackNavigator(
 	}
 );
 
-const TabNavigation = createBottomTabNavigator(
+const HomeScreenStackNavigation = createStackNavigator(
 	{
 		[routeNames.HomeTab]: {
 			screen: HomeScreen,
-			navigationOptions: () => ({
-				title: `Home`,
-			}),
+			navigationOptions: {
+				header: null,
+			},
+		},
+		[routeNames.BreathingModeDetail]: {
+			screen: BreathingModeDetailScreen,
+		},
+	}, {
+		initialRouteName: routeNames.HomeTab,
+		headerMode: 'screen',
+	}
+);
+
+HomeScreenStackNavigation.navigationOptions = ({ navigation }: any) => {
+	const { routeName } = navigation.state.routes[navigation.state.index];
+	const tabBarVisible = !(routeName === routeNames.BreathingModeDetail);
+	console.log('tabBarVisible', tabBarVisible);
+	return {
+		tabBarVisible,
+	}
+};
+
+const TabNavigation = createBottomTabNavigator(
+	{
+		[routeNames.HomeTab]: {
+			screen: HomeScreenStackNavigation,
+			title: `Home`,
 		},
 		[routeNames.StatsTab]: {
 			screen: StatsScreen,

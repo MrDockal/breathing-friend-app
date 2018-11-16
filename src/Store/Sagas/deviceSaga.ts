@@ -44,7 +44,7 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 			const devices = yield Promise.all(devicesPromise);
 
 			yield put(discoveredBondedDevicesAction(devices));
-			yield wait(4000);
+			yield wait(5000);
 			if (discoverBondedAction) {
 				discoverBondedAction = false;
 				yield put(discoverBondedDevicesAction());

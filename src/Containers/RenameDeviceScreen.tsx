@@ -38,9 +38,12 @@ type Props = StateProps & DispatchProps & OwnProps & NavigationInjectedProps<Nav
 const renameDeviceScreenStyles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
-		justifyContent: 'center',
+		justifyContent: 'space-around',
 		alignItems: 'center',
 		backgroundColor: themeSchema.color.backgroundColor,
+	},
+	button: {
+
 	}
 })
 

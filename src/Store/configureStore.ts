@@ -19,6 +19,12 @@ const config = {
 	]
 }
 
+const configDev = {
+	key: 'primaryDev2',
+	storage,
+	blacklist: [],
+}
+
 export const initialState = {
 	breathing: breathingInitialState,
 	device: devicesInitialState,
@@ -29,4 +35,4 @@ const rootReducer = combineReducers<State>({
 	device: devicesReducer,
 });
 
-export const reducer = persistReducer(config, rootReducer);
+export const reducer = persistReducer(configDev, rootReducer);

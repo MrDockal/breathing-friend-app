@@ -65,7 +65,7 @@ export const breathingModes: BreathingMode[] = [{
 		},
 	}
 }, {
-	uid: 'abc02',
+	uid: 'abc03',
 	name: 'Sladké sny',
 	speed: {
 		fast: {

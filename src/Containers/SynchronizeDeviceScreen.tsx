@@ -8,7 +8,6 @@ import { Dispatch } from 'redux';
 import { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
 import { AppList } from '../Components/AppList';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
-import { peripheralBondStartAction } from '../Store/Actions/Device/devicesBondActions';
 import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction } from '../Store/Actions/Device/deviceScanActions';
 import { routeNames } from '../Navigators/Navigators';
 

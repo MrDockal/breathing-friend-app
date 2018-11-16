@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Device } from '../Core/Entities/Device';
 import { NavigationInjectedProps, NavigationEventSubscription } from 'react-navigation';
 import { DeviceState } from '../Store/Reducers/deviceReducer';
@@ -8,14 +8,15 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { routeNames } from '../Navigators/Navigators';
 import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
-import { setActiveDeviceAction, DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
-import { DeviceBreathingModesLoadAction } from '../Store/Actions/Device/deviceBreathingModesActions';
+import { DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
+import { Button } from '../Components/Button';
 
 const mainScreenStyles = StyleSheet.create({
 	wrapper: {
 		flex: 1,
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		alignItems: 'center',
+		paddingVertical: 40,
 	}
 });
 
@@ -57,26 +58,30 @@ class SignpostScreenHOC extends React.Component<Props> {
 	public componentWillUnmount() {
 		this.didBlurSubscription.remove();
 		this.didFocusSubscription.remove();
+		this.props.pauseDiscoverConnectedDevices();
 	}
 
 	public render() {
 		return (
 			<View style={mainScreenStyles.wrapper}>
-				<Text>This is the home screen of the app</Text>
-				{
-					this.props.devices.devices.map((device: Device, index: number) => (
-						<Button
-							key={index}
-							disabled={!device.connected}
-							onPress={() => {
-								this.props.deviceConnectionInitialize(device);
-								//this.props.setActiveDevice(device);
-								this.props.navigation.navigate(routeNames.MainApp);
-							}}
-							title={device.name}
-						/>
-					))
-				}
+				<View></View>
+				<View>
+					<Text>This is the home screen of the app </Text>
+					{
+						this.props.devices.devices.map((device: Device, index: number) => (
+							<Button
+								key={index}
+								disabled={!device.connected}
+								onPress={() => {
+									this.props.deviceConnectionInitialize(device);
+									//this.props.setActiveDevice(device);
+									this.props.navigation.navigate(routeNames.MainApp);
+								}}
+								title={device.name}
+							/>
+						))
+					}
+				</View>
 				<Button
 					onPress={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
 					title="Sync new device"
