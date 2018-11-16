@@ -71,7 +71,6 @@ const HomeScreenStackNavigation = createStackNavigator(
 HomeScreenStackNavigation.navigationOptions = ({ navigation }: any) => {
 	const { routeName } = navigation.state.routes[navigation.state.index];
 	const tabBarVisible = !(routeName === routeNames.BreathingModeDetail);
-	console.log('tabBarVisible', tabBarVisible);
 	return {
 		tabBarVisible,
 	}
@@ -81,7 +80,9 @@ const TabNavigation = createBottomTabNavigator(
 	{
 		[routeNames.HomeTab]: {
 			screen: HomeScreenStackNavigation,
-			title: `Home`,
+			navigationOptions: () => ({
+				title: `Home`,
+			}),
 		},
 		[routeNames.StatsTab]: {
 			screen: StatsScreen,
