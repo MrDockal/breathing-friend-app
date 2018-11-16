@@ -101,7 +101,9 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 		}),
 
 		yield takeEvery(DeviceBreathingModeUpdate, function* (action: DeviceBreathingModeUpdate) {
-
+			yield;
+			//const data = encodeDeviceBreathingMode(action.mode.uid)
+			//yield bleAdapter.write(action.device.uid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS);
 		}),
 	];
 }

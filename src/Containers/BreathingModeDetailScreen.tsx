@@ -22,7 +22,7 @@ interface BreathingModeDetailScreenNavigationParams {
 	mode: BreathingMode;
 	action: 'edit' | 'add';
 	defaultSpeed?: keyof BreathingSpeed;
-	updateSpeed?: () => void;
+	updateSpeed?: (speed: keyof BreathingSpeed) => void;
 }
 
 interface OwnProps extends NavigationInjectedProps<BreathingModeDetailScreenNavigationParams> {
@@ -52,7 +52,12 @@ export class BreathingModeDetailScreen extends React.Component<Props, State> {
 	});
 
 	public render() {
-		const buttonCallback = (this.props.navigation.state.params!.action === 'edit') ? this.props.navigation.state.params!.updateSpeed! : () => false;
+		const buttonCallback = (this.props.navigation.state.params!.action === 'edit') ?
+			() => {
+				this.props.navigation.state.params!.updateSpeed!(numberToBreathingConverter(this.state.sliderValue))
+			} :
+			() => false
+		;
 		return (
 			<View style={styles.wrapper}>
 				<Text>Dýchejte společně s animací</Text>
