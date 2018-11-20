@@ -10,12 +10,17 @@ import { routeNames } from '../Navigators/Navigators';
 import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
 import { DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
 import { Button } from '../Components/Button';
+import { BackgroundGradient } from '../Components/BackgroundGradient';
+import { themeSchema } from '../Core/ThemeSchema/themeSchema';
+import { H1 } from '../Components/Text/H1';
+import { TextNormal } from '../Components/Text/TextNormal';
 
 const mainScreenStyles = StyleSheet.create({
 	wrapper: {
 		flex: 1,
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		textAlign: 'center',
 		paddingVertical: 40,
 	}
 });
@@ -63,30 +68,32 @@ class SignpostScreenHOC extends React.Component<Props> {
 
 	public render() {
 		return (
-			<View style={mainScreenStyles.wrapper}>
-				<View></View>
-				<View>
-					<Text>This is the home screen of the app </Text>
-					{
-						this.props.devices.devices.map((device: Device, index: number) => (
-							<Button
-								key={index}
-								disabled={!device.connected}
-								onPress={() => {
-									this.props.deviceConnectionInitialize(device);
-									//this.props.setActiveDevice(device);
-									this.props.navigation.navigate(routeNames.MainApp);
-								}}
-								title={device.name}
-							/>
-						))
-					}
+			<BackgroundGradient>
+				<View style={mainScreenStyles.wrapper}>
+					<H1>Vítejte!</H1>
+					<TextNormal>ujistěte se, že je vaše dýchátko zapnuté, a pokračujte podle kroků v aplikaci</TextNormal>
+					<View>
+						{
+							this.props.devices.devices.map((device: Device, index: number) => (
+								<Button
+									key={index}
+									disabled={!device.connected}
+									onPress={() => {
+										this.props.deviceConnectionInitialize(device);
+										//this.props.setActiveDevice(device);
+										this.props.navigation.navigate(routeNames.MainApp);
+									}}
+									title={device.name}
+								/>
+							))
+						}
+					</View>
+					<Button
+						onPress={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
+						title="Sync new device"
+					/>
 				</View>
-				<Button
-					onPress={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
-					title="Sync new device"
-				/>
-			</View>
+			</BackgroundGradient>
 		);
 	}
 }

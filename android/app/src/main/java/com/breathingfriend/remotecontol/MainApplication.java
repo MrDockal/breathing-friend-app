@@ -12,6 +12,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.solinor.bluetoothstatus.RNBluetoothManagerPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
             new SplashScreenReactPackage(),
             new RNFirebasePackage(),
             new RNFirebaseFirestorePackage(),
-            new RNBluetoothManagerPackage()
+            new RNBluetoothManagerPackage(),
+            new LinearGradientPackage()
       );
     }
 

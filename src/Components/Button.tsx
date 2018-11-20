@@ -14,7 +14,8 @@ export class Button extends React.Component<ButtonProps> {
 			<RNButton 
 				{...this.props}
 				title={this.props.title.toUpperCase()}
-				buttonStyle={{borderRadius: 20, width: 200, backgroundColor: themeSchema.color.buttonBackground}}
+				buttonStyle={{borderRadius: 25, width: 300, backgroundColor: themeSchema.color.buttonBackground}}
+				color={themeSchema.color.buttonFontColor}
 				disabledTextStyle={{color: themeSchema.color.buttonBackground}}
 			/>
 		)
