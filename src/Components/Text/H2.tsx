@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
 		color: themeSchema.color.fontColor,
 		fontSize: themeSchema.fontSize.h2,
 		textAlign: 'center',
+		fontFamily: 'Tondo_Bold',
 	}
 });
 

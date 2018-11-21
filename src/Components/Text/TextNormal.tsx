@@ -7,9 +7,9 @@ const styles = StyleSheet.create({
 		color: themeSchema.color.fontColor,
 		fontSize: themeSchema.fontSize.normal,
 		textAlign: 'center',
+		fontFamily: 'Tondo',
 	}
 });
-
 
 export class TextNormal extends React.Component {
 	public render() {
