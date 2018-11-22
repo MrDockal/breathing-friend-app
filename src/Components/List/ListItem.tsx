@@ -3,6 +3,7 @@ import { View, TouchableNativeFeedback, StyleSheet } from 'react-native';
 import { ListItemProps } from './ListItem';
 import { TextNormal } from '../Text/TextNormal';
 import { Icon } from 'react-native-elements';
+import { wait } from '../../Core/Helpers/wait';
 
 export interface ListItemProps {
 	title: string;
@@ -27,7 +28,7 @@ export class ListItem extends React.Component<ListItemProps> {
 	public render() {
 		return (
 			<View style={styles.wrapperView}>
-				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('rgba(255, 255, 255, .1)', false)} onPress={() => this.props.onPress()}>
+				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('rgba(255, 255, 255, .1)', false)} onPress={this.onPress}>
 					<View style={styles.listItem}>
 						<TextNormal>{this.props.title}</TextNormal>
 						<Icon
@@ -39,5 +40,10 @@ export class ListItem extends React.Component<ListItemProps> {
 				</TouchableNativeFeedback>
 			</View>
 		);
+	}
+
+	private onPress = async () => {
+		await wait(100);
+		this.props.onPress()
 	}
 }
