@@ -20,9 +20,9 @@ const config = {
 }
 
 const configDev = {
-	key: 'primaryDev2',
+	key: 'primaryDev3',
 	storage,
-	blacklist: [],
+	blacklist: ['breathing', 'device'],
 }
 
 export const initialState = {

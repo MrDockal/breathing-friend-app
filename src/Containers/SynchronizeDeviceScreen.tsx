@@ -1,20 +1,22 @@
 import React from 'react';
 import { NavigationInjectedProps, NavigationScreenProps } from 'react-navigation';
-import { ScrollView, Text, StyleSheet } from 'react-native';
+import { ScrollView, Text, StyleSheet, RefreshControl, View } from 'react-native';
 import { SyncButton } from '../Components/SyncButton';
 import { connect } from 'react-redux';
 import { State } from '../Store/configureStore';
 import { Dispatch } from 'redux';
 import { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
-import { AppList } from '../Components/AppList';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction } from '../Store/Actions/Device/deviceScanActions';
 import { routeNames } from '../Navigators/Navigators';
+import { BackgroundGradient } from '../Components/BackgroundGradient';
+import { TextNormal } from '../Components/Text/TextNormal';
+import { List } from '../Components/List/List';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
-		paddingTop: 20,
+		paddingTop: 100,
+		alignItems: 'center',
 	}
 });
 
@@ -46,7 +48,9 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 	}
 
 	static navigationOptions = ({navigation}: NavigationScreenProps<NavigationParams>) => ({
-		title: 'Synchronize devices',
+		headerTitle: <TextNormal>Synchronizovat</TextNormal>,
+		headerTransparent: true,
+		headerTintColor: 'white',
 		headerRight: <SyncButton
 						scanning={(navigation.state.params && navigation.state.params.scanning) ? true : false}
 						scan={navigation.state.params ? navigation.state.params.scan : () => false}
@@ -74,15 +78,16 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 	public render() {
 		const newDevices = this.getNewDevices();
 		return (
-			<ScrollView contentContainerStyle={syncrhonizeDeviceScreensStyles.wrapper}>
-				{
-					newDevices.length > 0 &&
-					<React.Fragment>
-						<Text style={{fontSize: themeSchema.fontSize.normal, paddingLeft: 20}}>Found Devices</Text>
-						<AppList list={newDevices}/>
-					</React.Fragment>
-				}
-			</ScrollView>
+			<BackgroundGradient theme={'black'}>
+				<ScrollView 
+					contentContainerStyle={syncrhonizeDeviceScreensStyles.wrapper}
+				>
+					{
+						newDevices.length > 0 && 
+						<List listItems={newDevices} width={'95%'}/>
+					}
+				</ScrollView>
+			</BackgroundGradient>
 		);
 	}
 

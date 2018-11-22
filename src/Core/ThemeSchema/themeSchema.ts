@@ -49,5 +49,6 @@ export const themeSchema = {
 		h1: 34,
 		h2: 30,
 		normal: 20,
+		small: 15,
 	}
 }

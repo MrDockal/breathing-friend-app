@@ -1,19 +1,32 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { BackgroundGradient } from '../BackgroundGradient';
-import { Button } from '../Button';
 import { Device } from '../../Core/Entities/Device';
+import { TextNormal } from '../Text/TextNormal';
+import { TextSmall } from '../Text/TextSmall';
+const whiteBfImage = require('../../assets/white-bf.png');
 
 const styles = StyleSheet.create({
 	wrapper: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingVertical: 10,
+	},
+	bfImage: {
+		alignSelf: 'center',
+		height: 250,
+		width: 300,
+	},
+	headerText: {
+		alignSelf: 'flex-end',
+		paddingHorizontal: 20
 	}
 });
 
 export interface SignPostProps {
 	initializeDevice: (device: Device) => void;
+	syncNewDevice: () => void;
 	devices: Device[];
 }
 
@@ -22,19 +35,22 @@ export class SignPost extends React.Component<SignPostProps> {
 		return (
 			<BackgroundGradient theme={'red'}>
 				<View style={styles.wrapper}>
-					{
-						this.props.devices.map((device: Device, index: number) => (
-							<Button
-								theme={'red'}
-								key={index}
-								disabled={!device.connected}
-								onPress={() => {
-									this.props.initializeDevice(device);
-								}}
-								title={device.name}
-							/>
-						))
-					}
+					<View style={styles.headerText}>
+						<TouchableOpacity activeOpacity={0.6} onPress={() => this.props.syncNewDevice()}>
+							<TextSmall underline={true}>Přidat nové</TextSmall>
+						</TouchableOpacity>
+					</View>
+					<View>
+						{
+							this.props.devices.map((device: Device, index: number) => (
+								<TouchableOpacity activeOpacity={1} key={index} onPress={() => this.props.initializeDevice(device)}>
+									<Image source={whiteBfImage} style={styles.bfImage} resizeMode={'cover'} />
+									<TextNormal>{device.name}</TextNormal>
+								</TouchableOpacity>
+							))
+						}
+					</View>
+					<View/>
 				</View>
 			</BackgroundGradient>
 		);

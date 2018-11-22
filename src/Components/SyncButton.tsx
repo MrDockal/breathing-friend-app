@@ -1,7 +1,6 @@
 import * as React from 'react';
-import {Icon} from 'react-native-elements';
-import {Animated} from 'react-native';
-import {TouchableNativeFeedback} from 'react-native';
+import { Icon } from 'react-native-elements';
+import { Animated } from 'react-native';
 
 export interface SyncButtonProps {
 	scan: () => void;
@@ -49,22 +48,22 @@ export class SyncButton extends React.Component<SyncButtonProps, State> {
 			outputRange: ['0deg', '-360deg']
 		});
 		return (
-			<TouchableNativeFeedback>
-				<Animated.View style={{
-						transform: [{rotate: spin},{perspective: 1000}],
-						position: 'relative',
-						height: 30,
-						width: 30,
-						marginRight: 10,
-					}} >
-					<Icon
-						name='sync'
-						size={30}
-						onPress={!this.props.scanning ? this.props.scan : () => false}
-						containerStyle={{position: 'absolute', top: 0, left: 0 }}
-					/>
-				</Animated.View>
-			</TouchableNativeFeedback>
+			<Animated.View style={{
+					transform: [{rotate: spin},{perspective: 1000}],
+					position: 'relative',
+					height: 30,
+					width: 30,
+					marginRight: 10,
+				}} >
+				<Icon
+					name='sync'
+					color='white'
+					size={30}
+					onPress={!this.props.scanning ? this.props.scan : () => false}
+					containerStyle={{position: 'absolute', top: 0, left: 0}}
+					underlayColor="rgba(255,255,255,0)"
+				/>
+			</Animated.View>
 		);
 	}
 }

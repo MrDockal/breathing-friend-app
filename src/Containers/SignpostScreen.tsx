@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { Device } from '../Core/Entities/Device';
 import { NavigationInjectedProps, NavigationEventSubscription } from 'react-navigation';
 import { DeviceState } from '../Store/Reducers/deviceReducer';
@@ -9,23 +8,8 @@ import { Dispatch } from 'redux';
 import { routeNames } from '../Navigators/Navigators';
 import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
 import { DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
-import { Button } from '../Components/Button';
-import { BackgroundGradient } from '../Components/BackgroundGradient';
-import { H1 } from '../Components/Text/H1';
-import { TextNormal } from '../Components/Text/TextNormal';
 import { NoBreathingDevice } from '../Components/Signpost/NoBreathingDevice';
 import { SignPost } from '../Components/Signpost/SignPost';
-
-const mainScreenStyles = StyleSheet.create({
-	wrapper: {
-		flex: 1,
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		textAlign: 'center',
-		padding: 40,
-	}
-});
-
 
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */
@@ -73,10 +57,13 @@ class SignpostScreenHOC extends React.Component<Props> {
 				{
 					this.props.devices.devices.length === 0 ?
 					<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}/> :
-					<SignPost devices={this.props.devices.devices} initializeDevice={(device: Device) => {
-						this.props.deviceConnectionInitialize(device);
-						this.props.navigation.navigate(routeNames.MainApp);
-					}} />
+					<SignPost 
+						devices={this.props.devices.devices} initializeDevice={(device: Device) => {
+							this.props.deviceConnectionInitialize(device);
+							this.props.navigation.navigate(routeNames.MainApp);
+						}}
+						syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
+					/>
 				}
 			</React.Fragment>
 		);

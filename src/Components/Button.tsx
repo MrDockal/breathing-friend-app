@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Text,TouchableNativeFeedback } from 'react-native';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
+import { wait } from '../Core/Helpers/wait';
 
 const styles = StyleSheet.create({
 	parentWrapper: {
@@ -48,12 +49,17 @@ export class Button extends React.Component<ButtonProps> {
 		});
 		return (
 			<View style={styles.parentWrapper}>
-				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#e0e0e0', true)}>
+				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#e0e0e0', true)} onPress={this.onPress}>
 					<View style={[styles.wrapper, themeStyles.wrapper]}>
-						<Text style={[styles.text, themeStyles.text]}>UPDATE</Text>
+						<Text style={[styles.text, themeStyles.text]}>{this.props.title}</Text>
 					</View>
 				</TouchableNativeFeedback>
 			</View>
 		);
+	}
+
+	private onPress = async() => {
+		await wait(100);
+		this.props.onPress();
 	}
 }
