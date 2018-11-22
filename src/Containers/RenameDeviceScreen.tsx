@@ -40,7 +40,6 @@ const renameDeviceScreenStyles = StyleSheet.create({
 		flexGrow: 1,
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		backgroundColor: themeSchema.color.backgroundColor,
 	},
 	button: {
 
@@ -77,7 +76,7 @@ class RenameDeviceScreenHOC extends React.Component<Props, State> {
 					value={this.state.name}
 				/>
 				<Text>{this.props.navigation.state.params!.device.id}</Text>
-				<Button title={'Submit'} onPress={this.submit}/>
+				<Button theme={'black'} title={'Submit'} onPress={this.submit}/>
 			</ScrollView>
 		);
 	}

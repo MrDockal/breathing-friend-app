@@ -9,13 +9,19 @@ const styles = StyleSheet.create({
 	}
 });
 
-export class BackgroundGradient extends React.Component {
+export type BackgroundGradientThemes = 'blue' | 'orange' | 'red' | 'black';
+
+export interface BackgroundGradientProps {
+	theme: BackgroundGradientThemes;
+}
+
+export class BackgroundGradient extends React.Component<BackgroundGradientProps> {
 	public render() {
 		return (
 			<LinearGradient
-				start={{x: 1, y: 0}}
-				end={{x: 1, y: 0}}
-				colors={[themeSchema.linearGradient.fromColor, themeSchema.linearGradient.toColor]}
+				start={{x: 0, y: 0}}
+				end={{x: 1, y: 1}}
+				colors={[themeSchema.linearGradient[this.props.theme].fromColor, themeSchema.linearGradient[this.props.theme].midColor, themeSchema.linearGradient[this.props.theme].toColor]}
 				style={styles.linearGradient}
 			>
 				{ this.props.children }

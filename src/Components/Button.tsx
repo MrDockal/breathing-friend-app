@@ -1,23 +1,59 @@
 import * as React from 'react';
-import { Button as RNButton } from 'react-native-elements';
+import { View, StyleSheet, Text,TouchableNativeFeedback } from 'react-native';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
+
+const styles = StyleSheet.create({
+	parentWrapper: {
+		backgroundColor: 'white',
+		borderRadius: 25,
+		shadowOffset: {
+			width: 0,
+			height: 3
+		  },
+		  shadowRadius: 5,
+		  shadowOpacity: 1,
+		  elevation: 8,
+	},
+	wrapper: {
+		backgroundColor: 'white',
+		padding: 10,
+		borderRadius: 25,
+		width: 290,
+	},
+	text: {
+		textAlign: 'center',
+		fontSize: themeSchema.fontSize.normal,
+	}
+});
 
 export interface ButtonProps {
 	title: string;
 	onPress: () => void;
 	disabled?: boolean;
+	theme: ButtonThemes;
 }
 
+export type ButtonThemes = 'blue' | 'orange' | 'red' | 'black';
+
 export class Button extends React.Component<ButtonProps> {
+
 	public render() {
+		const themeStyles = StyleSheet.create({
+			wrapper: {
+				shadowColor: themeSchema.button[this.props.theme].shadowColor,
+			},
+			text: {
+				color: themeSchema.button[this.props.theme].fontColor,
+			}
+		});
 		return (
-			<RNButton 
-				{...this.props}
-				title={this.props.title.toUpperCase()}
-				buttonStyle={{borderRadius: 25, width: 300, backgroundColor: themeSchema.color.buttonBackground}}
-				color={themeSchema.color.buttonFontColor}
-				disabledTextStyle={{color: themeSchema.color.buttonBackground}}
-			/>
-		)
+			<View style={styles.parentWrapper}>
+				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#e0e0e0', true)}>
+					<View style={[styles.wrapper, themeStyles.wrapper]}>
+						<Text style={[styles.text, themeStyles.text]}>UPDATE</Text>
+					</View>
+				</TouchableNativeFeedback>
+			</View>
+		);
 	}
 }

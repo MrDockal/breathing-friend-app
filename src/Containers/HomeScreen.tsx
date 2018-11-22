@@ -15,7 +15,6 @@ const homeScreenStyles = StyleSheet.create({
 		flexGrow: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: themeSchema.color.backgroundColor,
 	}
 });
 

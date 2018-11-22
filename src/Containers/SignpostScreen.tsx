@@ -11,9 +11,10 @@ import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '.
 import { DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
 import { Button } from '../Components/Button';
 import { BackgroundGradient } from '../Components/BackgroundGradient';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { H1 } from '../Components/Text/H1';
 import { TextNormal } from '../Components/Text/TextNormal';
+import { NoBreathingDevice } from '../Components/Signpost/NoBreathingDevice';
+import { SignPost } from '../Components/Signpost/SignPost';
 
 const mainScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -21,7 +22,7 @@ const mainScreenStyles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		textAlign: 'center',
-		paddingVertical: 40,
+		padding: 40,
 	}
 });
 
@@ -68,32 +69,16 @@ class SignpostScreenHOC extends React.Component<Props> {
 
 	public render() {
 		return (
-			<BackgroundGradient>
-				<View style={mainScreenStyles.wrapper}>
-					<H1>Vítejte!</H1>
-					<TextNormal>ujistěte se, že je vaše dýchátko zapnuté, a pokračujte podle kroků v aplikaci</TextNormal>
-					<View>
-						{
-							this.props.devices.devices.map((device: Device, index: number) => (
-								<Button
-									key={index}
-									disabled={!device.connected}
-									onPress={() => {
-										this.props.deviceConnectionInitialize(device);
-										//this.props.setActiveDevice(device);
-										this.props.navigation.navigate(routeNames.MainApp);
-									}}
-									title={device.name}
-								/>
-							))
-						}
-					</View>
-					<Button
-						onPress={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
-						title="Sync new device"
-					/>
-				</View>
-			</BackgroundGradient>
+			<React.Fragment>
+				{
+					this.props.devices.devices.length === 0 ?
+					<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}/> :
+					<SignPost devices={this.props.devices.devices} initializeDevice={(device: Device) => {
+						this.props.deviceConnectionInitialize(device);
+						this.props.navigation.navigate(routeNames.MainApp);
+					}} />
+				}
+			</React.Fragment>
 		);
 	}
 }

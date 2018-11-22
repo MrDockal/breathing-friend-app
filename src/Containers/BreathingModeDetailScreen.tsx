@@ -71,7 +71,7 @@ export class BreathingModeDetailScreen extends React.Component<Props, State> {
 					onValueChange={(sliderValue: number) => this.setState({sliderValue})}
 					onSlidingComplete={this.onSlidingComplete}
 				/>
-				<Button title={this.props.navigation.state.params!.action.toUpperCase()} onPress={buttonCallback}/>
+				<Button theme={'black'} title={this.props.navigation.state.params!.action.toUpperCase()} onPress={buttonCallback}/>
 			</View>
 		);
 	}

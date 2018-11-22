@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Text } from 'react-native';
 import { ListItemProps, Divider } from 'react-native-elements';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { AppList } from './AppList';
 import { Device } from '../Core/Entities/Device';
 import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
+import { H1 } from './Text/H1';
+import { H2 } from './Text/H2';
+import { TextNormal } from './Text/TextNormal';
 
 interface BreathingModeWithActiveSpeed extends BreathingMode {
 	activeSpeed: keyof BreathingSpeed;
@@ -21,9 +22,9 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 		const breathingModes = this.prepareBreathingModes();
 		return (
 			<React.Fragment>
-				<Text style={{color: themeSchema.color.fontColor, fontSize: themeSchema.fontSize.h1}}>Lorem ipsum dole more</Text>
-				<Text style={{color: themeSchema.color.fontColor, fontSize: themeSchema.fontSize.h2}}>Lorem ipsum dole more</Text>
-				<Text style={{color: themeSchema.color.fontColor, fontSize: themeSchema.fontSize.normal}}>Lorem ipsum dole more</Text>
+				<H1>Lorem ipsum dole more</H1>
+				<H2>Lorem ipsum dole more</H2>
+				<TextNormal>Lorem ipsum dole more</TextNormal>
 				<AppList list={breathingModes.activeModesList}/>
 				<Divider/>
 				<AppList list={breathingModes.availableModesList}/>
