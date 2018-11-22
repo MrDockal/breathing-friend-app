@@ -13,6 +13,7 @@ import { deviceSetNameAction } from '../Store/Actions/Device/deviceActions';
 import { routeNames } from '../Navigators/Navigators';
 import { TextNormal } from '../Components/Text/TextNormal';
 import { BackgroundGradient } from '../Components/BackgroundGradient';
+import { SuccessDeviceScreenPropsNavigationParams } from './SuccessDeviceScreen';
 
 interface StateProps {
 	bonded: boolean;
@@ -53,7 +54,7 @@ const renameDeviceScreenStyles = StyleSheet.create({
 		fontSize: themeSchema.fontSize.normal,
 		textAlign: 'center'
 	}
-})
+});
 
 class RenameDeviceScreenHOC extends React.Component<Props, State> {
 
@@ -66,7 +67,7 @@ class RenameDeviceScreenHOC extends React.Component<Props, State> {
 	static getDerivedStateFromProps = (props: Props, state: State) => {
 		if (props.bonded) {
 			props.setName(props.navigation.state.params!.device.id, state.name);
-			props.navigation.navigate(routeNames.SignpostScreen);
+			props.navigation.navigate(routeNames.SuccessDeviceScreen, {deviceName: state.name} as SuccessDeviceScreenPropsNavigationParams);
 		}
 		return state;
 	}

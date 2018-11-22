@@ -15,6 +15,7 @@ import { SeetingsReportBug } from '../Components/SettingsReportBug';
 import { SignpostScreen } from '../Containers/SignpostScreen';
 import { RenameDeviceScreen } from '../Containers/RenameDeviceScreen';
 import { BreathingModeDetailScreen } from '../Containers/BreathingModeDetailScreen';
+import { SuccessDeviceScreen } from '../Containers/SuccessDeviceScreen';
 
 export const routeNames = {
 	HomeTab: 'HomeTab',
@@ -29,6 +30,7 @@ export const routeNames = {
 	RenameDeviceScreen: 'RenameDeviceScreen',
 	App: 'App',
 	BreathingModeDetail: 'BreathingModeDetail',
+	SuccessDeviceScreen: 'SuccessDeviceScreen:',
 }
 
 const SettingsStackNavigation = createStackNavigator(
@@ -138,6 +140,12 @@ const MainAppNavigation = createStackNavigator(
 		},
 		[routeNames.RenameDeviceScreen]: {
 			screen: RenameDeviceScreen,
+		},
+		[routeNames.SuccessDeviceScreen]: {
+			screen: SuccessDeviceScreen,
+			navigationOptions: {
+				header: null,
+			},
 		},
 		[routeNames.SignpostScreen]: {
 			screen: SignpostScreen,

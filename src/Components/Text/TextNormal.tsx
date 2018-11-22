@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
 		color: themeSchema.color.fontColor,
 		fontSize: themeSchema.fontSize.normal,
 		textAlign: 'center',
+		lineHeight: 30,
 	},
 	bold: {
 		fontFamily: 'Tondo_Bold',
