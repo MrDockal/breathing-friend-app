@@ -1,12 +1,26 @@
 import * as React from 'react';
 import { BreathingDefinition } from '../Core/Entities/BreathingMode';
 import { Animated, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-const circle = require('../assets/circle.png');
+const bfImage = require('../assets/white-bf.png');
+const bfShadow = require('../assets/breathing.png');
 
 const styles = StyleSheet.create({
 	wrapper: {
-		justifyContent: 'center',
 		alignItems: 'center',
+		position: 'relative',
+		height: 130 * 3,
+	},
+	shadow: {
+		position: 'absolute',
+		top: 130,
+		height: 130,
+		width: 110,
+	},
+	image: {
+		position: 'absolute',
+		top: 110,
+		height: 200,
+		width: 180,
 	}
 });
 
@@ -40,25 +54,42 @@ export class BreathingAnimation extends React.Component<BreathingAnimationProps,
 		return (
 			<View style={styles.wrapper}>
 				<Animated.Image
-					source={circle}
-					style={{
-						height: 50,
-						width: 50,
+					source={bfShadow}
+					style={[styles.shadow, {
 						transform: [
 							{
 								scaleX: this.state.sizeValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: [1, 5]
+									outputRange: [1, 3]
 								}),
 							},
 							{
 								scaleY: this.state.sizeValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: [1, 5]
+									outputRange: [1, 3]
 								})
 							}
 						]
-					}}
+					}]}
+				/>
+				<Animated.Image
+					source={bfImage}
+					style={[styles.image, {
+						transform: [
+							{
+								scaleX: this.state.sizeValue.interpolate({
+									inputRange: [0, 1],
+									outputRange: [1, 1.3]
+								}),
+							},
+							{
+								scaleY: this.state.sizeValue.interpolate({
+									inputRange: [0, 1],
+									outputRange: [1, 1.3]
+								})
+							}
+						]
+					}]}
 				/>
 			</View>
 		)

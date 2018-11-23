@@ -9,6 +9,7 @@ import { LoadingModal } from '../Components/LoadingModal';
 import { DeviceBreathingModes } from '../Components/DeviceBreathingModes';
 import { BreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
 import { routeNames } from '../Navigators/Navigators';
+import { BackgroundGradientThemes } from '../Components/BackgroundGradient';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -38,11 +39,12 @@ class HomeScreenHOC extends React.Component<Props> {
 		)
 	}
 
-	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', defaultSpeed?: keyof BreathingSpeed) => {
+	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', theme: BackgroundGradientThemes, defaultSpeed?: keyof BreathingSpeed) => {
 		this.props.navigation.navigate(routeNames.BreathingModeDetail, {
 			mode,
 			action,
 			defaultSpeed,
+			theme,
 		});
 	}
 }

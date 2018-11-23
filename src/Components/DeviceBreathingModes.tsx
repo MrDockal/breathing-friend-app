@@ -6,6 +6,7 @@ import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../Core
 import { H1 } from './Text/H1';
 import { H2 } from './Text/H2';
 import { TextNormal } from './Text/TextNormal';
+import { BackgroundGradientThemes } from './BackgroundGradient';
 
 interface BreathingModeWithActiveSpeed extends BreathingMode {
 	activeSpeed: keyof BreathingSpeed;
@@ -14,7 +15,7 @@ interface BreathingModeWithActiveSpeed extends BreathingMode {
 export interface OwnProps {
 	activeDevice: Device;
 	breathingModes: BreathingMode[];
-	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit',  defaultSpeed?: keyof BreathingSpeed) => void;
+	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit', theme: BackgroundGradientThemes, defaultSpeed?: keyof BreathingSpeed) => void;
 }
 
 export class DeviceBreathingModes extends React.Component<OwnProps> {
@@ -57,16 +58,29 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 			subtitle: this.convertMinutesToText(mode.speed[mode.activeSpeed].duration),
 			rightTitle: `Pozice ${index + 1}`,
 			rightTitleStyle: { paddingTop: 25 },
-			onPress: () => this.props.goToModeDetail(mode, 'edit', mode.activeSpeed),
+			onPress: () => this.props.goToModeDetail(mode, 'edit', this.getThemeByIndex(index), mode.activeSpeed),
 		}));
 		const availableModesList = availableModes.map((mode: BreathingMode): ListItemProps => ({
 			title: mode.name,
 			subtitle: `${mode.speed.normal.duration} minut`,
-			onPress: () => this.props.goToModeDetail(mode, 'add'),
+			onPress: () => this.props.goToModeDetail(mode, 'add', this.getThemeByIndex()),
 		}));
 		return {
 			activeModesList,
 			availableModesList
+		}
+	}
+
+	private getThemeByIndex(index?: number) {
+		switch(index) {
+			case 0:
+				return 'red';
+			case 1: 
+				return 'blue';
+			case 2:
+				return 'orange';
+			default:
+				return 'black';
 		}
 	}
 }

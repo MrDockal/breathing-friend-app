@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, StyleProp, TextStyle } from 'react-native';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 
 const styles = StyleSheet.create({
@@ -22,12 +22,15 @@ const styles = StyleSheet.create({
 export interface TextSmallProps {
 	bold?: boolean;
 	underline?: boolean;
+	style?: StyleProp<TextStyle>;
 }
 
 export class TextSmall extends React.Component<TextSmallProps> {
 	public render() {
 		return (
-			<Text style={[styles.text, this.props.bold ? styles.bold : styles.normal, this.props.underline && styles.underline]}>{this.props.children}</Text>
+			<Text style={
+				[styles.text, this.props.bold ? styles.bold : styles.normal, this.props.underline && styles.underline, this.props.style]
+			}>{this.props.children}</Text>
 		)
 	}
 }
