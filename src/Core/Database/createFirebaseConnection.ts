@@ -1,14 +1,5 @@
 import Firebase, { RNFirebase } from 'react-native-firebase';
-
-const defaultConfig = {
-    apiKey: "AIzaSyChxuB-ffqYONRMmuFnaax3HVSBjM_xr6Y",
-    authDomain: "breathing-friend.firebaseapp.com",
-    databaseURL: "https://breathing-friend.firebaseio.com",
-    appId: "1:1070520182644:android:dd3062a955d93dbe",
-    projectId: "breathing-friend",
-    storageBucket: "breathing-friend.appspot.com",
-    messagingSenderId: "1070520182644"
-}
+import { defaultConfig } from '../../config';
 
 const defaultName = 'com.breathingfriend.remoteControl';
 
@@ -16,7 +7,7 @@ export interface FirebaseConnection  {
     firestore: RNFirebase.firestore.Firestore;
 }
 
-export const createFirebaseConnection = (config: any = defaultConfig, name: string = defaultName): FirebaseConnection => {
+export const createFirebaseConnection = (config: any = defaultConfig.firebase, name: string = defaultName): FirebaseConnection => {
     try {
         Firebase.app(name);
     } catch(e) {
