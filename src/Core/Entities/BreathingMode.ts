@@ -25,3 +25,8 @@ export interface DeviceSavedBreathingMode {
 	uid: string;
 	speed: keyof BreathingSpeed;
 }
+
+export interface DeviceBreathingModeToBeSaved {
+	uid: string;
+	speed: keyof BreathingSpeed;
+}

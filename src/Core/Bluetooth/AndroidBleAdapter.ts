@@ -28,7 +28,7 @@ export class AndroidBleAdapter {
 			await BLEManager.scan([], scanDuration, false);
 			const listener = (data: BleManagerDiscoverPeripheralResponse) => {
 				const found = peripherals.findIndex((peripheral: BleManagerDiscoverPeripheralResponse) => peripheral.id === data.id);
-				const isValid = data.advertising.serviceUUIDs.sort().join('') === this.serviceUUIDs.sort().join('');
+				const isValid = data.advertising.serviceUUIDs.sort().join('').toLowerCase() === this.serviceUUIDs.sort().join('').toLowerCase()
 				if (found === -1 && isValid) {
 					peripherals.push(data);
 					discoveredPeripheral(data);

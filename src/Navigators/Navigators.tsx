@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { createBottomTabNavigator, createStackNavigator, createNavigationContainer, createSwitchNavigator } from 'react-navigation';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { createBottomTabNavigator, createStackNavigator, createNavigationContainer, createSwitchNavigator, NavigationScreenConfig } from 'react-navigation';
+import { Icon } from 'react-native-elements'
 
 // TabNavigation Screens
 import { HomeScreen } from '../Containers/HomeScreen';
@@ -14,6 +14,9 @@ import { SettingsAboutApp } from '../Components/SettingsAboutApp';
 import { SeetingsReportBug } from '../Components/SettingsReportBug';
 import { SignpostScreen } from '../Containers/SignpostScreen';
 import { RenameDeviceScreen } from '../Containers/RenameDeviceScreen';
+import { BreathingModeDetailScreen } from '../Containers/BreathingModeDetailScreen';
+import { SuccessDeviceScreen } from '../Containers/SuccessDeviceScreen';
+import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 
 export const routeNames = {
 	HomeTab: 'HomeTab',
@@ -27,6 +30,8 @@ export const routeNames = {
 	BluetoothSearchDevices: 'BluetoothSearchDevices',
 	RenameDeviceScreen: 'RenameDeviceScreen',
 	App: 'App',
+	BreathingModeDetail: 'BreathingModeDetail',
+	SuccessDeviceScreen: 'SuccessDeviceScreen:',
 }
 
 const SettingsStackNavigation = createStackNavigator(
@@ -49,24 +54,49 @@ const SettingsStackNavigation = createStackNavigator(
 	}
 );
 
-const TabNavigation = createBottomTabNavigator(
+const HomeScreenStackNavigation = createStackNavigator(
 	{
 		[routeNames.HomeTab]: {
 			screen: HomeScreen,
+			navigationOptions: {
+				header: null,
+			},
+		},
+		[routeNames.BreathingModeDetail]: {
+			screen: BreathingModeDetailScreen,
+		},
+	}, {
+		initialRouteName: routeNames.HomeTab,
+		headerMode: 'screen',
+	}
+);
+
+HomeScreenStackNavigation.navigationOptions = ({ navigation }: any) => {
+	const { routeName } = navigation.state.routes[navigation.state.index];
+	const tabBarVisible = !(routeName === routeNames.BreathingModeDetail);
+	return {
+		tabBarVisible,
+	}
+};
+
+const TabNavigation = createBottomTabNavigator(
+	{
+		[routeNames.HomeTab]: {
+			screen: HomeScreenStackNavigation,
 			navigationOptions: () => ({
-				title: `Home`,
+				title: `Domů`,
 			}),
 		},
 		[routeNames.StatsTab]: {
 			screen: StatsScreen,
 			navigationOptions: () => ({
-				title: `Stats`,
+				title: `Analýza`,
 			}),
 		},
 		[routeNames.SettingsTab]: {
 			screen: SettingsStackNavigation,
 			navigationOptions: () => ({
-				title: `Settings`,
+				title: `Nastavení`,
 			}),
 		},
 	},
@@ -75,10 +105,13 @@ const TabNavigation = createBottomTabNavigator(
 			tabBarIcon: ({ focused, tintColor }: {focused: boolean, tintColor: string}) => {
 				const { routeName } = navigation.state;
 				let iconName = 'N/A';
+				let type = '';
 				if (routeName === routeNames.HomeTab) {
 					iconName = `home`;
+					type = 'feather'
 				} else if (routeName === routeNames.StatsTab) {
-					iconName = `show-chart`;
+					type = 'font-awesome'
+					iconName = `bar-chart`;
 				} else if (routeName === routeNames.SettingsTab) {
 					iconName = `settings`;
 				}
@@ -87,12 +120,19 @@ const TabNavigation = createBottomTabNavigator(
 				// icon component from react-native-vector-icons
 				//return <MaterialIcons
 				//return <MaterialIcons name={ iconName } size = { horizontal? 20 : 25} color = { tintColor } />;
-			return <MaterialIcons name={iconName} size={24} style={{ color: tintColor }} />
+				return <Icon name={iconName} type={type} size={25} color={tintColor} />
 			},
 		}),
 		tabBarOptions: {
 			activeTintColor: 'tomato',
 			inactiveTintColor: 'gray',
+			labelStyle: {
+				fontSize: themeSchema.fontSize.small,
+				fontWeight: 'bold'
+			},
+			style: {
+				height: 60
+			}
 		},
 		animationEnabled: true,
 	}
@@ -111,6 +151,12 @@ const MainAppNavigation = createStackNavigator(
 		},
 		[routeNames.RenameDeviceScreen]: {
 			screen: RenameDeviceScreen,
+		},
+		[routeNames.SuccessDeviceScreen]: {
+			screen: SuccessDeviceScreen,
+			navigationOptions: {
+				header: null,
+			},
 		},
 		[routeNames.SignpostScreen]: {
 			screen: SignpostScreen,

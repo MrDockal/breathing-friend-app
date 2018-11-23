@@ -1,5 +1,4 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
 import { Device } from '../Core/Entities/Device';
 import { NavigationInjectedProps, NavigationEventSubscription } from 'react-navigation';
 import { DeviceState } from '../Store/Reducers/deviceReducer';
@@ -8,17 +7,9 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { routeNames } from '../Navigators/Navigators';
 import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
-import { setActiveDeviceAction, DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
-import { DeviceBreathingModesLoadAction } from '../Store/Actions/Device/deviceBreathingModesActions';
-
-const mainScreenStyles = StyleSheet.create({
-	wrapper: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	}
-});
-
+import { DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
+import { NoBreathingDevice } from '../Components/Signpost/NoBreathingDevice';
+import { SignPost } from '../Components/Signpost/SignPost';
 
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */
@@ -57,31 +48,24 @@ class SignpostScreenHOC extends React.Component<Props> {
 	public componentWillUnmount() {
 		this.didBlurSubscription.remove();
 		this.didFocusSubscription.remove();
+		this.props.pauseDiscoverConnectedDevices();
 	}
 
 	public render() {
 		return (
-			<View style={mainScreenStyles.wrapper}>
-				<Text>This is the home screen of the app</Text>
+			<React.Fragment>
 				{
-					this.props.devices.devices.map((device: Device, index: number) => (
-						<Button
-							key={index}
-							disabled={!device.connected}
-							onPress={() => {
-								this.props.deviceConnectionInitialize(device);
-								//this.props.setActiveDevice(device);
-								this.props.navigation.navigate(routeNames.MainApp);
-							}}
-							title={device.name}
-						/>
-					))
+					this.props.devices.devices.length === 0 ?
+					<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}/> :
+					<SignPost 
+						devices={this.props.devices.devices} initializeDevice={(device: Device) => {
+							this.props.deviceConnectionInitialize(device);
+							this.props.navigation.navigate(routeNames.MainApp);
+						}}
+						syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
+					/>
 				}
-				<Button
-					onPress={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
-					title="Sync new device"
-				/>
-			</View>
+			</React.Fragment>
 		);
 	}
 }
