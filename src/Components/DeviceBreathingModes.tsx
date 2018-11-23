@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { ListItemProps, Divider } from 'react-native-elements';
-import { AppList } from './AppList';
 import { Device } from '../Core/Entities/Device';
 import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
-import { H1 } from './Text/H1';
-import { H2 } from './Text/H2';
-import { TextNormal } from './Text/TextNormal';
 import { BackgroundGradientThemes } from './BackgroundGradient';
+import { BreathingList } from './BreathingList/BreathingList';
+import { AvailableBreathingListItemProps } from './BreathingList/AvailableBreathingListItem';
+import { ActiveBreathingListItemProps } from './BreathingList/ActiveBreathingListItem';
 
 interface BreathingModeWithActiveSpeed extends BreathingMode {
 	activeSpeed: keyof BreathingSpeed;
@@ -22,14 +20,7 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 	public render() {
 		const breathingModes = this.prepareBreathingModes();
 		return (
-			<React.Fragment>
-				<H1>Lorem ipsum dole more</H1>
-				<H2>Lorem ipsum dole more</H2>
-				<TextNormal>Lorem ipsum dole more</TextNormal>
-				<AppList list={breathingModes.activeModesList}/>
-				<Divider/>
-				<AppList list={breathingModes.availableModesList}/>
-			</React.Fragment>
+			<BreathingList active={breathingModes.activeModesList} available={breathingModes.availableModesList} />
 		)
 	}
 
@@ -53,16 +44,16 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 		const availableModes = this.props.breathingModes.filter((mode: BreathingMode) => {
 			return (activeModesUids.indexOf(mode.uid) === -1);
 		});
-		const activeModesList = activeModes.map((mode: BreathingModeWithActiveSpeed, index: number): ListItemProps => ({
+		const activeModesList = activeModes.map((mode: BreathingModeWithActiveSpeed, index: number): ActiveBreathingListItemProps => ({
 			title: mode.name,
-			subtitle: this.convertMinutesToText(mode.speed[mode.activeSpeed].duration),
-			rightTitle: `Pozice ${index + 1}`,
-			rightTitleStyle: { paddingTop: 25 },
+			duration: this.convertMinutesToText(mode.speed[mode.activeSpeed].duration),
+			position: index + 1,
+			speed: mode.activeSpeed,
 			onPress: () => this.props.goToModeDetail(mode, 'edit', this.getThemeByIndex(index), mode.activeSpeed),
 		}));
-		const availableModesList = availableModes.map((mode: BreathingMode): ListItemProps => ({
+		const availableModesList = availableModes.map((mode: BreathingMode): AvailableBreathingListItemProps => ({
 			title: mode.name,
-			subtitle: `${mode.speed.normal.duration} minut`,
+			duration: `${mode.speed.normal.duration} minut`,
 			onPress: () => this.props.goToModeDetail(mode, 'add', this.getThemeByIndex()),
 		}));
 		return {

@@ -9,13 +9,14 @@ import { LoadingModal } from '../Components/LoadingModal';
 import { DeviceBreathingModes } from '../Components/DeviceBreathingModes';
 import { BreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
 import { routeNames } from '../Navigators/Navigators';
-import { BackgroundGradientThemes } from '../Components/BackgroundGradient';
+import { BackgroundGradientThemes, BackgroundGradient } from '../Components/BackgroundGradient';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'stretch',
 	}
 });
 
@@ -30,12 +31,14 @@ export type Props = NavigationInjectedProps & StateProps;
 class HomeScreenHOC extends React.Component<Props> {
 	public render() {
 		return (
-			<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
-				{ (this.props.loading || !this.props.breathingModes || !this.props.activeDevice) ?
-					<LoadingModal/> :
-					<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} /> 
-				}
-			</ScrollView>
+			<BackgroundGradient theme={'black'}>
+				<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
+					{ (this.props.loading || !this.props.breathingModes || !this.props.activeDevice) ?
+						<LoadingModal/> :
+						<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} /> 
+					}
+				</ScrollView>
+			</BackgroundGradient>
 		)
 	}
 

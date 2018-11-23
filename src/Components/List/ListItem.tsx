@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View, TouchableNativeFeedback, StyleSheet } from 'react-native';
-import { ListItemProps } from './ListItem';
 import { TextNormal } from '../Text/TextNormal';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';

@@ -13,7 +13,7 @@ export interface State {
 const config = {
 	key: 'primary6',
 	storage,
-	blacklist: ['breathing', 'device'],
+	blacklist: ['breathing'],
 	transforms: [
 		createWhitelistFilter(`device.devices`),
 	]
@@ -35,4 +35,4 @@ const rootReducer = combineReducers<State>({
 	device: devicesReducer,
 });
 
-export const reducer = persistReducer(configDev, rootReducer);
+export const reducer = persistReducer(config, rootReducer);

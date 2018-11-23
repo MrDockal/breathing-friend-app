@@ -83,19 +83,19 @@ const TabNavigation = createBottomTabNavigator(
 		[routeNames.HomeTab]: {
 			screen: HomeScreenStackNavigation,
 			navigationOptions: () => ({
-				title: `Home`,
+				title: `Domů`,
 			}),
 		},
 		[routeNames.StatsTab]: {
 			screen: StatsScreen,
 			navigationOptions: () => ({
-				title: `Stats`,
+				title: `Analýza`,
 			}),
 		},
 		[routeNames.SettingsTab]: {
 			screen: SettingsStackNavigation,
 			navigationOptions: () => ({
-				title: `Settings`,
+				title: `Nastavení`,
 			}),
 		},
 	},
