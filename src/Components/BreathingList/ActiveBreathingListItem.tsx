@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { View, TouchableNativeFeedback, StyleSheet } from 'react-native';
+import { TouchableNativeFeedback, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
-import { TextSmall } from '../Text/TextSmall';
-import { H2 } from '../Text/H2';
+import { BackgroundGradient, BackgroundGradientThemes } from '../BackgroundGradient';
+import { BreathingListItem } from './BreathingListItem';
 
 export interface ActiveBreathingListItemProps {
 	title: string;
@@ -11,33 +11,31 @@ export interface ActiveBreathingListItemProps {
 	speed: string;
 	position: number;
 	onPress: () => void;
+	theme: BackgroundGradientThemes;
 }
 
 export class ActiveBreathingListItem extends React.Component<ActiveBreathingListItemProps> {
 
 	public render() {
+		const icon = <Icon
+			name='chevron-right'
+			color='white'
+			size={30}
+		/>;
 		return (
-			<TouchableNativeFeedback
-				background={TouchableNativeFeedback.Ripple('rgba(255, 255, 255, .1)', false)}
-				onPress={async() => {
-					await wait(100);
-					this.props.onPress();
-				}}
-			>
-				<View>
-					<View/>
+			<BackgroundGradient theme={this.props.theme}>
+				<TouchableNativeFeedback
+					background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, .1)', false)}
+					onPress={async() => {
+						await wait(100);
+						this.props.onPress();
+					}}
+				>
 					<View>
-						<TextSmall>{this.props.duration}</TextSmall>
-						<H2>{this.props.title}</H2>
-						<TextSmall>{this.props.speed}</TextSmall>
+						<BreathingListItem textTop={this.props.duration} textCenter={this.props.title} textBottom={this.props.speed} Icon={icon}/>
 					</View>
-					<Icon
-						name='chevron-right'
-						color='white'
-						size={30}
-					/>
-				</View>
-			</TouchableNativeFeedback>
+				</TouchableNativeFeedback>
+			</BackgroundGradient>
 		);
 	}
 }

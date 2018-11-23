@@ -1,9 +1,15 @@
 import * as React from 'react';
-import { View, TouchableNativeFeedback, StyleSheet } from 'react-native';
+import { TouchableNativeFeedback, View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
-import { TextSmall } from '../Text/TextSmall';
-import { H2 } from '../Text/H2';
+import { BreathingListItem } from './BreathingListItem';
+
+const styles = StyleSheet.create({
+	borderLine: {
+		borderBottomWidth: 1,
+		borderColor: 'white',
+	}
+});
 
 export interface AvailableBreathingListItemProps {
 	title: string;
@@ -14,6 +20,11 @@ export interface AvailableBreathingListItemProps {
 export class AvailableBreathingListItem extends React.Component<AvailableBreathingListItemProps> {
 
 	public render() {
+		const icon = <Icon
+			name='chevron-right'
+			color='white'
+			size={30}
+		/>;
 		return (
 			<TouchableNativeFeedback
 				background={TouchableNativeFeedback.Ripple('rgba(255, 255, 255, .1)', false)}
@@ -22,18 +33,8 @@ export class AvailableBreathingListItem extends React.Component<AvailableBreathi
 					this.props.onPress();
 				}}
 			>
-				<View>
-					<View/>
-					<View>
-						<TextSmall>{this.props.duration}</TextSmall>
-						<H2>{this.props.title}</H2>
-						<TextSmall></TextSmall>
-					</View>
-					<Icon
-						name='chevron-right'
-						color='white'
-						size={30}
-					/>
+				<View style={styles.borderLine}>
+					<BreathingListItem textTop={this.props.duration} textCenter={this.props.title} textBottom={''} Icon={icon}/>
 				</View>
 			</TouchableNativeFeedback>
 		);

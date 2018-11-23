@@ -15,7 +15,7 @@ const homeScreenStyles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'stretch',
 	}
 });

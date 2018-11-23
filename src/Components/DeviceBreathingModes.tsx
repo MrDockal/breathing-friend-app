@@ -48,6 +48,7 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 			title: mode.name,
 			duration: this.convertMinutesToText(mode.speed[mode.activeSpeed].duration),
 			position: index + 1,
+			theme: this.getThemeByIndex(index),
 			speed: mode.activeSpeed,
 			onPress: () => this.props.goToModeDetail(mode, 'edit', this.getThemeByIndex(index), mode.activeSpeed),
 		}));
