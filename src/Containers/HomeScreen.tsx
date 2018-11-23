@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Device } from '../Core/Entities/Device';
 import { connect } from 'react-redux';

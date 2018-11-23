@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		alignContent: 'center'
+	},
+	hide: {
+		opacity: 0,
 	}
 });
 
@@ -24,7 +28,11 @@ export class BreathingListItem extends React.Component<BreathingListItemProps, {
 	public render() {
 		return (
 			<View style={styles.wrapper}>
-				<View/>
+				<View style={styles.hide}>
+					{
+						this.props.Icon
+					}
+				</View>
 				<View>
 					<TextSmall>{this.props.textTop}</TextSmall>
 					<H2>{this.props.textCenter}</H2>

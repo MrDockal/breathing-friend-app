@@ -11,6 +11,7 @@ import { routeNames } from '../Navigators/Navigators';
 import { BackgroundGradient } from '../Components/BackgroundGradient';
 import { TextNormal } from '../Components/Text/TextNormal';
 import { List } from '../Components/List/List';
+import { Ripple } from '../Components/List/ListItem';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
@@ -84,7 +85,7 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 				>
 					{
 						newDevices.length > 0 && 
-						<List listItems={newDevices} width={'95%'}/>
+						<List listItems={newDevices}/>
 					}
 				</ScrollView>
 			</BackgroundGradient>
@@ -98,6 +99,7 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 				this.props.navigation.navigate(routeNames.RenameDeviceScreen, {device});
 				//this.props.bond(device);
 			},
+			ripple: 'light' as Ripple,
 		}));
 	}
 

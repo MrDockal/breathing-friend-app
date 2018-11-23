@@ -45,7 +45,7 @@ export class SignPost extends React.Component<SignPostProps> {
 							this.props.devices.map((device: Device, index: number) => (
 								<TouchableOpacity activeOpacity={1} key={index} onPress={() => this.props.initializeDevice(device)}>
 									<Image source={whiteBfImage} style={styles.bfImage} resizeMode={'cover'} />
-									<TextNormal>{device.name}</TextNormal>
+									<TextNormal bold={true}>{device.name}</TextNormal>
 								</TouchableOpacity>
 							))
 						}

@@ -4,14 +4,18 @@ import { TextNormal } from '../Text/TextNormal';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
 
+export type Ripple = 'dark' | 'light';
+
 export interface ListItemProps {
 	title: string;
 	onPress: () => void;
+	ripple: Ripple | string;
+	rightText?: JSX.Element;
 }
 
 const styles = StyleSheet.create({
 	listItem: {
-		paddingVertical: 15,
+		paddingVertical: 12,
 		flex: 1,
 		alignItems: 'center',
 		flexDirection: 'row',
@@ -25,16 +29,21 @@ const styles = StyleSheet.create({
 export class ListItem extends React.Component<ListItemProps> {
 
 	public render() {
+		const rippleColor = this.props.ripple === 'light' ? 'rgba(255, 255, 255, .1)' : 'rgba(0, 0, 0, .1)';
 		return (
 			<View style={styles.wrapperView}>
-				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('rgba(255, 255, 255, .1)', false)} onPress={this.onPress}>
+				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(`${rippleColor}`, false)} onPress={this.onPress}>
 					<View style={styles.listItem}>
-						<TextNormal>{this.props.title}</TextNormal>
-						<Icon
-							name='chevron-right'
-							color='white'
-							size={30}
-						/>
+						<TextNormal bold={true}>{this.props.title}</TextNormal>
+						{
+							(this.props.rightText) ?
+								this.props.rightText :
+								<Icon
+									name='chevron-right'
+									color='white'
+									size={30}
+								/>
+						}
 					</View>
 				</TouchableNativeFeedback>
 			</View>

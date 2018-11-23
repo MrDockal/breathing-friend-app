@@ -5,7 +5,6 @@ import { AvailableBreathingListItemProps, AvailableBreathingListItem } from './A
 
 const styles = StyleSheet.create({
 	wrapper: {
-
 	}
 });
 
