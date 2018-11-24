@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createBottomTabNavigator, createStackNavigator, createNavigationContainer, createSwitchNavigator, NavigationScreenConfig } from 'react-navigation';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
+import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 
 // TabNavigation Screens
 import { HomeScreen } from '../Containers/HomeScreen';
@@ -51,6 +52,7 @@ const SettingsStackNavigation = createStackNavigator(
 	}, {
 		initialRouteName: routeNames.SettingsTab,
 		headerMode: 'screen',
+		transitionConfig: getSlideFromRightTransition,
 	}
 );
 
@@ -68,6 +70,7 @@ const HomeScreenStackNavigation = createStackNavigator(
 	}, {
 		initialRouteName: routeNames.HomeTab,
 		headerMode: 'screen',
+		transitionConfig: getSlideFromRightTransition,
 	}
 );
 
@@ -167,6 +170,7 @@ const MainAppNavigation = createStackNavigator(
 	},
 	{
 		initialRouteName: routeNames.SignpostScreen,
+		transitionConfig: getSlideFromRightTransition,
 	}
 );
 
