@@ -9,18 +9,21 @@ import { MessageStack } from "../../Core/Bluetooth/MessageStack";
 export function* notificationSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 	const messageStack = new MessageStack();
 
+	const notificationHandler = (data: BleManagerDidUpdateValueForCharacteristicResponse) => {
+		const id = data.peripheral + data.characteristic + data.service;
+		messageStack.addMessage(id, data.value);
+		if (messageStack.isMessageComplete(id)) {
+			const message = messageStack.popCompletedMessage(id);
+			const dataUtf8 = parseBluetoothMessage(message);
+			const notificationAction = NewNotificationObtainedAction(dataUtf8, data.peripheral, data.characteristic + data.service);
+			console.info('Notification received', notificationAction)
+			dispatch(notificationAction);
+		}
+	}
+
 	yield takeEvery(NotificationListenerStart, function* (action: NotificationListenerStart) {
-		bleAdapter.onNewNotificationListener((data: BleManagerDidUpdateValueForCharacteristicResponse) => {
-			const id = data.peripheral + data.characteristic + data.service;
-			messageStack.addMessage(id, data.value);
-			if (messageStack.isMessageComplete(id)) {
-				const message = messageStack.popCompletedMessage(id);
-				const dataUtf8 = parseBluetoothMessage(message);
-				const notificationAction = NewNotificationObtainedAction(dataUtf8, data.peripheral, data.characteristic + data.service);
-				console.info('Notification received', notificationAction)
-				dispatch(notificationAction);
-			}
-		});
+		bleAdapter.removeNotificationListener(notificationHandler);
+		bleAdapter.onNewNotificationListener(notificationHandler);
 		yield put(NotificationListenerStartedAction());
 	});
 }

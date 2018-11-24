@@ -6,9 +6,11 @@ import { connect } from 'react-redux';
 import { State } from '../Store/configureStore';
 import { LoadingModal } from '../Components/LoadingModal';
 import { DeviceBreathingModes } from '../Components/DeviceBreathingModes';
-import { BreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
+import { BreathingMode, BreathingSpeed, DeviceSavedBreathingMode } from '../Core/Entities/BreathingMode';
 import { routeNames } from '../Navigators/Navigators';
 import { BackgroundGradientThemes, BackgroundGradient } from '../Components/BackgroundGradient';
+import { Dispatch } from 'redux';
+import { DeviceBreathingModeUpdateAction } from '../Store/Actions/Device/deviceBreathingModesActions';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -19,15 +21,20 @@ const homeScreenStyles = StyleSheet.create({
 	}
 });
 
+interface DispatchProps {
+	updateBreathing: (mode: DeviceSavedBreathingMode, position: number) => void;
+}
+
 interface StateProps {
 	activeDevice?: Device;
 	breathingModes?: BreathingMode[];
 	loading: boolean;
 }
 
-export type Props = NavigationInjectedProps & StateProps;
+export type Props = NavigationInjectedProps & StateProps & DispatchProps;
 
 class HomeScreenHOC extends React.Component<Props> {
+
 	public render() {
 		return (
 			<BackgroundGradient theme={'black'}>
@@ -41,17 +48,22 @@ class HomeScreenHOC extends React.Component<Props> {
 		)
 	}
 
-	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', theme: BackgroundGradientThemes, defaultSpeed?: keyof BreathingSpeed) => {
+	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', theme: BackgroundGradientThemes, index: number, defaultSpeed?: keyof BreathingSpeed) => {
+		const nextAction = (action === 'edit') ? this.props.updateBreathing : this.goToSelectPositionScreen;
 		this.props.navigation.navigate(routeNames.BreathingModeDetail, {
 			mode,
 			action,
 			defaultSpeed,
 			theme,
+			goNext: (mode: DeviceSavedBreathingMode, position: number) => nextAction(mode, position),
 		});
+	}
+	private goToSelectPositionScreen = (mode: DeviceSavedBreathingMode) => {
+		console.log('going next');
 	}
 }
 
-export const HomeScreen = connect<StateProps>(
+export const HomeScreen = connect<StateProps, DispatchProps>(
 	(state: State): StateProps => {
 		if (state.device.activeDeviceIndex === -1) {
 			return {
@@ -65,5 +77,10 @@ export const HomeScreen = connect<StateProps>(
 				breathingModes: state.breathing.modes
 			}
 		}
-	}
+	},
+	(dispatch: Dispatch) => ({
+		updateBreathing: (mode: DeviceSavedBreathingMode, position: number) => {
+			dispatch(DeviceBreathingModeUpdateAction(mode, position));
+		}
+	})
 )(HomeScreenHOC);

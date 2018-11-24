@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationInjectedProps, NavigationScreenProps } from 'react-navigation';
 import { View, StyleSheet } from 'react-native';
-import { BreathingMode, BreathingSpeed, BreathingDefinition } from '../Core/Entities/BreathingMode';
+import { BreathingMode, BreathingSpeed, BreathingDefinition, DeviceSavedBreathingMode } from '../Core/Entities/BreathingMode';
 import { BreathingAnimation } from '../Components/BreathingAnimation';
 import { Button } from '../Components/Button';
 import { numberToBreathingConverter, breathingToNumberConverter } from '../Core/Helpers/convertEntities';
@@ -23,9 +23,9 @@ const styles = StyleSheet.create({
 interface BreathingModeDetailScreenNavigationParams {
 	mode: BreathingMode;
 	action: 'edit' | 'add';
-	theme: BackgroundGradientThemes,
+	theme: BackgroundGradientThemes;
+	goNext: (mode: DeviceSavedBreathingMode) => void;
 	defaultSpeed?: keyof BreathingSpeed;
-	updateSpeed?: (speed: keyof BreathingSpeed) => void;
 }
 
 interface OwnProps extends NavigationInjectedProps<BreathingModeDetailScreenNavigationParams> {
@@ -57,22 +57,28 @@ export class BreathingModeDetailScreen extends React.Component<Props, State> {
 	});
 
 	public render() {
-		const buttonCallback = (this.props.navigation.state.params!.action === 'edit') ?
-			() => {
-				this.props.navigation.state.params!.updateSpeed!(numberToBreathingConverter(this.state.sliderValue))
-			} :
-			() => false
-		;
+		const buttonTitle = this.props.navigation.state.params!.action === 'edit' ? 'Aktualizovat' : 'Pokračovat'
 		return (
 			<BackgroundGradient theme={this.props.navigation.state.params!.theme}>
 				<View style={styles.wrapper}>
 					<TextNormal>Dýchejte společně s animací</TextNormal>
 					<BreathingAnimation breathing={this.state.activeBreathingDefinition} />
 					<Slider defaultSliderValue={this.state.sliderValue} onChange={(sliderValue: number) => this.onSlidingComplete(sliderValue)} />
-					<Button theme={this.props.navigation.state.params!.theme} title={this.props.navigation.state.params!.action.toUpperCase()} onPress={buttonCallback}/>
+					<Button
+						theme={this.props.navigation.state.params!.theme}
+						title={this.props.navigation.state.params!.action.toUpperCase()}
+						onPress={this.buttonCallback}/>
 				</View>
 			</BackgroundGradient>
 		);
+	}
+
+	private buttonCallback = () => {
+		const speed = numberToBreathingConverter(this.state.sliderValue);
+		this.props.navigation.state.params!.goNext({
+			speed,
+			uid: this.props.navigation.state.params!.mode.uid
+		});
 	}
 
 	private onSlidingComplete = (sliderValue: number) => {

@@ -11,9 +11,9 @@ export interface State {
 };
 
 const config = {
-	key: 'primary6',
+	key: 'primary7',
 	storage,
-	blacklist: ['breathing'],
+	blacklist: [],
 	transforms: [
 		createWhitelistFilter(`device.devices`),
 	]

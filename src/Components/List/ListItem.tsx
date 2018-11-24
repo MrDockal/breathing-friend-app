@@ -34,7 +34,7 @@ export class ListItem extends React.Component<ListItemProps> {
 			<View style={styles.wrapperView}>
 				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(`${rippleColor}`, false)} onPress={this.onPress}>
 					<View style={styles.listItem}>
-						<TextNormal bold={true}>{this.props.title}</TextNormal>
+						<TextNormal bold={false}>{this.props.title}</TextNormal>
 						{
 							(this.props.rightText) ?
 								this.props.rightText :

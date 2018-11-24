@@ -63,26 +63,26 @@ export const DeviceBreathingModesStatsLoadedAction = (peripheralUid: string, sta
 export const DeviceBreathingModeUpdate = "Device.Breathing.Update";
 export interface DeviceBreathingModeUpdate {
 	type: typeof DeviceBreathingModeUpdate;
-	device: Device;
-	mode: BreathingMode;
+	mode: DeviceSavedBreathingMode;
+	index: number;
 }
 
-export const DeviceBreathingModeUpdateAction = (device: Device, mode: BreathingMode): DeviceBreathingModeUpdate => ({
+export const DeviceBreathingModeUpdateAction = (mode: DeviceSavedBreathingMode, index: number): DeviceBreathingModeUpdate => ({
 	type: DeviceBreathingModeUpdate,
-	device,
 	mode,
+	index,
 });
 
 /** UPDATE */
 export const DeviceBreathingModeUpdated = "Device.Breathing.Updated";
 export interface DeviceBreathingModeUpdated {
 	type: typeof DeviceBreathingModeUpdated;
-	device: Device;
-	mode: BreathingMode;
+	mode: DeviceSavedBreathingMode;
+	index: number;
 }
 
-export const DeviceBreathingModeUpdatedAction = (device: Device, mode: BreathingMode): DeviceBreathingModeUpdated => ({
+export const DeviceBreathingModeUpdatedAction = (mode: DeviceSavedBreathingMode, index: number): DeviceBreathingModeUpdated => ({
 	type: DeviceBreathingModeUpdated,
-	device,
 	mode,
+	index,
 });

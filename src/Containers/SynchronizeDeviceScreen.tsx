@@ -15,9 +15,11 @@ import { Ripple } from '../Components/List/ListItem';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
-		flexGrow: 1,
 		paddingTop: 100,
-		alignItems: 'center',
+		flexGrow: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
 	}
 });
 

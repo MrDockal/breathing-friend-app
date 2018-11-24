@@ -8,5 +8,5 @@ export const stringToArrayBuffer = (str: string) => {
 	for (let i = 0, strLen=str.length; i < strLen; i++) {
 	  bufView[i] = str.charCodeAt(i);
 	}
-	return buf;
+	return bufView;
 }

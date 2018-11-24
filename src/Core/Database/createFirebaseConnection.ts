@@ -8,12 +8,14 @@ export interface FirebaseConnection  {
 }
 
 export const createFirebaseConnection = (config: any = defaultConfig.firebase, name: string = defaultName): FirebaseConnection => {
+    console.log('config', config);
+    let app;
     try {
-        Firebase.app(name);
+        app = Firebase.app(name);
     } catch(e) {
-        Firebase.initializeApp(config, name);
+        app = Firebase.initializeApp(config, name);
     }
-    const firestore = Firebase.firestore();
+    const firestore = app.firestore();
     firestore.settings({
         timestampsInSnapshots: true,
     });

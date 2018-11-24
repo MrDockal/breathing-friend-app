@@ -8,6 +8,7 @@ export function* breathingSaga (firestore: RNFirebase.firestore.Firestore) {
 	const breathingModesCollection = firestore.collection('breathing-modes');
 	return [
 		yield takeEvery(BreathingInitLoad, function* (_action: BreathingInitLoad) {
+
 			const modes = yield breathingModesCollection.get();
 			const breathingModes: BreathingMode[] = [];
 			modes.forEach((mode: RNFirebase.firestore.DocumentSnapshot) => {
@@ -22,6 +23,6 @@ export function* breathingSaga (firestore: RNFirebase.firestore.Firestore) {
 			));
 			yield Promise.all(created);
 			yield put(BreathingReinitializedAction());
-		}),
+		})
 	];
 }
