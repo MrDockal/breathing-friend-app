@@ -63,7 +63,7 @@ class HomeScreenHOC extends React.Component<Props> {
 		});
 	}
 	private goToSelectPositionScreen = (mode: DeviceSavedBreathingMode) => {
-		console.log('going next');
+		this.props.navigation.navigate(routeNames.SelectPositionScreen);
 	}
 }
 

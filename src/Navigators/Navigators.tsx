@@ -17,6 +17,7 @@ import { SignpostScreen } from '../Containers/SignpostScreen';
 import { RenameDeviceScreen } from '../Containers/RenameDeviceScreen';
 import { BreathingModeDetailScreen } from '../Containers/BreathingModeDetailScreen';
 import { SuccessDeviceScreen } from '../Containers/SuccessDeviceScreen';
+import { SelectPositionScreen } from '../Containers/SelectPositionScreen';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 
 export const routeNames = {
@@ -32,7 +33,8 @@ export const routeNames = {
 	RenameDeviceScreen: 'RenameDeviceScreen',
 	App: 'App',
 	BreathingModeDetail: 'BreathingModeDetail',
-	SuccessDeviceScreen: 'SuccessDeviceScreen:',
+	SuccessDeviceScreen: 'SuccessDeviceScreen',
+	SelectPositionScreen: 'SelectPositionScreen',
 }
 
 const SettingsStackNavigation = createStackNavigator(
@@ -67,6 +69,9 @@ const HomeScreenStackNavigation = createStackNavigator(
 		[routeNames.BreathingModeDetail]: {
 			screen: BreathingModeDetailScreen,
 		},
+		[routeNames.SelectPositionScreen]: {
+			screen: SelectPositionScreen,
+		}
 	}, {
 		initialRouteName: routeNames.HomeTab,
 		headerMode: 'screen',
@@ -76,7 +81,7 @@ const HomeScreenStackNavigation = createStackNavigator(
 
 HomeScreenStackNavigation.navigationOptions = ({ navigation }: any) => {
 	const { routeName } = navigation.state.routes[navigation.state.index];
-	const tabBarVisible = !(routeName === routeNames.BreathingModeDetail);
+	const tabBarVisible = !((routeName === routeNames.BreathingModeDetail) || (routeName === routeNames.SelectPositionScreen));
 	return {
 		tabBarVisible,
 	}

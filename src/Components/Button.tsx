@@ -11,10 +11,10 @@ const styles = StyleSheet.create({
 		shadowOffset: {
 			width: 0,
 			height: 3
-		  },
-		  shadowRadius: 5,
-		  shadowOpacity: 1,
-		  elevation: 8,
+		},
+		shadowRadius: 5,
+		shadowOpacity: 1,
+		elevation: 8,
 	},
 	wrapper: {
 		backgroundColor: 'white',
