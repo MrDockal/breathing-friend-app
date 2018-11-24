@@ -10,6 +10,7 @@ import { BackgroundGradient } from '../Components/BackgroundGradient';
 import { List } from '../Components/List/List';
 import { TextNormal } from '../Components/Text/TextNormal';
 import { DeviceTile } from '../Components/DeviceTile/DeviceTile';
+import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -85,6 +86,7 @@ class SettingsScreenHOC extends React.Component<Props> {
 					<View style={styles.emptySpace}/>
 					<List listItems={listItems3} />
 				</ScrollView>
+				<DeviceConnectionInfoBar/>
 			</BackgroundGradient>
 		)
 	}

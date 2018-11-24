@@ -51,5 +51,10 @@ export const themeSchema = {
 		h2: 30,
 		normal: 20,
 		small: 15,
+	},
+	bottomNavigation: {
+		panel: {
+			height: 60,
+		}
 	}
 }

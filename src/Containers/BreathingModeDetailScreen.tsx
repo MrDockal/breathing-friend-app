@@ -8,6 +8,8 @@ import { numberToBreathingConverter, breathingToNumberConverter } from '../Core/
 import { TextNormal } from '../Components/Text/TextNormal';
 import { BackgroundGradient, BackgroundGradientThemes } from '../Components/BackgroundGradient';
 import { Slider } from '../Components/Slider/Slider';
+import { connect } from 'react-redux';
+import { State } from '../Store/configureStore';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -28,18 +30,21 @@ interface BreathingModeDetailScreenNavigationParams {
 	defaultSpeed?: keyof BreathingSpeed;
 }
 
-interface OwnProps extends NavigationInjectedProps<BreathingModeDetailScreenNavigationParams> {
-
+interface StateProps  {
+	displayButton: boolean;
 }
 
-interface State {
+interface OwnProps extends NavigationInjectedProps<BreathingModeDetailScreenNavigationParams> {
+}
+
+interface ComponentState {
 	sliderValue: number;
 	activeBreathingDefinition: BreathingDefinition;
 }
 
-type Props = OwnProps;
+type Props = OwnProps & StateProps;
 
-export class BreathingModeDetailScreen extends React.Component<Props, State> {
+export class BreathingModeDetailScreenHOC extends React.Component<Props, ComponentState> {
 	
 	public constructor(props: Props) {
 		super(props);
@@ -64,10 +69,10 @@ export class BreathingModeDetailScreen extends React.Component<Props, State> {
 					<TextNormal>Dýchejte společně s animací</TextNormal>
 					<BreathingAnimation breathing={this.state.activeBreathingDefinition} />
 					<Slider defaultSliderValue={this.state.sliderValue} onChange={(sliderValue: number) => this.onSlidingComplete(sliderValue)} />
-					<Button
+					{this.props.displayButton && <Button
 						theme={this.props.navigation.state.params!.theme}
-						title={this.props.navigation.state.params!.action.toUpperCase()}
-						onPress={this.buttonCallback}/>
+						title={buttonTitle}
+						onPress={this.buttonCallback}/>}
 				</View>
 			</BackgroundGradient>
 		);
@@ -83,8 +88,14 @@ export class BreathingModeDetailScreen extends React.Component<Props, State> {
 
 	private onSlidingComplete = (sliderValue: number) => {
 		const speedText = numberToBreathingConverter(sliderValue);
-		this.setState((prevState: State) => ({
+		this.setState((prevState: ComponentState) => ({
 			activeBreathingDefinition: this.props.navigation.state.params!.mode.speed[speedText],
 		}))
 	}
 }
+
+export const BreathingModeDetailScreen = connect<StateProps>(
+	(state: State): StateProps => ({
+		displayButton: state.device.devices[state.device.activeDeviceIndex].connected
+	})
+)(BreathingModeDetailScreenHOC);

@@ -131,7 +131,7 @@ const TabNavigation = createBottomTabNavigator(
 				fontWeight: 'bold'
 			},
 			style: {
-				height: 60
+				height: themeSchema.bottomNavigation.panel.height
 			}
 		},
 		animationEnabled: true,

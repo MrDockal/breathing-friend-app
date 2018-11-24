@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View, ToastAndroid } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Device } from '../Core/Entities/Device';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import { routeNames } from '../Navigators/Navigators';
 import { BackgroundGradientThemes, BackgroundGradient } from '../Components/BackgroundGradient';
 import { Dispatch } from 'redux';
 import { DeviceBreathingModeUpdateAction } from '../Store/Actions/Device/deviceBreathingModesActions';
+import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -41,9 +42,12 @@ class HomeScreenHOC extends React.Component<Props> {
 				<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
 					{ (this.props.loading || !this.props.breathingModes || !this.props.activeDevice) ?
 						<LoadingModal/> :
-						<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} /> 
+						<React.Fragment>
+							<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} /> 
+						</React.Fragment>
 					}
 				</ScrollView>
+				<DeviceConnectionInfoBar/>
 			</BackgroundGradient>
 		)
 	}

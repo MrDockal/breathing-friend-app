@@ -21,6 +21,17 @@ export const pauseDiscoverBondedDevicesAction = (): PauseDiscoverBondedDevices =
 	type: PauseDiscoverBondedDevices,
 });
 
+/** WATCH DEVICE CONNECTION CHANGES */
+export const WatchDeviceConnectionChanges = "Device.Connection.Watch";
+export interface WatchDeviceConnectionChanges {
+	type: typeof WatchDeviceConnectionChanges;
+}
+
+export const WatchDeviceConnectionChangesAction = (): WatchDeviceConnectionChanges => ({
+	type: WatchDeviceConnectionChanges,
+});
+
+
 /** SCAN STOP */
 export const DiscoveredBondedDevices = "Device.Bond.Discovered";
 export interface DiscoveredBondedDevices {
@@ -104,4 +115,28 @@ export interface PeripheralBondRemoveFailed {
 export const peripheralBondRemoveFailedAction = (peripheral: BleManagerDiscoverPeripheralResponse): PeripheralBondRemoveFailed => ({
 	type: PeripheralBondRemoveFailed,
 	peripheral,
+});
+
+/** DEVICE CONNECTED */
+export const DeviceConnected = "Device.Connected";
+export interface DeviceConnected {
+	type: typeof DeviceConnected;
+	peripheralUid: string;
+}
+
+export const DeviceConnectedAction = (peripheralUid: string): DeviceConnected => ({
+	type: DeviceConnected,
+	peripheralUid,
+});
+
+/** DEVICE DISCONNECTED */
+export const DeviceDisconnected = "Device.Disconnected";
+export interface DeviceDisconnected {
+	type: typeof DeviceDisconnected;
+	peripheralUid: string;
+}
+
+export const DeviceDisconnectedAction = (peripheralUid: string): DeviceDisconnected => ({
+	type: DeviceDisconnected,
+	peripheralUid,
 });

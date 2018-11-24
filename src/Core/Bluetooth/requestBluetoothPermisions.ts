@@ -3,6 +3,7 @@ import {
 	PermissionsAndroid
 } from 'react-native';
 import { BluetoothStatus } from 'react-native-bluetooth-status';
+import { wait } from '../Helpers/wait';
 
 export const requestBluetoothPermisions = async () => {
 	if (Platform.OS === 'android' && Platform.Version >= 23) {
@@ -21,5 +22,13 @@ export const requestBluetoothPermisions = async () => {
 				alert('Sorry you have to grant permissions in order to connect your device!');
 			}
 		}
+    }
+}
+
+export const restartBluetoothAdapter = async () => {
+	if (Platform.OS === 'android' && Platform.Version >= 23) {
+		BluetoothStatus.enable(false);
+		await wait(300);
+		BluetoothStatus.enable(true);
     }
 }

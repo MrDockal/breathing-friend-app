@@ -1,5 +1,6 @@
 import React from 'react';
 import {ScrollView, Text, StyleSheet} from 'react-native';
+import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
 
 const statsScreensStyles = StyleSheet.create({
 	wrapper: {

@@ -1,6 +1,6 @@
 import { Device } from "../../Core/Entities/Device";
 import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
-import { DiscoveredBondedDevices, PeripheralBondStart, PeripheralBondFailed, PeripheralBondSucceeded } from "../Actions/Device/devicesBondActions";
+import { DiscoveredBondedDevices, PeripheralBondStart, PeripheralBondFailed, PeripheralBondSucceeded, DeviceConnected, DeviceDisconnected } from "../Actions/Device/devicesBondActions";
 import { SetActiveDevice, DeviceSetName } from "../Actions/Device/deviceActions";
 import { AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
 import { DeviceBreathingModesLoaded } from "../Actions/Device/deviceBreathingModesActions";
@@ -45,7 +45,9 @@ type Action =
 	PeripheralBondSucceeded &
 	DiscoveredBondedDevices &
 	DeviceSetName &
-	DeviceBreathingModesLoaded
+	DeviceBreathingModesLoaded &
+	DeviceConnected &
+	DeviceDisconnected
 	;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action): DeviceState => {
@@ -158,6 +160,23 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				...state,
 				devices,
 			}
+		case DeviceDisconnected:
+		case DeviceConnected:
+			const devices2 = state.devices.map((device: Device) => {
+				if (device.uid === action.peripheralUid) {
+					return {
+						...device,
+						connected: action.type === DeviceConnected,
+					}
+				} else {
+					return device;
+				}
+			});
+			return {
+				...state,
+				devices: devices2,
+			}
+
 		default:
 			return state;
 	}

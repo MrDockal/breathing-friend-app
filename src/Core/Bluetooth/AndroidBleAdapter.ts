@@ -1,9 +1,9 @@
-import BLEManager, { BleManagerDiscoverPeripheralResponse, BondedPeripheral, BleManagerDidUpdateValueForCharacteristicResponse } from 'react-native-ble-manager';
+import BLEManager, { BleManagerDiscoverPeripheralResponse, BondedPeripheral, BleManagerDidUpdateValueForCharacteristicResponse, BleManagerConnectPeripheralResponse, BleManagerDisconnectPeripheralResponse } from 'react-native-ble-manager';
 import {
 	NativeEventEmitter,
 	NativeModules,
   } from 'react-native';
-import { requestBluetoothPermisions } from './requestBluetoothPermisions';
+import { requestBluetoothPermisions, restartBluetoothAdapter } from './requestBluetoothPermisions';
 import { Buffer } from 'buffer';
 import { parseBluetoothMessage } from '../Helpers/parseBluetoothMessage';
 
@@ -79,5 +79,26 @@ export class AndroidBleAdapter {
 
 	public removeNotificationListener(cb: (data: BleManagerDidUpdateValueForCharacteristicResponse) => void) {
 		this.nativeEmitter.removeListener('BleManagerDidUpdateValueForCharacteristic', cb);
+	}
+
+	public onPeripheralConnected(cb: (data: BleManagerConnectPeripheralResponse) => void) {
+		this.nativeEmitter.addListener('BleManagerConnectPeripheral', cb);
+	};
+
+	public removeOnPeripheralConnected(cb: (data: BleManagerConnectPeripheralResponse) => void) {
+		this.nativeEmitter.removeListener('BleManagerConnectPeripheral', cb);
+	};
+
+	public onPeripheralDisconnected(cb: (data: BleManagerDisconnectPeripheralResponse) => void) {
+		this.nativeEmitter.addListener('BleManagerDisconnectPeripheral', cb);
+	};
+
+	public removeOnPeripheralDisconnected(cb: (data: BleManagerDisconnectPeripheralResponse) => void) {
+		this.nativeEmitter.removeListener('BleManagerDisconnectPeripheral', cb);
+	};
+
+	public removeAllPeripheralConnectionListeners() {
+		this.nativeEmitter.removeAllListeners('BleManagerDisconnectPeripheral');
+		this.nativeEmitter.removeAllListeners('BleManagerConnectPeripheral');
 	}
 }
