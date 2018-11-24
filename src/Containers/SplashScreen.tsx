@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import { View, Text } from 'react-native';
 import SplashScreenRN from 'react-native-splash-screen';
 import { NavigationInjectedProps } from 'react-navigation';
 import { DeviceState } from '../Store/Reducers/deviceReducer';
@@ -9,7 +9,7 @@ import { Dispatch } from 'redux';
 import { routeNames } from '../Navigators/Navigators';
 import { BreathingInitLoadAction } from '../Store/Actions/breathingActions';
 import { discoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
- 
+
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */
 }
@@ -40,7 +40,7 @@ class SplashScreenHOC extends React.Component<Props, {}> {
 		this.bootstrapAsync();
 		return (
 			<View>
-				<Text/>
+				<Text />
 			</View>
 		)
 	}
@@ -49,7 +49,7 @@ class SplashScreenHOC extends React.Component<Props, {}> {
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => {
 			SplashScreenRN.hide(),
-			this.props.navigation.navigate(screen)
+				this.props.navigation.navigate(screen)
 		}, 200);
 	}
 

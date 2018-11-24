@@ -69,7 +69,7 @@ export class Slider extends React.Component<SliderProps, State> {
 						maximumValue={2}
 						step={1}
 						value={this.state.sliderValue}
-						onValueChange={(sliderValue: number) => this.setState({sliderValue})}
+						onValueChange={(sliderValue: number) => this.setState({ sliderValue })}
 						onSlidingComplete={() => this.props.onChange(this.state.sliderValue)}
 					/>
 				</View>

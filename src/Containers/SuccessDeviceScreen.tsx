@@ -35,12 +35,12 @@ export class SuccessDeviceScreen extends React.Component<SuccessDeviceScreenProp
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<View/>
+					<View />
 					<View>
 						<H1>Gratulujeme!</H1>
 						<TextNormal>Vaše dýchátko se jmenuje: {this.props.navigation.state.params!.deviceName}. Jméno si můžete později změnit v aplikaci.</TextNormal>
 					</View>
-					<Button theme={'black'} title={'Jdeme na to!'} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)}/>
+					<Button theme={'black'} title={'Jdeme na to!'} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)} />
 				</ScrollView>
 			</BackgroundGradient>
 		)

@@ -66,12 +66,12 @@ export class SelectPositionScreen extends React.Component<SelectPositionScreenPr
 		}
 	}
 
-	static navigationOptions = ({navigation}: SelectPositionScreenProps) => ({
+	static navigationOptions = ({ navigation }: SelectPositionScreenProps) => ({
 		headerTitle: <TextNormal>Výběr pozice</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 	});
-	
+
 	public render() {
 		return (
 			<BackgroundGradient theme={this.state.theme}>

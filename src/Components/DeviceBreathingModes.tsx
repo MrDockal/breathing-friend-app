@@ -30,7 +30,7 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 		const seconds = Math.round((minutesFixed - justMinutes) * 60);
 		return `${justMinutes} minutes ${(seconds > 0) ? `${seconds} seconds` : ''}`;
 	}
-	
+
 	private prepareBreathingModes() {
 		const activeModesUids = this.props.activeDevice.breathingModes.map((mode: DeviceSavedBreathingMode) => mode.uid);
 		const activeModes = this.props.breathingModes
@@ -64,10 +64,10 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 	}
 
 	private getThemeByIndex(index?: number) {
-		switch(index) {
+		switch (index) {
 			case 0:
 				return 'red';
-			case 1: 
+			case 1:
 				return 'blue';
 			case 2:
 				return 'orange';

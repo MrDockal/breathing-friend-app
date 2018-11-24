@@ -17,9 +17,9 @@ const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
 		paddingTop: 100,
 		flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'stretch',
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		alignItems: 'stretch',
 	}
 });
 
@@ -45,19 +45,19 @@ interface OwnProps extends NavigationInjectedProps<NavigationParams> {
 type Props = OwnProps & DispatchProps & StateProps;
 
 export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
-	
+
 	public constructor(props: Props) {
 		super(props);
 	}
 
-	static navigationOptions = ({navigation}: NavigationScreenProps<NavigationParams>) => ({
+	static navigationOptions = ({ navigation }: NavigationScreenProps<NavigationParams>) => ({
 		headerTitle: <TextNormal>Synchronizovat</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 		headerRight: <SyncButton
-						scanning={(navigation.state.params && navigation.state.params.scanning) ? true : false}
-						scan={navigation.state.params ? navigation.state.params.scan : () => false}
-					/>,
+			scanning={(navigation.state.params && navigation.state.params.scanning) ? true : false}
+			scan={navigation.state.params ? navigation.state.params.scan : () => false}
+		/>,
 	});
 
 	public componentDidMount() {
@@ -82,12 +82,12 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 		const newDevices = this.getNewDevices();
 		return (
 			<BackgroundGradient theme={'black'}>
-				<ScrollView 
+				<ScrollView
 					contentContainerStyle={syncrhonizeDeviceScreensStyles.wrapper}
 				>
 					{
-						newDevices.length > 0 && 
-						<List listItems={newDevices}/>
+						newDevices.length > 0 &&
+						<List listItems={newDevices} />
 					}
 				</ScrollView>
 			</BackgroundGradient>
@@ -98,7 +98,7 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 		return this.props.scannedPeripherals.map((device: BleManagerDiscoverPeripheralResponse) => ({
 			title: `${device.id} - ${device.name}`,
 			onPress: () => {
-				this.props.navigation.navigate(routeNames.RenameDeviceScreen, {device});
+				this.props.navigation.navigate(routeNames.RenameDeviceScreen, { device });
 				//this.props.bond(device);
 			},
 			ripple: 'light' as Ripple,

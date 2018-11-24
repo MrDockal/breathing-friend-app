@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
 import { BackgroundGradient } from '../Components/BackgroundGradient';
 import { DeviceTile } from '../Components/DeviceTile/DeviceTile';
@@ -17,8 +17,8 @@ import { BreathingMode } from '../Core/Entities/BreathingMode';
 const styles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
+		flexDirection: 'column',
+		justifyContent: 'space-around',
 		alignItems: 'stretch',
 		paddingHorizontal: 30,
 	},
@@ -63,7 +63,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 		return (
 			<BackgroundGradient theme={theme}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<DeviceTile name={this.props.device.name}/>
+					<DeviceTile name={this.props.device.name} />
 					<View>
 						<View style={styles.overview}>
 							<H1 style={styles.blue}>{data.totalTime.toLocaleString()}</H1>
@@ -81,7 +81,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 										rightText={data.weekly[breathingId].toString() + 'x'}
 										title={this.getModeNameByUid(breathingId)}
 									/>
-									<Hr theme={theme}/>
+									<Hr theme={theme} />
 								</React.Fragment>
 							))
 						}

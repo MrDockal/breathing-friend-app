@@ -16,7 +16,7 @@ import { DeviceSavedBreathingMode, DeviceToBeSavedBreathingMode } from '../../Co
 import { findBreathingModeDefinitionByUidAndSpeed } from '../../Core/Helpers/findBreathingModeDefinitionByUidAndSpeed';
 import { stringToArrayBuffer } from '../../Core/Helpers/string-converter';
 
-export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
+export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 	let discoverBondedAction = false;
 	return [
 		yield takeEvery(DiscoverBondedDevices, function* () {
@@ -84,7 +84,7 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 			try {
 				yield bleAdapter.BLEManager.connect(action.peripheral.id);
 				yield put(peripheralBondSucceededAction(action.peripheral));
-			} catch(e) {
+			} catch (e) {
 				yield put(peripheralBondFailedAction(action.peripheral));
 			}
 		}),
@@ -93,7 +93,7 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 			try {
 				yield bleAdapter.BLEManager.removePeripheral(action.peripheral.id);
 				yield put(peripheralBondRemovedAction(action.peripheral));
-			} catch(e) {
+			} catch (e) {
 				yield put(peripheralBondRemoveFailedAction(action.peripheral));
 			}
 		}),
@@ -134,7 +134,7 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 						}
 					}
 				});
-			for (let modeToBeSaved of newModes ) {
+			for (let modeToBeSaved of newModes) {
 				const encoded = encodeDeviceBreathingMode(modeToBeSaved.uid, modeToBeSaved.speed, modeToBeSaved.mode);
 				const data = stringToArrayBuffer(JSON.stringify(encoded));
 				console.log('data to save', data);

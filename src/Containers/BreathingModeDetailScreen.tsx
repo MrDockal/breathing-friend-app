@@ -30,7 +30,7 @@ interface BreathingModeDetailScreenNavigationParams {
 	defaultSpeed?: keyof BreathingSpeed;
 }
 
-interface StateProps  {
+interface StateProps {
 	displayButton: boolean;
 }
 
@@ -45,7 +45,7 @@ interface ComponentState {
 type Props = OwnProps & StateProps;
 
 export class BreathingModeDetailScreenHOC extends React.Component<Props, ComponentState> {
-	
+
 	public constructor(props: Props) {
 		super(props);
 		const defaultSpeed = (props.navigation.state.params!.defaultSpeed) ? props.navigation.state.params!.defaultSpeed! : 'normal';
@@ -55,7 +55,7 @@ export class BreathingModeDetailScreenHOC extends React.Component<Props, Compone
 		}
 	}
 
-	static navigationOptions = ({navigation}: NavigationScreenProps<BreathingModeDetailScreenNavigationParams>) => ({
+	static navigationOptions = ({ navigation }: NavigationScreenProps<BreathingModeDetailScreenNavigationParams>) => ({
 		headerTitle: <TextNormal>{navigation.state.params!.mode.name}</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
@@ -72,7 +72,7 @@ export class BreathingModeDetailScreenHOC extends React.Component<Props, Compone
 					{this.props.displayButton && <Button
 						theme={this.props.navigation.state.params!.theme}
 						title={buttonTitle}
-						onPress={this.buttonCallback}/>}
+						onPress={this.buttonCallback} />}
 				</View>
 			</BackgroundGradient>
 		);

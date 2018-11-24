@@ -38,7 +38,7 @@ export class StatsListItem extends React.Component<StatsListItemProps> {
 				<Image source={image} style={styles.bfImage} resizeMode={'cover'} />
 				<TextSmall>{this.props.title}</TextSmall>
 			</View>
-			<TextNormal style={{color: themeSchema.button[this.props.theme].fontColor}}>{this.props.rightText}</TextNormal>
+			<TextNormal style={{ color: themeSchema.button[this.props.theme].fontColor }}>{this.props.rightText}</TextNormal>
 		</View>
 	}
 

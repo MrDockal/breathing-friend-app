@@ -4,7 +4,7 @@ import { BreathingInitLoad, BreathingInitLoadedAction, BreathingReinitialize, Br
 import { BreathingMode } from '../../Core/Entities/BreathingMode';
 import { breathingModes } from '../../Core/Mocks/breathingModes';
 
-export function* breathingSaga (firestore: RNFirebase.firestore.Firestore) {
+export function* breathingSaga(firestore: RNFirebase.firestore.Firestore) {
 	const breathingModesCollection = firestore.collection('breathing-modes');
 	return [
 		yield takeEvery(BreathingInitLoad, function* (_action: BreathingInitLoad) {

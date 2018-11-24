@@ -16,9 +16,9 @@ import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'stretch',
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		alignItems: 'stretch',
 	}
 });
 
@@ -40,14 +40,14 @@ class HomeScreenHOC extends React.Component<Props> {
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
-					{ (this.props.loading || !this.props.breathingModes || !this.props.activeDevice) ?
-						<LoadingModal/> :
+					{(this.props.loading || !this.props.breathingModes || !this.props.activeDevice) ?
+						<LoadingModal /> :
 						<React.Fragment>
-							<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} /> 
+							<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} />
 						</React.Fragment>
 					}
 				</ScrollView>
-				<DeviceConnectionInfoBar/>
+				<DeviceConnectionInfoBar />
 			</BackgroundGradient>
 		)
 	}

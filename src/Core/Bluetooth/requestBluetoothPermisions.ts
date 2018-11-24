@@ -11,7 +11,7 @@ export const requestBluetoothPermisions = async () => {
 		if (!enabled) {
 			try {
 				BluetoothStatus.enable(true);
-			} catch(e) {
+			} catch (e) {
 				console.log(e);
 			}
 		}
@@ -22,7 +22,7 @@ export const requestBluetoothPermisions = async () => {
 				alert('Sorry you have to grant permissions in order to connect your device!');
 			}
 		}
-    }
+	}
 }
 
 export const restartBluetoothAdapter = async () => {
@@ -30,5 +30,5 @@ export const restartBluetoothAdapter = async () => {
 		BluetoothStatus.enable(false);
 		await wait(300);
 		BluetoothStatus.enable(true);
-    }
+	}
 }

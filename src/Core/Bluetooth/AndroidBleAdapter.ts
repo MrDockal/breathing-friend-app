@@ -2,7 +2,7 @@ import BLEManager, { BleManagerDiscoverPeripheralResponse, BondedPeripheral, Ble
 import {
 	NativeEventEmitter,
 	NativeModules,
-  } from 'react-native';
+} from 'react-native';
 import { requestBluetoothPermisions, restartBluetoothAdapter } from './requestBluetoothPermisions';
 import { Buffer } from 'buffer';
 import { parseBluetoothMessage } from '../Helpers/parseBluetoothMessage';
@@ -58,7 +58,7 @@ export class AndroidBleAdapter {
 		let strData;
 		try {
 			strData = JSON.parse(data);
-		} catch(e) {
+		} catch (e) {
 			strData = '{}';
 		}
 		const buffer = Buffer.from(strData, 'utf8');

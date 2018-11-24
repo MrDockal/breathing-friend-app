@@ -58,7 +58,7 @@ export class ColoredSelectBox extends React.Component<OwnProps> {
 	public render() {
 		const themeColor = StyleSheet.create({
 			wrapperColor: {
-				backgroundColor: !this.props.selected ? themeSchema.button[this.props.theme].fontColor : 'transparent', 
+				backgroundColor: !this.props.selected ? themeSchema.button[this.props.theme].fontColor : 'transparent',
 			}
 		});
 		return (
@@ -67,10 +67,10 @@ export class ColoredSelectBox extends React.Component<OwnProps> {
 					<View style={styles.wrapperInner}>
 						<View style={styles.optionBox}>
 							<TextNormal>{this.props.optionId}</TextNormal>
-							<View style={[styles.circle, this.props.selected && styles.circleSelected]}/>
+							<View style={[styles.circle, this.props.selected && styles.circleSelected]} />
 						</View>
 						<TextNormal bold={true}>{this.props.title}</TextNormal>
-						<View style={styles.empty}/>
+						<View style={styles.empty} />
 					</View>
 				</TouchableNativeFeedback>
 			</View>

@@ -16,7 +16,7 @@ export interface BreathingListItemProps {
 export class Hr extends React.Component<BreathingListItemProps, {}> {
 	public render() {
 		return (
-			<View style={[styles.hr, {borderBottomColor: themeSchema.button[this.props.theme].fontColor}]}/>
+			<View style={[styles.hr, { borderBottomColor: themeSchema.button[this.props.theme].fontColor }]} />
 		);
 	}
 }

@@ -58,7 +58,7 @@ const renameDeviceScreenStyles = StyleSheet.create({
 
 class RenameDeviceScreenHOC extends React.Component<Props, State> {
 
-	static navigationOptions = ({navigation}: NavigationScreenProps<NavigationParams>) => ({
+	static navigationOptions = ({ navigation }: NavigationScreenProps<NavigationParams>) => ({
 		headerTitle: <TextNormal>Přejmenovat</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
@@ -67,7 +67,7 @@ class RenameDeviceScreenHOC extends React.Component<Props, State> {
 	static getDerivedStateFromProps = (props: Props, state: State) => {
 		if (props.bonded) {
 			props.setName(props.navigation.state.params!.device.id, state.name);
-			props.navigation.navigate(routeNames.SuccessDeviceScreen, {deviceName: state.name} as SuccessDeviceScreenPropsNavigationParams);
+			props.navigation.navigate(routeNames.SuccessDeviceScreen, { deviceName: state.name } as SuccessDeviceScreenPropsNavigationParams);
 		}
 		return state;
 	}
@@ -78,18 +78,18 @@ class RenameDeviceScreenHOC extends React.Component<Props, State> {
 			name: faker.name.firstName()
 		}
 	}
-	
+
 	public render() {
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={renameDeviceScreenStyles.wrapper}>
-					<View/>
+					<View />
 					<TextInput
 						style={renameDeviceScreenStyles.input}
 						onChangeText={this.onNameChange}
 						value={this.state.name}
 					/>
-					<Button theme={'black'} title={'Pokračovat'} onPress={this.submit}/>
+					<Button theme={'black'} title={'Pokračovat'} onPress={this.submit} />
 				</ScrollView>
 			</BackgroundGradient>
 		);

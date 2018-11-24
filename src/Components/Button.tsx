@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Text,TouchableNativeFeedback } from 'react-native';
+import { View, StyleSheet, Text, TouchableNativeFeedback } from 'react-native';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { wait } from '../Core/Helpers/wait';
 import { ColorTheme } from './BackgroundGradient';
@@ -57,7 +57,7 @@ export class Button extends React.Component<ButtonProps> {
 		);
 	}
 
-	private onPress = async() => {
+	private onPress = async () => {
 		await wait(100);
 		this.props.onPress();
 	}

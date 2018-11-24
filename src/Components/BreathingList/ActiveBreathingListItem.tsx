@@ -26,13 +26,13 @@ export class ActiveBreathingListItem extends React.Component<ActiveBreathingList
 			<BackgroundGradient theme={this.props.theme}>
 				<TouchableNativeFeedback
 					background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, .1)', false)}
-					onPress={async() => {
+					onPress={async () => {
 						await wait(100);
 						this.props.onPress();
 					}}
 				>
 					<View>
-						<BreathingListItem textTop={this.props.duration} textCenter={this.props.title} textBottom={this.props.speed} Icon={icon}/>
+						<BreathingListItem textTop={this.props.duration} textCenter={this.props.title} textBottom={this.props.speed} Icon={icon} />
 					</View>
 				</TouchableNativeFeedback>
 			</BackgroundGradient>

@@ -17,12 +17,12 @@ export class List extends React.Component<ListProps> {
 
 	public render() {
 		return <View style={[styles.wrapper]}>
-			<Hr theme={'black'}/>
+			<Hr theme={'black'} />
 			{
 				this.props.listItems.map((listItem: ListItemProps, index: number) => (
 					<React.Fragment key={index}>
-						<ListItem {...listItem}/>
-						<Hr theme={'black'}/>
+						<ListItem {...listItem} />
+						<Hr theme={'black'} />
 					</React.Fragment>
 				))
 			}

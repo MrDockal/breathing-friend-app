@@ -94,7 +94,7 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				},
 			}
 		case PeripheralBondSucceeded:
-			const devicesIfAlreadyExisted = state.devices.filter((device: Device) => device.uid !== action.bondedPeripheral.id); 
+			const devicesIfAlreadyExisted = state.devices.filter((device: Device) => device.uid !== action.bondedPeripheral.id);
 			return {
 				...state,
 				devices: [

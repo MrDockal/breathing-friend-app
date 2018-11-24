@@ -31,7 +31,7 @@ class SignpostScreenHOC extends React.Component<Props> {
 
 	private didFocusSubscription: NavigationEventSubscription;
 	private didBlurSubscription: NavigationEventSubscription;
-	
+
 	private didFocus = () => {
 		this.props.startDiscoverConnectedDevices();
 	}
@@ -56,14 +56,14 @@ class SignpostScreenHOC extends React.Component<Props> {
 			<React.Fragment>
 				{
 					this.props.devices.devices.length === 0 ?
-					<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}/> :
-					<SignPost 
-						devices={this.props.devices.devices} initializeDevice={(device: Device) => {
-							this.props.deviceConnectionInitialize(device);
-							this.props.navigation.navigate(routeNames.MainApp);
-						}}
-						syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
-					/>
+						<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)} /> :
+						<SignPost
+							devices={this.props.devices.devices} initializeDevice={(device: Device) => {
+								this.props.deviceConnectionInitialize(device);
+								this.props.navigation.navigate(routeNames.MainApp);
+							}}
+							syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
+						/>
 				}
 			</React.Fragment>
 		);

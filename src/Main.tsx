@@ -33,7 +33,7 @@ export default class App extends React.Component<{}, {}> {
 		return (
 			<Provider store={this.store}>
 				<PersistGate loading={null} persistor={this.persistor}>
-					<Navigator/>
+					<Navigator />
 				</PersistGate>
 			</Provider>
 		);

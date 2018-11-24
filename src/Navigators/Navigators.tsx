@@ -110,7 +110,7 @@ const TabNavigation = createBottomTabNavigator(
 	},
 	{
 		navigationOptions: ({ navigation }) => ({
-			tabBarIcon: ({ focused, tintColor }: {focused: boolean, tintColor: string}) => {
+			tabBarIcon: ({ focused, tintColor }: { focused: boolean, tintColor: string }) => {
 				const { routeName } = navigation.state;
 				let iconName = 'N/A';
 				let type = '';

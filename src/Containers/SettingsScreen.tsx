@@ -15,9 +15,9 @@ import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
 const styles = StyleSheet.create({
 	wrapper: {
 		flexGrow: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'stretch',
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		alignItems: 'stretch',
 	},
 	emptySpace: {
 		paddingVertical: 10,
@@ -79,14 +79,14 @@ class SettingsScreenHOC extends React.Component<Props> {
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<DeviceTile name={this.props.deviceName}/>
+					<DeviceTile name={this.props.deviceName} />
 					<List listItems={listItems} />
-					<View style={styles.emptySpace}/>
+					<View style={styles.emptySpace} />
 					<List listItems={listItems2} />
-					<View style={styles.emptySpace}/>
+					<View style={styles.emptySpace} />
 					<List listItems={listItems3} />
 				</ScrollView>
-				<DeviceConnectionInfoBar/>
+				<DeviceConnectionInfoBar />
 			</BackgroundGradient>
 		)
 	}

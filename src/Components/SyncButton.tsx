@@ -49,18 +49,18 @@ export class SyncButton extends React.Component<SyncButtonProps, State> {
 		});
 		return (
 			<Animated.View style={{
-					transform: [{rotate: spin},{perspective: 1000}],
-					position: 'relative',
-					height: 30,
-					width: 30,
-					marginRight: 10,
-				}} >
+				transform: [{ rotate: spin }, { perspective: 1000 }],
+				position: 'relative',
+				height: 30,
+				width: 30,
+				marginRight: 10,
+			}} >
 				<Icon
 					name='sync'
 					color='white'
 					size={30}
 					onPress={!this.props.scanning ? this.props.scan : () => false}
-					containerStyle={{position: 'absolute', top: 0, left: 0}}
+					containerStyle={{ position: 'absolute', top: 0, left: 0 }}
 					underlayColor="rgba(255,255,255,0)"
 				/>
 			</Animated.View>
