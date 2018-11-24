@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, StyleSheet, Text,TouchableNativeFeedback } from 'react-native';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { wait } from '../Core/Helpers/wait';
+import { ColorTheme } from './BackgroundGradient';
 
 const styles = StyleSheet.create({
 	parentWrapper: {
@@ -31,10 +32,8 @@ export interface ButtonProps {
 	title: string;
 	onPress: () => void;
 	disabled?: boolean;
-	theme: ButtonThemes;
+	theme: ColorTheme;
 }
-
-export type ButtonThemes = 'blue' | 'orange' | 'red' | 'black';
 
 export class Button extends React.Component<ButtonProps> {
 

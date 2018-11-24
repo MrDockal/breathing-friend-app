@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Device } from '../Core/Entities/Device';
 import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
-import { BackgroundGradientThemes } from './BackgroundGradient';
+import { ColorTheme } from './BackgroundGradient';
 import { BreathingList } from './BreathingList/BreathingList';
 import { AvailableBreathingListItemProps } from './BreathingList/AvailableBreathingListItem';
 import { ActiveBreathingListItemProps } from './BreathingList/ActiveBreathingListItem';
@@ -13,7 +13,7 @@ interface BreathingModeWithActiveSpeed extends BreathingMode {
 export interface OwnProps {
 	activeDevice: Device;
 	breathingModes: BreathingMode[];
-	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit', theme: BackgroundGradientThemes, position: number, defaultSpeed?: keyof BreathingSpeed) => void;
+	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit', theme: ColorTheme, position: number, defaultSpeed?: keyof BreathingSpeed) => void;
 }
 
 export class DeviceBreathingModes extends React.Component<OwnProps> {

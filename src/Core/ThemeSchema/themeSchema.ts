@@ -54,7 +54,7 @@ export const themeSchema = {
 	},
 	bottomNavigation: {
 		panel: {
-			height: 60,
+			height: 52,
 		}
 	}
 }

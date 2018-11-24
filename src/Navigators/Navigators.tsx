@@ -120,7 +120,7 @@ const TabNavigation = createBottomTabNavigator(
 				// icon component from react-native-vector-icons
 				//return <MaterialIcons
 				//return <MaterialIcons name={ iconName } size = { horizontal? 20 : 25} color = { tintColor } />;
-				return <Icon name={iconName} type={type} size={25} color={tintColor} />
+				return <Icon name={iconName} type={type} size={themeSchema.fontSize.normal} color={tintColor} />
 			},
 		}),
 		tabBarOptions: {

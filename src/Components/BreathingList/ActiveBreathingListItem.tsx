@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TouchableNativeFeedback, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
-import { BackgroundGradient, BackgroundGradientThemes } from '../BackgroundGradient';
+import { BackgroundGradient, ColorTheme } from '../BackgroundGradient';
 import { BreathingListItem } from './BreathingListItem';
 
 export interface ActiveBreathingListItemProps {
@@ -11,7 +11,7 @@ export interface ActiveBreathingListItemProps {
 	speed: string;
 	position: number;
 	onPress: () => void;
-	theme: BackgroundGradientThemes;
+	theme: ColorTheme;
 }
 
 export class ActiveBreathingListItem extends React.Component<ActiveBreathingListItemProps> {

@@ -41,43 +41,43 @@ class SettingsScreenHOC extends React.Component<Props> {
 		const listItems = [{
 			title: 'Baterie zařízení',
 			onPress: () => false,
-			ripple: 'dark',
-			rightText: <TextNormal>10%</TextNormal>
+			rightText: <TextNormal>10%</TextNormal>,
+			ripple: 'light'
 		}, {
 			title: 'Přejmenovat',
 			onPress: () => false,
-			ripple: 'dark'
+			ripple: 'light'
 		}, {
 			title: 'Přepnout zařízení',
 			onPress: () => this.props.navigation.navigate(routeNames.SignpostScreen),
-			ripple: 'dark'
+			ripple: 'light'
 		}];
 
 		const listItems2 = [{
 			title: 'O Breathing friend',
 			onPress: () => false,
-			ripple: 'dark'
+			ripple: 'light'
 		}, {
 			title: 'Ohodnotit aplikaci',
 			onPress: () => false,
-			ripple: 'dark'
+			ripple: 'light'
 		}, {
 			title: 'Nahlásit chybu',
-			onPress: () => this.props.navigation.navigate(routeNames.SignpostScreen),
-			ripple: 'dark'
+			onPress: () => false,
+			ripple: 'light'
 		}];
 
 		const listItems3 = [{
 			title: 'Odpojit zařízení',
 			onPress: () => false,
-			ripple: 'dark'
+			ripple: 'light'
 		}, {
 			title: 'Reinicializace',
 			onPress: () => false,
-			ripple: 'dark'
+			ripple: 'light'
 		}];
 		return (
-			<BackgroundGradient theme={'blue'}>
+			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
 					<DeviceTile name={this.props.deviceName}/>
 					<List listItems={listItems} />
@@ -94,7 +94,7 @@ class SettingsScreenHOC extends React.Component<Props> {
 
 export const SettingsScreen = connect<StateProps, DispatchProps, OwnProps>(
 	(state: State, _ownProps: OwnProps) => ({
-		deviceName: state.device.devices[state.device.activeDeviceIndex].name 
+		deviceName: state.device.devices[state.device.activeDeviceIndex].name
 	}),
 	(dispatch: Dispatch) => ({
 		reinitialize: () => {

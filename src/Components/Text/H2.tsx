@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, StyleProp, TextStyle } from 'react-native';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 
 const styles = StyleSheet.create({
@@ -18,12 +18,13 @@ const styles = StyleSheet.create({
 
 export interface H2Props {
 	bold?: boolean;
+	style?: StyleProp<TextStyle>;
 }
 
 export class H2 extends React.Component<H2Props> {
 	public render() {
 		return (
-			<Text style={[styles.text, this.props.bold ? styles.bold : styles.normal]}>{this.props.children}</Text>
-		)
+			<Text style={[styles.text, this.props.bold ? styles.bold : styles.normal, this.props.style]}>{this.props.children}</Text>
+		);
 	}
 }

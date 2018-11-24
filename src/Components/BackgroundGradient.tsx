@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
 	}
 });
 
-export type BackgroundGradientThemes = 'blue' | 'orange' | 'red' | 'black';
+export type ColorTheme = 'blue' | 'orange' | 'red' | 'black';
 
 export interface BackgroundGradientProps {
-	theme: BackgroundGradientThemes;
+	theme: ColorTheme;
 }
 
 export class BackgroundGradient extends React.Component<BackgroundGradientProps> {

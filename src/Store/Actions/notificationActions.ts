@@ -16,15 +16,21 @@ export const NotificationListenerStartedAction = (): NotificationListenerStarted
 	type: NotificationListenerStarted,
 });
 
+export interface NotificationData {
+	breathingUid: string;
+	since: number;
+	to: number;
+}
+
 export const NewNotificationObtained = "Notification.New.Obtained";
 export interface NewNotificationObtained {
 	type: typeof NewNotificationObtained;
-	data: any;
+	data: NotificationData;
 	peripheralId: string;
 	notificationUid: string;
 }
 
-export const NewNotificationObtainedAction = (data: any, peripheralId: string, notificationUid: string): NewNotificationObtained => ({
+export const NewNotificationObtainedAction = (data: NotificationData, peripheralId: string, notificationUid: string): NewNotificationObtained => ({
 	type: NewNotificationObtained,
 	data,
 	peripheralId,

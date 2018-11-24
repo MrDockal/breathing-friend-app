@@ -8,7 +8,7 @@ import { LoadingModal } from '../Components/LoadingModal';
 import { DeviceBreathingModes } from '../Components/DeviceBreathingModes';
 import { BreathingMode, BreathingSpeed, DeviceSavedBreathingMode } from '../Core/Entities/BreathingMode';
 import { routeNames } from '../Navigators/Navigators';
-import { BackgroundGradientThemes, BackgroundGradient } from '../Components/BackgroundGradient';
+import { ColorTheme, BackgroundGradient } from '../Components/BackgroundGradient';
 import { Dispatch } from 'redux';
 import { DeviceBreathingModeUpdateAction } from '../Store/Actions/Device/deviceBreathingModesActions';
 import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
@@ -52,7 +52,7 @@ class HomeScreenHOC extends React.Component<Props> {
 		)
 	}
 
-	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', theme: BackgroundGradientThemes, index: number, defaultSpeed?: keyof BreathingSpeed) => {
+	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', theme: ColorTheme, index: number, defaultSpeed?: keyof BreathingSpeed) => {
 		const nextAction = (action === 'edit') ? this.props.updateBreathing : this.goToSelectPositionScreen;
 		this.props.navigation.navigate(routeNames.BreathingModeDetail, {
 			mode,

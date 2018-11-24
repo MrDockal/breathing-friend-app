@@ -6,7 +6,7 @@ import { BreathingAnimation } from '../Components/BreathingAnimation';
 import { Button } from '../Components/Button';
 import { numberToBreathingConverter, breathingToNumberConverter } from '../Core/Helpers/convertEntities';
 import { TextNormal } from '../Components/Text/TextNormal';
-import { BackgroundGradient, BackgroundGradientThemes } from '../Components/BackgroundGradient';
+import { BackgroundGradient, ColorTheme } from '../Components/BackgroundGradient';
 import { Slider } from '../Components/Slider/Slider';
 import { connect } from 'react-redux';
 import { State } from '../Store/configureStore';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 interface BreathingModeDetailScreenNavigationParams {
 	mode: BreathingMode;
 	action: 'edit' | 'add';
-	theme: BackgroundGradientThemes;
+	theme: ColorTheme;
 	goNext: (mode: DeviceSavedBreathingMode) => void;
 	defaultSpeed?: keyof BreathingSpeed;
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Divider } from 'react-native-elements';
 import { ListItemProps, ListItem } from './ListItem';
+import { Hr } from '../Hr/Hr';
 
 export interface ListProps {
 	listItems: ListItemProps[];
@@ -17,12 +17,12 @@ export class List extends React.Component<ListProps> {
 
 	public render() {
 		return <View style={[styles.wrapper]}>
-			<Divider/>
+			<Hr theme={'black'}/>
 			{
 				this.props.listItems.map((listItem: ListItemProps, index: number) => (
 					<React.Fragment key={index}>
 						<ListItem {...listItem}/>
-						<Divider/>
+						<Hr theme={'black'}/>
 					</React.Fragment>
 				))
 			}
