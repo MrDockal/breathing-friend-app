@@ -15,7 +15,7 @@ export interface ListItemProps {
 
 const styles = StyleSheet.create({
 	listItem: {
-		paddingVertical: 12,
+		paddingVertical: 8,
 		flex: 1,
 		alignItems: 'center',
 		flexDirection: 'row',
@@ -34,7 +34,7 @@ export class ListItem extends React.Component<ListItemProps> {
 			<View style={styles.wrapperView}>
 				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(`${rippleColor}`, false)} onPress={this.onPress}>
 					<View style={styles.listItem}>
-						<TextNormal bold={true}>{this.props.title}</TextNormal>
+						<TextNormal bold={false}>{this.props.title}</TextNormal>
 						{
 							(this.props.rightText) ?
 								this.props.rightText :
@@ -51,7 +51,7 @@ export class ListItem extends React.Component<ListItemProps> {
 	}
 
 	private onPress = async () => {
-		await wait(100);
+		await wait(1);
 		this.props.onPress()
 	}
 }

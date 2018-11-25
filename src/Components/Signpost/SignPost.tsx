@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { BackgroundGradient } from '../BackgroundGradient';
+import { BackgroundGradient } from '../BackgroundGradient/BackgroundGradient';
 import { Device } from '../../Core/Entities/Device';
 import { TextNormal } from '../Text/TextNormal';
 import { TextSmall } from '../Text/TextSmall';
+import { BluetoothIcon } from '../BluetoothIcon/BluetoothIcon';
 const whiteBfImage = require('../../assets/white-bf.png');
 
 const styles = StyleSheet.create({
@@ -21,6 +22,10 @@ const styles = StyleSheet.create({
 	headerText: {
 		alignSelf: 'flex-end',
 		paddingHorizontal: 20
+	},
+	textWithIconWrapper: {
+		flexDirection: 'row',
+		justifyContent: 'center',
 	}
 });
 
@@ -45,7 +50,9 @@ export class SignPost extends React.Component<SignPostProps> {
 							this.props.devices.map((device: Device, index: number) => (
 								<TouchableOpacity activeOpacity={1} key={index} onPress={() => this.props.initializeDevice(device)}>
 									<Image source={whiteBfImage} style={styles.bfImage} resizeMode={'cover'} />
-									<TextNormal bold={true}>{device.name}</TextNormal>
+									<View style={styles.textWithIconWrapper}>
+										<TextNormal bold={true}>{device.name}</TextNormal><BluetoothIcon connected={device.connected}/>
+									</View>
 								</TouchableOpacity>
 							))
 						}

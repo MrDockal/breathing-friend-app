@@ -3,17 +3,19 @@ import { defaultConfig } from '../../config';
 
 const defaultName = 'com.breathingfriend.remoteControl';
 
-export interface FirebaseConnection  {
+export interface FirebaseConnection {
     firestore: RNFirebase.firestore.Firestore;
 }
 
 export const createFirebaseConnection = (config: any = defaultConfig.firebase, name: string = defaultName): FirebaseConnection => {
+    console.log('config', config);
+    let app;
     try {
-        Firebase.app(name);
-    } catch(e) {
-        Firebase.initializeApp(config, name);
+        app = Firebase.app(name);
+    } catch (e) {
+        app = Firebase.initializeApp(config, name);
     }
-    const firestore = Firebase.firestore();
+    const firestore = app.firestore();
     firestore.settings({
         timestampsInSnapshots: true,
     });

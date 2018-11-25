@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { View, StyleSheet, Text,TouchableNativeFeedback } from 'react-native';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
-import { wait } from '../Core/Helpers/wait';
+import { View, StyleSheet, Text, TouchableNativeFeedback } from 'react-native';
+import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
+import { wait } from '../../Core/Helpers/wait';
+import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 
 const styles = StyleSheet.create({
 	parentWrapper: {
@@ -10,10 +11,10 @@ const styles = StyleSheet.create({
 		shadowOffset: {
 			width: 0,
 			height: 3
-		  },
-		  shadowRadius: 5,
-		  shadowOpacity: 1,
-		  elevation: 8,
+		},
+		shadowRadius: 5,
+		shadowOpacity: 1,
+		elevation: 8,
 	},
 	wrapper: {
 		backgroundColor: 'white',
@@ -31,10 +32,8 @@ export interface ButtonProps {
 	title: string;
 	onPress: () => void;
 	disabled?: boolean;
-	theme: ButtonThemes;
+	theme: ColorTheme;
 }
-
-export type ButtonThemes = 'blue' | 'orange' | 'red' | 'black';
 
 export class Button extends React.Component<ButtonProps> {
 
@@ -58,8 +57,8 @@ export class Button extends React.Component<ButtonProps> {
 		);
 	}
 
-	private onPress = async() => {
-		await wait(100);
+	private onPress = async () => {
+		await wait(1);
 		this.props.onPress();
 	}
 }

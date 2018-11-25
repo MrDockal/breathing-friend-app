@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { BackgroundGradient } from '../Components/BackgroundGradient';
-import { Button } from '../Components/Button';
-import { H1 } from '../Components/Text/H1';
-import { TextNormal } from '../Components/Text/TextNormal';
+import { BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
+import { Button } from '../../Components/Button/Button';
+import { H1 } from '../../Components/Text/H1';
+import { TextNormal } from '../../Components/Text/TextNormal';
 import { NavigationInjectedProps } from 'react-navigation';
-import { routeNames } from '../Navigators/Navigators';
+import { routeNames } from '../../Navigators/Navigators';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -35,12 +35,12 @@ export class SuccessDeviceScreen extends React.Component<SuccessDeviceScreenProp
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<View/>
+					<View />
 					<View>
 						<H1>Gratulujeme!</H1>
 						<TextNormal>Vaše dýchátko se jmenuje: {this.props.navigation.state.params!.deviceName}. Jméno si můžete později změnit v aplikaci.</TextNormal>
 					</View>
-					<Button theme={'black'} title={'Jdeme na to!'} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)}/>
+					<Button theme={'black'} title={'Jdeme na to!'} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)} />
 				</ScrollView>
 			</BackgroundGradient>
 		)

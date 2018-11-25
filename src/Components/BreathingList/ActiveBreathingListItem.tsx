@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TouchableNativeFeedback, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
-import { BackgroundGradient, BackgroundGradientThemes } from '../BackgroundGradient';
+import { BackgroundGradient, ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 import { BreathingListItem } from './BreathingListItem';
 
 export interface ActiveBreathingListItemProps {
@@ -11,7 +11,7 @@ export interface ActiveBreathingListItemProps {
 	speed: string;
 	position: number;
 	onPress: () => void;
-	theme: BackgroundGradientThemes;
+	theme: ColorTheme;
 }
 
 export class ActiveBreathingListItem extends React.Component<ActiveBreathingListItemProps> {
@@ -26,13 +26,13 @@ export class ActiveBreathingListItem extends React.Component<ActiveBreathingList
 			<BackgroundGradient theme={this.props.theme}>
 				<TouchableNativeFeedback
 					background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, .1)', false)}
-					onPress={async() => {
-						await wait(100);
+					onPress={async () => {
+						await wait(1);
 						this.props.onPress();
 					}}
 				>
 					<View>
-						<BreathingListItem textTop={this.props.duration} textCenter={this.props.title} textBottom={this.props.speed} Icon={icon}/>
+						<BreathingListItem textTop={this.props.duration} textCenter={this.props.title} textBottom={this.props.speed} Icon={icon} />
 					</View>
 				</TouchableNativeFeedback>
 			</BackgroundGradient>

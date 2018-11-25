@@ -2,7 +2,7 @@ import { BreathingMode } from "../../Core/Entities/BreathingMode";
 
 /** --- Breathing.Init --- */
 
-	/** GET */
+/** GET */
 export const BreathingInitLoad = "Breathing.Init.Load";
 export interface BreathingInitLoad {
 	type: typeof BreathingInitLoad;
@@ -12,7 +12,7 @@ export const BreathingInitLoadAction = (): BreathingInitLoad => ({
 	type: BreathingInitLoad,
 });
 
-	/** RESPONSE */
+/** RESPONSE */
 export const AvailableBreathingInitLoaded = "Breathing.Available.Loaded";
 export interface AvailableBreathingInitLoaded {
 	type: typeof AvailableBreathingInitLoaded;
@@ -36,7 +36,7 @@ export const BreathingReinitializeAction = (): BreathingReinitialize => ({
 	type: BreathingReinitialize,
 });
 
-	/** RESPONSE */
+/** RESPONSE */
 export const BreathingReinitialized = "Breathing.Reinitialized";
 export interface BreathingReinitialized {
 	type: typeof BreathingReinitialized;

@@ -1,6 +1,6 @@
 
 export interface Stack {
-	[keyId: string]: number[];	
+	[keyId: string]: number[];
 }
 
 export class MessageStack {
@@ -11,7 +11,7 @@ export class MessageStack {
 		let prevBytes: number[];
 		try {
 			prevBytes = [...this.stack[id]]
-		} catch(e) {
+		} catch (e) {
 			prevBytes = [];
 		}
 		this.stack = {
@@ -26,8 +26,8 @@ export class MessageStack {
 	public isMessageComplete(id: string) {
 		try {
 			const stackLenght = this.stack[id].length;
-			return (this.stack[id][stackLenght -1] === 0)
-		} catch(e) {
+			return (this.stack[id][stackLenght - 1] === 0)
+		} catch (e) {
 			return false;
 		}
 	}

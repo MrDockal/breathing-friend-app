@@ -1,19 +1,22 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
 import { Dispatch } from "redux";
-import { DiscoverBondedDevices, discoveredBondedDevicesAction, discoverBondedDevicesAction, PauseDiscoverBondedDevices, PeripheralBondStart, peripheralBondSucceededAction, peripheralBondFailedAction, PeripheralRemoveBond, peripheralBondRemovedAction, peripheralBondRemoveFailedAction } from "../Actions/Device/devicesBondActions";
+import { DiscoverBondedDevices, discoveredBondedDevicesAction, discoverBondedDevicesAction, PauseDiscoverBondedDevices, PeripheralBondStart, peripheralBondSucceededAction, peripheralBondFailedAction, PeripheralRemoveBond, peripheralBondRemovedAction, peripheralBondRemoveFailedAction, WatchDeviceConnectionChanges, DeviceConnectedAction, DeviceDisconnectedAction, peripheralRemoveBondAction } from "../Actions/Device/devicesBondActions";
 import { State } from "../configureStore";
 import { Device } from "../../Core/Entities/Device";
 import { wait } from "../../Core/Helpers/wait";
 import { ScanForAvailablePeripherals, availablePeripheralObtainedAction, peripheralScanStoppedAction, StopScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
 import { AndroidBleAdapter } from '../../Core/Bluetooth/AndroidBleAdapter';
-import { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
-import { DeviceConnectionInitialize, DeviceConnectionInitializedAction, setActiveDeviceAction } from '../Actions/Device/deviceActions';
+import { BleManagerDiscoverPeripheralResponse, BleManagerConnectPeripheralResponse, BleManagerDisconnectPeripheralResponse } from 'react-native-ble-manager';
+import { DeviceConnectionInitialize, DeviceConnectionInitializedAction, setActiveDeviceAction, DeviceConnectionRemove, DeviceConnectionRemovedAction, DeviceConnectionInitializeAction } from '../Actions/Device/deviceActions';
 import { BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS } from '../../Core/Bluetooth/BLEConstants';
-import { decodeDeviceBreathingModes } from '../../Core/Helpers/convertEntities';
-import { DeviceBreathingModesLoadedAction, DeviceBreathingModeUpdate } from '../Actions/Device/deviceBreathingModesActions';
+import { decodeDeviceBreathingModes, encodeDeviceBreathingMode } from '../../Core/Helpers/convertEntities';
+import { DeviceBreathingModesLoadedAction, DeviceBreathingModeUpdate, DeviceBreathingModeUpdatedAction } from '../Actions/Device/deviceBreathingModesActions';
 import { NotificationListenerStartAction } from '../Actions/notificationActions';
+import { DeviceSavedBreathingMode, DeviceToBeSavedBreathingMode } from '../../Core/Entities/BreathingMode';
+import { findBreathingModeDefinitionByUidAndSpeed } from '../../Core/Helpers/findBreathingModeDefinitionByUidAndSpeed';
+import { stringToArrayBuffer } from '../../Core/Helpers/string-converter';
 
-export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
+export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 	let discoverBondedAction = false;
 	return [
 		yield takeEvery(DiscoverBondedDevices, function* () {
@@ -25,14 +28,13 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 			const state: State = yield select();
 
 			const devicesPromise = state.device.devices.map(async (device: Device) => {
+				if (device.disconnecting) {
+					return device;
+				}
 				let connected = false;
 				try {
-					const isConnected = await bleAdapter.BLEManager.isPeripheralConnected(device.uid, []);
-					if (isConnected === true) {
-						connected = true;
-					} else {
-						await bleAdapter.BLEManager.connect(device.uid);
-					}
+					await bleAdapter.BLEManager.connect(device.uid);
+					connected = await bleAdapter.BLEManager.isPeripheralConnected(device.uid, []);
 				} catch (e) {
 					connected = false;
 				}
@@ -52,9 +54,22 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 		}),
 
 		yield takeEvery(PauseDiscoverBondedDevices, () => {
-			discoverBondedAction = false;
+			//discoverBondedAction = false;
 		}),
 
+		yield takeEvery(WatchDeviceConnectionChanges, (action: WatchDeviceConnectionChanges) => {
+			bleAdapter.removeAllPeripheralConnectionListeners();
+			bleAdapter.onPeripheralConnected(async (data: BleManagerConnectPeripheralResponse) => {
+				const connected = await bleAdapter.BLEManager.isPeripheralConnected(action.device.uid, []);
+				if (connected) {
+					dispatch(DeviceConnectionInitializeAction(action.device));
+					dispatch(DeviceConnectedAction(data.peripheral));
+				}
+			});
+			bleAdapter.onPeripheralDisconnected((data: BleManagerDisconnectPeripheralResponse) => {
+				dispatch(DeviceDisconnectedAction(data.peripheral));
+			});
+		}),
 
 		yield takeEvery(ScanForAvailablePeripherals, function* (_action: ScanForAvailablePeripherals) {
 			const discoveredPeripheralCb = (peripheral: BleManagerDiscoverPeripheralResponse) => {
@@ -73,7 +88,7 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 			try {
 				yield bleAdapter.BLEManager.connect(action.peripheral.id);
 				yield put(peripheralBondSucceededAction(action.peripheral));
-			} catch(e) {
+			} catch (e) {
 				yield put(peripheralBondFailedAction(action.peripheral));
 			}
 		}),
@@ -82,12 +97,13 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 			try {
 				yield bleAdapter.BLEManager.removePeripheral(action.peripheral.id);
 				yield put(peripheralBondRemovedAction(action.peripheral));
-			} catch(e) {
+			} catch (e) {
 				yield put(peripheralBondRemoveFailedAction(action.peripheral));
 			}
 		}),
 
 		yield takeEvery(DeviceConnectionInitialize, function* (action: DeviceConnectionInitialize) {
+			yield bleAdapter.BLEManager.retrieveServices(action.device.uid, []);
 			const breathingModesBytes = yield bleAdapter.read(action.device.uid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS);
 			const modes = decodeDeviceBreathingModes(breathingModesBytes);
 			yield put(DeviceBreathingModesLoadedAction(action.device.uid, modes));
@@ -95,15 +111,48 @@ export function* deviceSaga (bleAdapter: AndroidBleAdapter, dispatch: Dispatch) 
 			yield bleAdapter.startNotification(action.device.uid, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS);
 
 			yield bleAdapter.write(action.device.uid, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS, {}); //Enable stats
-
-			yield put(setActiveDeviceAction(action.device))
+			
 			yield put(DeviceConnectionInitializedAction(action.device.uid));
 		}),
 
+		yield takeEvery(DeviceConnectionRemove, function* (action: DeviceConnectionRemove) {
+			yield bleAdapter.BLEManager.disconnect(action.device.uid);
+			yield wait(500);
+			yield put(DeviceConnectionRemovedAction(action.device));
+		}),
+
 		yield takeEvery(DeviceBreathingModeUpdate, function* (action: DeviceBreathingModeUpdate) {
-			yield;
-			//const data = encodeDeviceBreathingMode(action.mode.uid)
-			//yield bleAdapter.write(action.device.uid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS);
+			const state: State = yield select();
+			const activeDeviceUid = state.device.devices[state.device.activeDeviceIndex].uid;
+			const breathingMode = findBreathingModeDefinitionByUidAndSpeed(state.breathing.modes, action.mode.uid, action.mode.speed);
+			if (!breathingMode) {
+				throw new Error('Cannot update breathing mode that does not exists');
+			}
+
+			const newModes = state.device.devices[state.device.activeDeviceIndex].breathingModes
+				.map((savedBreathingMode: DeviceSavedBreathingMode, index: number): DeviceToBeSavedBreathingMode => {
+					if (index === action.index) {
+						return {
+							uid: action.mode.uid,
+							speed: action.mode.speed,
+							mode: breathingMode,
+						}
+					} else {
+						return {
+							...savedBreathingMode,
+							mode: findBreathingModeDefinitionByUidAndSpeed(state.breathing.modes, savedBreathingMode.uid, savedBreathingMode.speed),
+						}
+					}
+				});
+			for (let modeToBeSaved of newModes) {
+				const encoded = encodeDeviceBreathingMode(modeToBeSaved.uid, modeToBeSaved.speed, modeToBeSaved.mode);
+				const data = stringToArrayBuffer(JSON.stringify(encoded));
+				console.log('data to save', data);
+				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, data);
+				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, [1, 95]);
+			}
+
+			yield put(DeviceBreathingModeUpdatedAction(action.mode, action.index));
 		}),
 	];
 }

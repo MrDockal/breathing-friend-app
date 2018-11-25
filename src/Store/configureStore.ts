@@ -4,16 +4,18 @@ import storage from 'redux-persist/lib/storage';
 import { breathingReducer, BreathingState, breathingInitialState } from './Reducers/breathingReducer';
 import { DeviceState, devicesInitialState, devicesReducer } from './Reducers/deviceReducer';
 import { createFilter, createWhitelistFilter, createBlacklistFilter } from 'redux-persist-transform-filter';
+import { statsReducer, StatsState } from './Reducers/statsReducer';
 
 export interface State {
 	breathing: BreathingState;
 	device: DeviceState;
+	stats: StatsState;
 };
 
 const config = {
-	key: 'primary6',
+	key: 'primary7',
 	storage,
-	blacklist: ['breathing'],
+	blacklist: [],
 	transforms: [
 		createWhitelistFilter(`device.devices`),
 	]
@@ -33,6 +35,7 @@ export const initialState = {
 const rootReducer = combineReducers<State>({
 	breathing: breathingReducer,
 	device: devicesReducer,
+	stats: statsReducer,
 });
 
 export const reducer = persistReducer(config, rootReducer);

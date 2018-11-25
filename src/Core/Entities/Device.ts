@@ -5,4 +5,5 @@ export interface Device {
 	name: string;
 	connected: boolean;
 	breathingModes: DeviceSavedBreathingMode[];
+	disconnecting?: boolean;
 }

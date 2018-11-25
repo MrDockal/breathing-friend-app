@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { Device } from '../Core/Entities/Device';
-import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
-import { BackgroundGradientThemes } from './BackgroundGradient';
-import { BreathingList } from './BreathingList/BreathingList';
-import { AvailableBreathingListItemProps } from './BreathingList/AvailableBreathingListItem';
-import { ActiveBreathingListItemProps } from './BreathingList/ActiveBreathingListItem';
+import { Device } from '../../Core/Entities/Device';
+import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../../Core/Entities/BreathingMode';
+import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
+import { BreathingList } from '../BreathingList/BreathingList';
+import { AvailableBreathingListItemProps } from '../BreathingList/AvailableBreathingListItem';
+import { ActiveBreathingListItemProps } from '../BreathingList/ActiveBreathingListItem';
+import { getBreathingThemeByIndex } from '../../Core/Helpers/getBreathingTheme';
+import { getActiveBreathingModes } from '../../Core/Helpers/getBreathingModesStatus';
 
 interface BreathingModeWithActiveSpeed extends BreathingMode {
 	activeSpeed: keyof BreathingSpeed;
@@ -13,7 +15,7 @@ interface BreathingModeWithActiveSpeed extends BreathingMode {
 export interface OwnProps {
 	activeDevice: Device;
 	breathingModes: BreathingMode[];
-	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit', theme: BackgroundGradientThemes, defaultSpeed?: keyof BreathingSpeed) => void;
+	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit', theme: ColorTheme, position: number, defaultSpeed?: keyof BreathingSpeed) => void;
 }
 
 export class DeviceBreathingModes extends React.Component<OwnProps> {
@@ -30,17 +32,10 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 		const seconds = Math.round((minutesFixed - justMinutes) * 60);
 		return `${justMinutes} minutes ${(seconds > 0) ? `${seconds} seconds` : ''}`;
 	}
-	
+
 	private prepareBreathingModes() {
 		const activeModesUids = this.props.activeDevice.breathingModes.map((mode: DeviceSavedBreathingMode) => mode.uid);
-		const activeModes = this.props.breathingModes
-			.filter((mode: BreathingMode) => activeModesUids.indexOf(mode.uid) >= 0)
-			.map((mode: BreathingMode): BreathingModeWithActiveSpeed => {
-				return {
-					...mode,
-					activeSpeed: this.props.activeDevice.breathingModes.find((savedMode: DeviceSavedBreathingMode) => savedMode.uid === mode.uid)!.speed
-				}
-			});
+		const activeModes = getActiveBreathingModes(this.props.activeDevice.breathingModes, this.props.breathingModes);
 		const availableModes = this.props.breathingModes.filter((mode: BreathingMode) => {
 			return (activeModesUids.indexOf(mode.uid) === -1);
 		});
@@ -48,31 +43,18 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 			title: mode.name,
 			duration: this.convertMinutesToText(mode.speed[mode.activeSpeed].duration),
 			position: index + 1,
-			theme: this.getThemeByIndex(index),
+			theme: getBreathingThemeByIndex(index),
 			speed: mode.activeSpeed,
-			onPress: () => this.props.goToModeDetail(mode, 'edit', this.getThemeByIndex(index), mode.activeSpeed),
+			onPress: () => this.props.goToModeDetail(mode, 'edit', getBreathingThemeByIndex(index), index, mode.activeSpeed),
 		}));
 		const availableModesList = availableModes.map((mode: BreathingMode): AvailableBreathingListItemProps => ({
 			title: mode.name,
-			duration: `${mode.speed.normal.duration} minut`,
-			onPress: () => this.props.goToModeDetail(mode, 'add', this.getThemeByIndex()),
+			duration: this.convertMinutesToText(mode.speed.normal.duration),
+			onPress: () => this.props.goToModeDetail(mode, 'add', getBreathingThemeByIndex(), -1),
 		}));
 		return {
 			activeModesList,
 			availableModesList
-		}
-	}
-
-	private getThemeByIndex(index?: number) {
-		switch(index) {
-			case 0:
-				return 'red';
-			case 1: 
-				return 'blue';
-			case 2:
-				return 'orange';
-			default:
-				return 'black';
 		}
 	}
 }
