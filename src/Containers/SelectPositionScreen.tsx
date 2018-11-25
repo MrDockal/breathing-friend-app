@@ -4,15 +4,18 @@ import { ColoredSelectBox } from '../Components/ColoredSelectBox/ColoredSelectBo
 import { NavigationInjectedProps } from 'react-navigation';
 import { TextNormal } from '../Components/Text/TextNormal';
 import { BackgroundGradient, ColorTheme } from '../Components/BackgroundGradient';
-import { BreathingMode } from '../Core/Entities/BreathingMode';
+import { BreathingMode, DeviceSavedBreathingMode } from '../Core/Entities/BreathingMode';
 import { H2 } from '../Components/Text/H2';
 import { Button } from '../Components/Button';
+import { connect } from 'react-redux';
+import { State } from '../Store/configureStore';
+import { getActiveBreathingModes, ActiveBreathingModes } from '../Core/Helpers/getBreathingModesStatus';
+import { getBreathingThemeByIndex } from '../Core/Helpers/getBreathingTheme';
 
 interface NavigationParams {
 	mode: BreathingMode;
 }
 
-export type SelectPositionScreenProps = NavigationInjectedProps<NavigationParams>;
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -30,39 +33,32 @@ const styles = StyleSheet.create({
 });
 
 interface BreathingOption {
-	index: string;
+	index: number;
 	selected: boolean;
 	theme: ColorTheme;
 	title: string;
 }
 
-export interface State {
+export interface ComponentState {
 	options: BreathingOption[];
 	theme: ColorTheme;
 }
 
-export class SelectPositionScreen extends React.Component<SelectPositionScreenProps, State> {
+interface StateProps {
+	savedModes: DeviceSavedBreathingMode[];
+	breathingModes: BreathingMode[];
+}
+
+export type SelectPositionScreenProps = NavigationInjectedProps<NavigationParams> & StateProps;
+
+export class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps, ComponentState> {
 
 	public constructor(props: SelectPositionScreenProps) {
 		super(props);
+		const options = this.prepareOptionValues();
 		this.state = {
 			theme: 'black',
-			options: [{
-				index: '1',
-				selected: false,
-				theme: 'red',
-				title: 'ježek'
-			}, {
-				index: '2',
-				selected: false,
-				theme: 'orange',
-				title: 'sova'
-			}, {
-				index: '3',
-				selected: false,
-				theme: 'blue',
-				title: 'mezek'
-			}]
+			options,
 		}
 	}
 
@@ -104,15 +100,15 @@ export class SelectPositionScreen extends React.Component<SelectPositionScreenPr
 	}
 
 	private changeTheme(theme: ColorTheme) {
-		this.setState((prevState: State) => {
+		this.setState((prevState: ComponentState) => {
 			return {
 				theme
 			}
 		})
 	}
 
-	private selectOption(index: string) {
-		this.setState((prevState: State) => {
+	private selectOption(index: number) {
+		this.setState((prevState: ComponentState) => {
 			const updatedOptions = prevState.options.map((option: BreathingOption) => {
 				if (option.index === index) {
 					return {
@@ -131,4 +127,23 @@ export class SelectPositionScreen extends React.Component<SelectPositionScreenPr
 			}
 		});
 	}
+
+	private prepareOptionValues () {
+		const options = getActiveBreathingModes(this.props.savedModes, this.props.breathingModes);
+		return options.map((activeModes: ActiveBreathingModes, index: number) => ({
+			index: index + 1,
+			selected: false,
+			theme: getBreathingThemeByIndex(index),
+			title: activeModes.name
+		}));
+	}
 }
+
+export const SelectPositionScreen = connect<StateProps>(
+	(state: State): StateProps => {
+		return {
+			savedModes: state.device.devices[state.device.activeDeviceIndex].breathingModes,
+			breathingModes: state.breathing.modes
+		}
+	},
+)(SelectPositionScreenHOC);

@@ -6,6 +6,7 @@ import { BreathingList } from './BreathingList/BreathingList';
 import { AvailableBreathingListItemProps } from './BreathingList/AvailableBreathingListItem';
 import { ActiveBreathingListItemProps } from './BreathingList/ActiveBreathingListItem';
 import { getBreathingThemeByIndex } from '../Core/Helpers/getBreathingTheme';
+import { getActiveBreathingModes } from '../Core/Helpers/getBreathingModesStatus';
 
 interface BreathingModeWithActiveSpeed extends BreathingMode {
 	activeSpeed: keyof BreathingSpeed;
@@ -34,17 +35,7 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 
 	private prepareBreathingModes() {
 		const activeModesUids = this.props.activeDevice.breathingModes.map((mode: DeviceSavedBreathingMode) => mode.uid);
-
-		const activeModes = activeModesUids.map((modeUid: string) => {
-			const mode = this.props.breathingModes.find((mode: BreathingMode) => mode.uid === modeUid);
-			if (!mode) {
-				throw new Error('prepareBreathingModes, could not find matching breathing mode');
-			}
-			return {
-				...mode,
-				activeSpeed: this.props.activeDevice.breathingModes.find((savedMode: DeviceSavedBreathingMode) => savedMode.uid === mode.uid)!.speed
-			}
-		});
+		const activeModes = getActiveBreathingModes(this.props.activeDevice.breathingModes, this.props.breathingModes);
 		const availableModes = this.props.breathingModes.filter((mode: BreathingMode) => {
 			return (activeModesUids.indexOf(mode.uid) === -1);
 		});

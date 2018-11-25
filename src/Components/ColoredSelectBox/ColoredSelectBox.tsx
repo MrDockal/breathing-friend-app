@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 export interface OwnProps {
 	theme: ColorTheme;
 	title: string;
-	optionId: string;
+	optionId: number;
 	selected: boolean;
 	onPress?: () => void;
 }
