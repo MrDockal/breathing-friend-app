@@ -146,10 +146,7 @@ export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 				});
 			for (let modeToBeSaved of newModes) {
 				const encoded = encodeDeviceBreathingMode(modeToBeSaved.uid, modeToBeSaved.speed, modeToBeSaved.mode);
-				const data = stringToArrayBuffer(JSON.stringify(encoded));
-				console.log('data to save', data);
-				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, data);
-				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, [1, 95]);
+				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, encoded);
 			}
 
 			yield put(DeviceBreathingModeUpdatedAction(action.mode, action.index));

@@ -6,6 +6,7 @@ import {
 import { requestBluetoothPermisions, restartBluetoothAdapter } from './requestBluetoothPermisions';
 import { Buffer } from 'buffer';
 import { parseBluetoothMessage } from '../Helpers/parseBluetoothMessage';
+import { stringToArrayBuffer } from '../Helpers/string-converter';
 
 export class AndroidBleAdapter {
 
@@ -57,15 +58,11 @@ export class AndroidBleAdapter {
 	public async write(peripheralId: string, serviceUUID: string, characteristicUUID: string, data: any, maxByteSize?: number) {
 		let strData;
 		try {
-			strData = JSON.parse(data);
+			strData = JSON.stringify(data);
 		} catch (e) {
 			strData = '{}';
 		}
-		const buffer = Buffer.from(strData, 'utf8');
-		let myBuffer = [];
-		for (var i = 0; i < buffer.length; i++) {
-			myBuffer.push(buffer[i]);
-		}
+		const myBuffer = stringToArrayBuffer(strData);
 		return await this.BLEManager.write(peripheralId, serviceUUID, characteristicUUID, myBuffer, maxByteSize);
 	}
 
