@@ -25,10 +25,12 @@ export const pauseDiscoverBondedDevicesAction = (): PauseDiscoverBondedDevices =
 export const WatchDeviceConnectionChanges = "Device.Connection.Watch";
 export interface WatchDeviceConnectionChanges {
 	type: typeof WatchDeviceConnectionChanges;
+	device: Device;
 }
 
-export const WatchDeviceConnectionChangesAction = (): WatchDeviceConnectionChanges => ({
+export const WatchDeviceConnectionChangesAction = (device: Device): WatchDeviceConnectionChanges => ({
 	type: WatchDeviceConnectionChanges,
+	device,
 });
 
 

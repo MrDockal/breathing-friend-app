@@ -14,6 +14,7 @@ import { StatsListItem } from '../../Components/StatsListItem/StatsListItem';
 import { Hr } from '../../Components/Hr/Hr';
 import { BreathingMode } from '../../Core/Entities/BreathingMode';
 import { getBreathingModeByStateAndUid } from '../../Core/Helpers/getBreathingTheme';
+import { ActivityIndicator } from '../../Components/ActivityIndicator/ActivityIndicator';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -50,17 +51,24 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 	public render() {
 		const hasData = this.props.stats;
 		const theme = 'black';
-		console.log(this.props.device.uid);
+		const loaded = this.props.breathingMode;
 		return (
 			<BackgroundGradient theme={theme}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<DeviceTile name={this.props.device.name} />
 					{
-						!hasData ?
-							this.renderEmpty() :
-							this.renderWithData(theme)
+						loaded ?
+							<React.Fragment>
+								<DeviceTile name={this.props.device.name} />
+								{
+									!hasData ?
+										this.renderEmpty() :
+										this.renderWithData(theme)
+								}
+							</React.Fragment> :
+							<ActivityIndicator />
 					}
 				</ScrollView>
+				<DeviceConnectionInfoBar />
 			</BackgroundGradient>
 		)
 	}

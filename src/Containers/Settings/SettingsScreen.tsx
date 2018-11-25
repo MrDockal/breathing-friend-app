@@ -113,9 +113,12 @@ class SettingsScreenHOC extends React.Component<Props> {
 }
 
 export const SettingsScreen = connect<StateProps, DispatchProps, OwnProps>(
-	(state: State, _ownProps: OwnProps) => ({
-		device: state.device.devices[state.device.activeDeviceIndex],
-	}),
+	(state: State, _ownProps: OwnProps) => {
+		console.log('SettingsScreen', state.device);
+		return {
+			device: state.device.devices[state.device.activeDeviceIndex],
+		}
+	},
 	(dispatch: Dispatch) => ({
 		reinitialize: () => {
 			dispatch(BreathingReinitializeAction());

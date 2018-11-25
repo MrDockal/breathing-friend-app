@@ -53,7 +53,7 @@ class HomeScreenHOC extends React.Component<Props> {
 	}
 
 	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', theme: ColorTheme, index: number, defaultSpeed?: keyof BreathingSpeed) => {
-		const nextAction = (action === 'edit') ? this.props.updateBreathing : this.goToSelectPositionScreen;
+		const nextAction = (action === 'edit') ? this.updateBreathing : this.goToSelectPositionScreen;
 		this.props.navigation.navigate(routeNames.BreathingModeDetailScreen, {
 			mode,
 			action,
@@ -62,8 +62,14 @@ class HomeScreenHOC extends React.Component<Props> {
 			goNext: (mode: DeviceSavedBreathingMode, position: number) => nextAction(mode, position),
 		});
 	}
+
 	private goToSelectPositionScreen = (mode: DeviceSavedBreathingMode) => {
 		this.props.navigation.navigate(routeNames.SelectPositionScreen);
+	}
+
+	private updateBreathing = (mode: DeviceSavedBreathingMode, position: number) => {
+		this.props.updateBreathing(mode, position);
+		this.props.navigation.navigate(routeNames.HomeScreen);
 	}
 }
 

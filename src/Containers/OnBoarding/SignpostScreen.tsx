@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { routeNames } from '../../Navigators/Navigators';
 import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../../Store/Actions/Device/devicesBondActions';
-import { DeviceConnectionInitializeAction } from '../../Store/Actions/Device/deviceActions';
+import { DeviceConnectionInitializeAction, setActiveDeviceAction } from '../../Store/Actions/Device/deviceActions';
 import { NoBreathingDevice } from '../../Components/Signpost/NoBreathingDevice';
 import { SignPost } from '../../Components/Signpost/SignPost';
 
@@ -20,6 +20,7 @@ export interface StateProps {
 
 export interface DispatchProps {
 	deviceConnectionInitialize: (device: Device) => void;
+	setActiveDevice: (device: Device) => void;
 	startDiscoverConnectedDevices: () => void;
 	pauseDiscoverConnectedDevices: () => void;
 }
@@ -58,7 +59,10 @@ class SignpostScreenHOC extends React.Component<Props> {
 						<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.SynchronizeDeviceScreen)} /> :
 						<SignPost
 							devices={this.props.devices} initializeDevice={(device: Device) => {
-								this.props.deviceConnectionInitialize(device);
+								if (device.connected) {
+									this.props.deviceConnectionInitialize(device);
+								}
+								this.props.setActiveDevice(device);
 								this.props.navigation.navigate(routeNames.MainApp);
 							}}
 							syncNewDevice={() => this.props.navigation.navigate(routeNames.SynchronizeDeviceScreen)}
@@ -77,6 +81,9 @@ export const SignpostScreen = connect<StateProps, DispatchProps, OwnProps>(
 		deviceConnectionInitialize: (device: Device) => (
 			dispatch(DeviceConnectionInitializeAction(device))
 		),
+		setActiveDevice: (device: Device) => {
+			dispatch(setActiveDeviceAction(device));
+		},
 		startDiscoverConnectedDevices: () => {
 			dispatch(discoverBondedDevicesAction());
 		},

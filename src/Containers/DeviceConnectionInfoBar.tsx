@@ -6,6 +6,7 @@ import { State } from '../Store/configureStore';
 import { Dispatch } from 'redux';
 import { WatchDeviceConnectionChangesAction } from '../Store/Actions/Device/devicesBondActions';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
+import { Device } from '../Core/Entities/Device';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -21,11 +22,11 @@ const styles = StyleSheet.create({
 })
 
 interface StateProps {
-	connected: boolean;
+	device: Device;
 }
 
 interface DispatchProps {
-	start: () => void;
+	start: (device: Device) => void;
 }
 
 export type Props = StateProps & DispatchProps;
@@ -33,13 +34,14 @@ export type Props = StateProps & DispatchProps;
 class DeviceConnectionInfoBarHOC extends React.Component<Props> {
 
 	public componentDidMount() {
-		this.props.start();
+		this.props.start(this.props.device);
 	}
 
 	public render() {
+		const isConnected = this.props.device && this.props.device.connected;
 		return (
-			<View style={this.props.connected ? styles.connected : styles.disconnected}>
-				<TextSmall>{!this.props.connected && 'zařízení je offline'}</TextSmall>
+			<View style={isConnected ? styles.connected : styles.disconnected}>
+				<TextSmall>{!isConnected && 'zařízení je offline'}</TextSmall>
 			</View>
 		)
 	}
@@ -47,11 +49,11 @@ class DeviceConnectionInfoBarHOC extends React.Component<Props> {
 
 export const DeviceConnectionInfoBar = connect<StateProps, DispatchProps>(
 	(state: State) => ({
-		connected: state.device.activeDeviceIndex > -1 && state.device.devices[state.device.activeDeviceIndex].connected,
+		device: state.device.devices[state.device.activeDeviceIndex],
 	}),
 	(dispatch: Dispatch) => ({
-		start: () => {
-			dispatch(WatchDeviceConnectionChangesAction());
+		start: (device: Device) => {
+			dispatch(WatchDeviceConnectionChangesAction(device));
 		}
 	})
 )(DeviceConnectionInfoBarHOC);

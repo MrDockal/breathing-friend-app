@@ -49,7 +49,7 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 		}));
 		const availableModesList = availableModes.map((mode: BreathingMode): AvailableBreathingListItemProps => ({
 			title: mode.name,
-			duration: `${mode.speed.normal.duration} minut`,
+			duration: this.convertMinutesToText(mode.speed.normal.duration),
 			onPress: () => this.props.goToModeDetail(mode, 'add', getBreathingThemeByIndex(), -1),
 		}));
 		return {
