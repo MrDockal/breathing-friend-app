@@ -13,6 +13,7 @@ import { StatsState, BreathingStatInterval } from '../Store/Reducers/statsReduce
 import { StatsListItem } from '../Components/StatsListItem/StatsListItem';
 import { Hr } from '../Components/Hr/Hr';
 import { BreathingMode } from '../Core/Entities/BreathingMode';
+import { getBreathingModeByStateAndUid } from '../Core/Helpers/getBreathingTheme';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -60,6 +61,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 	public render() {
 		const data = this.loadData();
 		const theme = 'black';
+		const getThemeByUid = getBreathingModeByStateAndUid(this.props.device.breathingModes);
 		return (
 			<BackgroundGradient theme={theme}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
@@ -77,7 +79,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 							Object.keys(data.weekly).map((breathingId: string, index: number) => (
 								<React.Fragment key={index}>
 									<StatsListItem
-										theme={'red'}
+										theme={getThemeByUid(breathingId)}
 										rightText={data.weekly[breathingId].toString() + 'x'}
 										title={this.getModeNameByUid(breathingId)}
 									/>
