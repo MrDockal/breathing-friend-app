@@ -1,16 +1,16 @@
 import React from 'react';
 import { ScrollView, Text, StyleSheet, Button, View } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
-import { routeNames } from '../Navigators/Navigators';
+import { routeNames } from '../../Navigators/Navigators';
 import { connect } from 'react-redux';
-import { State } from '../Store/configureStore';
-import { BreathingReinitializeAction } from '../Store/Actions/breathingActions';
+import { State } from '../../Store/configureStore';
+import { BreathingReinitializeAction } from '../../Store/Actions/breathingActions';
 import { Dispatch } from 'redux';
-import { BackgroundGradient } from '../Components/BackgroundGradient';
-import { List } from '../Components/List/List';
-import { TextNormal } from '../Components/Text/TextNormal';
-import { DeviceTile } from '../Components/DeviceTile/DeviceTile';
-import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
+import { BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
+import { List } from '../../Components/List/List';
+import { TextNormal } from '../../Components/Text/TextNormal';
+import { DeviceTile } from '../../Components/DeviceTile/DeviceTile';
+import { DeviceConnectionInfoBar } from '../DeviceConnectionInfoBar';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -45,7 +45,7 @@ class SettingsScreenHOC extends React.Component<Props> {
 			ripple: 'light'
 		}, {
 			title: 'Přejmenovat',
-			onPress: () => false,
+			onPress: () => this.props.navigation.navigate(routeNames.SettingsRenameDeviceNameScreen),
 			ripple: 'light'
 		}, {
 			title: 'Přepnout zařízení',
@@ -55,7 +55,7 @@ class SettingsScreenHOC extends React.Component<Props> {
 
 		const listItems2 = [{
 			title: 'O Breathing friend',
-			onPress: () => false,
+			onPress: () => this.props.navigation.navigate(routeNames.SettingsAboutAppScreen),
 			ripple: 'light'
 		}, {
 			title: 'Ohodnotit aplikaci',
@@ -63,7 +63,7 @@ class SettingsScreenHOC extends React.Component<Props> {
 			ripple: 'light'
 		}, {
 			title: 'Nahlásit chybu',
-			onPress: () => false,
+			onPress: () => this.props.navigation.navigate(routeNames.SettingsReportBugScreen),
 			ripple: 'light'
 		}];
 

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Device } from '../Core/Entities/Device';
-import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../Core/Entities/BreathingMode';
-import { ColorTheme } from './BackgroundGradient';
-import { BreathingList } from './BreathingList/BreathingList';
-import { AvailableBreathingListItemProps } from './BreathingList/AvailableBreathingListItem';
-import { ActiveBreathingListItemProps } from './BreathingList/ActiveBreathingListItem';
-import { getBreathingThemeByIndex } from '../Core/Helpers/getBreathingTheme';
-import { getActiveBreathingModes } from '../Core/Helpers/getBreathingModesStatus';
+import { Device } from '../../Core/Entities/Device';
+import { BreathingMode, DeviceSavedBreathingMode, BreathingSpeed } from '../../Core/Entities/BreathingMode';
+import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
+import { BreathingList } from '../BreathingList/BreathingList';
+import { AvailableBreathingListItemProps } from '../BreathingList/AvailableBreathingListItem';
+import { ActiveBreathingListItemProps } from '../BreathingList/ActiveBreathingListItem';
+import { getBreathingThemeByIndex } from '../../Core/Helpers/getBreathingTheme';
+import { getActiveBreathingModes } from '../../Core/Helpers/getBreathingModesStatus';
 
 interface BreathingModeWithActiveSpeed extends BreathingMode {
 	activeSpeed: keyof BreathingSpeed;

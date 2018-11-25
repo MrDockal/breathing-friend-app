@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { BackgroundGradient } from '../BackgroundGradient';
+import { BackgroundGradient } from '../BackgroundGradient/BackgroundGradient';
 import { H1 } from '../Text/H1';
-import { Button } from '../Button';
+import { Button } from '../Button/Button';
 import { TextNormal } from '../Text/TextNormal';
 
 const styles = StyleSheet.create({

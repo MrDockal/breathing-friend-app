@@ -3,105 +3,118 @@ import { createBottomTabNavigator, createStackNavigator, createNavigationContain
 import { Icon } from 'react-native-elements';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 
-// TabNavigation Screens
-import { HomeScreen } from '../Containers/HomeScreen';
-import { SettingsScreen } from '../Containers/SettingsScreen';
-import { StatsScreen } from '../Containers/StatsScreen';
-
-// SwitchNavigation Screen
-import { SplashScreen } from '../Containers/SplashScreen';
-import { SynchronizeDeviceScreen } from '../Containers/SynchronizeDeviceScreen';
-import { SettingsAboutApp } from '../Components/SettingsAboutApp';
-import { SeetingsReportBug } from '../Components/SettingsReportBug';
-import { SignpostScreen } from '../Containers/SignpostScreen';
-import { RenameDeviceScreen } from '../Containers/RenameDeviceScreen';
-import { BreathingModeDetailScreen } from '../Containers/BreathingModeDetailScreen';
-import { SuccessDeviceScreen } from '../Containers/SuccessDeviceScreen';
-import { SelectPositionScreen } from '../Containers/SelectPositionScreen';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
+import { SettingsScreen } from '../Containers/Settings/SettingsScreen';
+import { HomeScreen } from '../Containers/Home/HomeScreen';
+import { BreathingModeDetailScreen } from '../Containers/Home/BreathingModeDetailScreen';
+import { SelectPositionScreen } from '../Containers/Home/SelectPositionScreen';
+import { StatsScreen } from '../Containers/Stats/StatsScreen';
+import { SynchronizeDeviceScreen } from '../Containers/OnBoarding/SynchronizeDeviceScreen';
+import { RenameDeviceScreen } from '../Containers/OnBoarding/RenameDeviceScreen';
+import { SuccessDeviceScreen } from '../Containers/OnBoarding/SuccessDeviceScreen';
+import { SignpostScreen } from '../Containers/OnBoarding/SignpostScreen';
+import { SplashScreen } from '../Containers/OnBoarding/SplashScreen';
+import { SettingsRenameDeviceNameScreen } from '../Containers/Settings/SettingsRenameDeviceNameScreen';
+import { SettingsAboutAppScreen } from '../Containers/Settings/SettingsAboutAppScreen';
+import { SettingsReportBugScreen } from '../Containers/Settings/SettingsReportBugScreen';
 
 export const routeNames = {
-	HomeTab: 'HomeTab',
-	StatsTab: 'StatsTab',
-	SettingsTab: 'SettingsTab',
-	About: 'About',
-	ReportBug: 'ReportBug',
+	HomeScreen: 'HomeScreen',
+	StatsScreen: 'StatsScreen',
+	SettingsScreen: 'SettingsScreen',
+	SettingsAboutAppScreen: 'SettingsAboutAppScreen',
+	SettingsReportBugScreen: 'SettingsReportBugScreen',
 	MainApp: 'MainApp',
 	SplashScreen: 'SplashScreen',
 	SignpostScreen: 'SignpostScreen',
-	BluetoothSearchDevices: 'BluetoothSearchDevices',
+	SynchronizeDeviceScreen: 'SynchronizeDeviceScreen',
 	RenameDeviceScreen: 'RenameDeviceScreen',
 	App: 'App',
-	BreathingModeDetail: 'BreathingModeDetail',
+	BreathingModeDetailScreen: 'BreathingModeDetailScreen',
 	SuccessDeviceScreen: 'SuccessDeviceScreen',
 	SelectPositionScreen: 'SelectPositionScreen',
+	SettingsRenameDeviceNameScreen: 'SettingsRenameDeviceNameScreen',
 }
 
 const SettingsStackNavigation = createStackNavigator(
 	{
-		[routeNames.SettingsTab]: {
+		[routeNames.SettingsScreen]: {
 			screen: SettingsScreen,
 			navigationOptions: {
 				header: null,
 			},
 		},
-		[routeNames.About]: {
-			screen: SettingsAboutApp,
+		[routeNames.SettingsAboutAppScreen]: {
+			screen: SettingsAboutAppScreen,
 		},
-		[routeNames.ReportBug]: {
-			screen: SeetingsReportBug,
-		}
+		[routeNames.SettingsReportBugScreen]: {
+			screen: SettingsReportBugScreen,
+		},
+		[routeNames.SettingsRenameDeviceNameScreen]: {
+			screen: SettingsRenameDeviceNameScreen,
+		},
 	}, {
-		initialRouteName: routeNames.SettingsTab,
+		initialRouteName: routeNames.SettingsScreen,
 		headerMode: 'screen',
 		transitionConfig: getSlideFromRightTransition,
 	}
 );
+SettingsStackNavigation.navigationOptions = ({ navigation }: any) => {
+	const { routeName } = navigation.state.routes[navigation.state.index];
+	const tabBarVisible = !(
+		(routeName === routeNames.SettingsRenameDeviceNameScreen)
+	);
+	return {
+		tabBarVisible,
+	}
+};
 
 const HomeScreenStackNavigation = createStackNavigator(
 	{
-		[routeNames.HomeTab]: {
+		[routeNames.HomeScreen]: {
 			screen: HomeScreen,
 			navigationOptions: {
 				header: null,
 			},
 		},
-		[routeNames.BreathingModeDetail]: {
+		[routeNames.BreathingModeDetailScreen]: {
 			screen: BreathingModeDetailScreen,
 		},
 		[routeNames.SelectPositionScreen]: {
 			screen: SelectPositionScreen,
 		}
 	}, {
-		initialRouteName: routeNames.HomeTab,
+		initialRouteName: routeNames.HomeScreen,
 		headerMode: 'screen',
 		transitionConfig: getSlideFromRightTransition,
 	}
 );
-
 HomeScreenStackNavigation.navigationOptions = ({ navigation }: any) => {
 	const { routeName } = navigation.state.routes[navigation.state.index];
-	const tabBarVisible = !((routeName === routeNames.BreathingModeDetail) || (routeName === routeNames.SelectPositionScreen));
+	const tabBarVisible = !(
+		(routeName === routeNames.BreathingModeDetailScreen) ||
+		(routeName === routeNames.SelectPositionScreen)
+	);
 	return {
 		tabBarVisible,
 	}
 };
 
-const TabNavigation = createBottomTabNavigator(
+const MainApp = createBottomTabNavigator(
 	{
-		[routeNames.HomeTab]: {
+		[routeNames.HomeScreen]: {
 			screen: HomeScreenStackNavigation,
 			navigationOptions: () => ({
 				title: `Domů`,
 			}),
 		},
-		[routeNames.StatsTab]: {
+		[routeNames.StatsScreen]: {
 			screen: StatsScreen,
 			navigationOptions: () => ({
 				title: `Analýza`,
 			}),
 		},
-		[routeNames.SettingsTab]: {
+		[routeNames.SettingsScreen]: {
 			screen: SettingsStackNavigation,
 			navigationOptions: () => ({
 				title: `Nastavení`,
@@ -114,13 +127,13 @@ const TabNavigation = createBottomTabNavigator(
 				const { routeName } = navigation.state;
 				let iconName = 'N/A';
 				let type = '';
-				if (routeName === routeNames.HomeTab) {
+				if (routeName === routeNames.HomeScreen) {
 					iconName = `home`;
 					type = 'feather'
-				} else if (routeName === routeNames.StatsTab) {
+				} else if (routeName === routeNames.StatsScreen) {
 					type = 'font-awesome'
 					iconName = `bar-chart`;
-				} else if (routeName === routeNames.SettingsTab) {
+				} else if (routeName === routeNames.SettingsScreen) {
 					iconName = `settings`;
 				}
 
@@ -149,12 +162,12 @@ const TabNavigation = createBottomTabNavigator(
 const MainAppNavigation = createStackNavigator(
 	{
 		[routeNames.MainApp]: {
-			screen: TabNavigation,
+			screen: MainApp,
 			navigationOptions: {
 				header: null,
 			},
 		},
-		[routeNames.BluetoothSearchDevices]: {
+		[routeNames.SynchronizeDeviceScreen]: {
 			screen: SynchronizeDeviceScreen,
 		},
 		[routeNames.RenameDeviceScreen]: {

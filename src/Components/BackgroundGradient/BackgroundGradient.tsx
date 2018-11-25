@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
+import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 
 const styles = StyleSheet.create({
 	linearGradient: {

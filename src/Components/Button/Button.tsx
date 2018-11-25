@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet, Text, TouchableNativeFeedback } from 'react-native';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
-import { wait } from '../Core/Helpers/wait';
-import { ColorTheme } from './BackgroundGradient';
+import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
+import { wait } from '../../Core/Helpers/wait';
+import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 
 const styles = StyleSheet.create({
 	parentWrapper: {

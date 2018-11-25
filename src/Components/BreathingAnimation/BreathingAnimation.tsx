@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { BreathingDefinition } from '../Core/Entities/BreathingMode';
 import { Animated, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-const bfImage = require('../assets/white-bf.png');
-const bfShadow = require('../assets/breathing.png');
+import { BreathingDefinition } from '../../Core/Entities/BreathingMode';
+const bfImage = require('../../assets/white-bf.png');
+const bfShadow = require('../../assets/breathing.png');
 
 const styles = StyleSheet.create({
 	wrapper: {

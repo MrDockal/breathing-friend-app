@@ -1,15 +1,15 @@
 import React from 'react';
-import { Device } from '../Core/Entities/Device';
+import { Device } from '../../Core/Entities/Device';
 import { NavigationInjectedProps, NavigationEventSubscription } from 'react-navigation';
-import { DeviceState } from '../Store/Reducers/deviceReducer';
-import { State } from '../Store/configureStore';
+import { DeviceState } from '../../Store/Reducers/deviceReducer';
+import { State } from '../../Store/configureStore';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { routeNames } from '../Navigators/Navigators';
-import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
-import { DeviceConnectionInitializeAction } from '../Store/Actions/Device/deviceActions';
-import { NoBreathingDevice } from '../Components/Signpost/NoBreathingDevice';
-import { SignPost } from '../Components/Signpost/SignPost';
+import { routeNames } from '../../Navigators/Navigators';
+import { discoverBondedDevicesAction, pauseDiscoverBondedDevicesAction } from '../../Store/Actions/Device/devicesBondActions';
+import { DeviceConnectionInitializeAction } from '../../Store/Actions/Device/deviceActions';
+import { NoBreathingDevice } from '../../Components/Signpost/NoBreathingDevice';
+import { SignPost } from '../../Components/Signpost/SignPost';
 
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */
@@ -56,13 +56,13 @@ class SignpostScreenHOC extends React.Component<Props> {
 			<React.Fragment>
 				{
 					this.props.devices.devices.length === 0 ?
-						<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)} /> :
+						<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.SynchronizeDeviceScreen)} /> :
 						<SignPost
 							devices={this.props.devices.devices} initializeDevice={(device: Device) => {
 								this.props.deviceConnectionInitialize(device);
 								this.props.navigation.navigate(routeNames.MainApp);
 							}}
-							syncNewDevice={() => this.props.navigation.navigate(routeNames.BluetoothSearchDevices)}
+							syncNewDevice={() => this.props.navigation.navigate(routeNames.SynchronizeDeviceScreen)}
 						/>
 				}
 			</React.Fragment>

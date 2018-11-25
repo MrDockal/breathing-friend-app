@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { ColoredSelectBox } from '../Components/ColoredSelectBox/ColoredSelectBox';
+import { ColoredSelectBox } from '../../Components/ColoredSelectBox/ColoredSelectBox';
 import { NavigationInjectedProps } from 'react-navigation';
-import { TextNormal } from '../Components/Text/TextNormal';
-import { BackgroundGradient, ColorTheme } from '../Components/BackgroundGradient';
-import { BreathingMode, DeviceSavedBreathingMode } from '../Core/Entities/BreathingMode';
-import { H2 } from '../Components/Text/H2';
-import { Button } from '../Components/Button';
+import { TextNormal } from '../../Components/Text/TextNormal';
+import { BackgroundGradient, ColorTheme } from '../../Components/BackgroundGradient/BackgroundGradient';
+import { BreathingMode, DeviceSavedBreathingMode } from '../../Core/Entities/BreathingMode';
+import { H2 } from '../../Components/Text/H2';
+import { Button } from '../../Components/Button/Button';
 import { connect } from 'react-redux';
-import { State } from '../Store/configureStore';
-import { getActiveBreathingModes, ActiveBreathingModes } from '../Core/Helpers/getBreathingModesStatus';
-import { getBreathingThemeByIndex } from '../Core/Helpers/getBreathingTheme';
+import { State } from '../../Store/configureStore';
+import { getActiveBreathingModes, ActiveBreathingModes } from '../../Core/Helpers/getBreathingModesStatus';
+import { getBreathingThemeByIndex } from '../../Core/Helpers/getBreathingTheme';
+import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
 
 interface NavigationParams {
 	mode: BreathingMode;
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		textAlign: 'center',
-		paddingTop: 100,
 		paddingBottom: 40,
 		paddingHorizontal: 30,
 	},
@@ -51,7 +51,7 @@ interface StateProps {
 
 export type SelectPositionScreenProps = NavigationInjectedProps<NavigationParams> & StateProps;
 
-export class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps, ComponentState> {
+class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps, ComponentState> {
 
 	public constructor(props: SelectPositionScreenProps) {
 		super(props);
@@ -71,7 +71,7 @@ export class SelectPositionScreenHOC extends React.Component<SelectPositionScree
 	public render() {
 		return (
 			<BackgroundGradient theme={this.state.theme}>
-				<View style={styles.wrapper}>
+				<HeaderlessView contentContainerStyle={styles.wrapper}>
 					<View>
 						<H2 bold={true}>"Chvilka pro tebe"</H2>
 						<TextNormal>Nahradí vybranou pozici v zařízení</TextNormal>
@@ -94,7 +94,7 @@ export class SelectPositionScreenHOC extends React.Component<SelectPositionScree
 						}
 					</View>
 					<Button theme={this.state.theme} title={'Uložit'} onPress={() => false} />
-				</View>
+				</HeaderlessView>
 			</BackgroundGradient>
 		);
 	}

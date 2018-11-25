@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { ColorTheme } from '../BackgroundGradient';
+import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 import { TextNormal } from '../Text/TextNormal';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 

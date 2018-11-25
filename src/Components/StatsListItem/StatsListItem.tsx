@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { ColorTheme } from '../BackgroundGradient';
+import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 import { TextNormal } from '../Text/TextNormal';
 import { TextSmall } from '../Text/TextSmall';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';

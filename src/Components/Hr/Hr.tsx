@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
-import { ColorTheme } from '../BackgroundGradient';
+import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 
 const styles = StyleSheet.create({
 	hr: {

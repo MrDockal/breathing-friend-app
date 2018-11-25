@@ -1,19 +1,19 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
-import { BackgroundGradient } from '../Components/BackgroundGradient';
-import { DeviceTile } from '../Components/DeviceTile/DeviceTile';
-import { Device } from '../Core/Entities/Device';
+import { DeviceConnectionInfoBar } from '../DeviceConnectionInfoBar';
+import { BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
+import { DeviceTile } from '../../Components/DeviceTile/DeviceTile';
+import { Device } from '../../Core/Entities/Device';
 import { connect } from 'react-redux';
-import { State } from '../Store/configureStore';
-import { themeSchema } from '../Core/ThemeSchema/themeSchema';
-import { H1 } from '../Components/Text/H1';
-import { TextNormal } from '../Components/Text/TextNormal';
-import { StatsState, BreathingStatInterval } from '../Store/Reducers/statsReducer';
-import { StatsListItem } from '../Components/StatsListItem/StatsListItem';
-import { Hr } from '../Components/Hr/Hr';
-import { BreathingMode } from '../Core/Entities/BreathingMode';
-import { getBreathingModeByStateAndUid } from '../Core/Helpers/getBreathingTheme';
+import { State } from '../../Store/configureStore';
+import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
+import { H1 } from '../../Components/Text/H1';
+import { TextNormal } from '../../Components/Text/TextNormal';
+import { StatsState, BreathingStatInterval } from '../../Store/Reducers/statsReducer';
+import { StatsListItem } from '../../Components/StatsListItem/StatsListItem';
+import { Hr } from '../../Components/Hr/Hr';
+import { BreathingMode } from '../../Core/Entities/BreathingMode';
+import { getBreathingModeByStateAndUid } from '../../Core/Helpers/getBreathingTheme';
 
 const styles = StyleSheet.create({
 	wrapper: {

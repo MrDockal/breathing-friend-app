@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import SplashScreenRN from 'react-native-splash-screen';
 import { NavigationInjectedProps } from 'react-navigation';
-import { DeviceState } from '../Store/Reducers/deviceReducer';
+import { DeviceState } from '../../Store/Reducers/deviceReducer';
 import { connect } from 'react-redux';
-import { State } from '../Store/configureStore';
+import { State } from '../../Store/configureStore';
 import { Dispatch } from 'redux';
-import { routeNames } from '../Navigators/Navigators';
-import { BreathingInitLoadAction } from '../Store/Actions/breathingActions';
-import { discoverBondedDevicesAction } from '../Store/Actions/Device/devicesBondActions';
+import { routeNames } from '../../Navigators/Navigators';
+import { BreathingInitLoadAction } from '../../Store/Actions/breathingActions';
+import { discoverBondedDevicesAction } from '../../Store/Actions/Device/devicesBondActions';
 
 export interface OwnProps extends NavigationInjectedProps {
 	/** EMPTY */

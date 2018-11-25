@@ -1,22 +1,21 @@
 import React from 'react';
 import { NavigationInjectedProps, NavigationScreenProps } from 'react-navigation';
-import { ScrollView, Text, StyleSheet, RefreshControl, View } from 'react-native';
-import { SyncButton } from '../Components/SyncButton';
+import { ScrollView, StyleSheet } from 'react-native';
+import { SyncButton } from '../../Components/SyncButton/SyncButton';
 import { connect } from 'react-redux';
-import { State } from '../Store/configureStore';
+import { State } from '../../Store/configureStore';
 import { Dispatch } from 'redux';
 import { BleManagerDiscoverPeripheralResponse } from 'react-native-ble-manager';
-import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction } from '../Store/Actions/Device/deviceScanActions';
-import { routeNames } from '../Navigators/Navigators';
-import { BackgroundGradient } from '../Components/BackgroundGradient';
-import { TextNormal } from '../Components/Text/TextNormal';
-import { List } from '../Components/List/List';
-import { Ripple } from '../Components/List/ListItem';
+import { scanForAvailablePeripheralsAction, stopScanForAvailablePeripheralsAction } from '../../Store/Actions/Device/deviceScanActions';
+import { routeNames } from '../../Navigators/Navigators';
+import { BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
+import { TextNormal } from '../../Components/Text/TextNormal';
+import { List } from '../../Components/List/List';
+import { Ripple } from '../../Components/List/ListItem';
+import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
-		paddingTop: 100,
-		flexGrow: 1,
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		alignItems: 'stretch',
@@ -82,14 +81,14 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 		const newDevices = this.getNewDevices();
 		return (
 			<BackgroundGradient theme={'black'}>
-				<ScrollView
+				<HeaderlessView
 					contentContainerStyle={syncrhonizeDeviceScreensStyles.wrapper}
 				>
 					{
 						newDevices.length > 0 &&
 						<List listItems={newDevices} />
 					}
-				</ScrollView>
+				</HeaderlessView>
 			</BackgroundGradient>
 		);
 	}

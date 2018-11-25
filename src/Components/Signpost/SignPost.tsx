@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { BackgroundGradient } from '../BackgroundGradient';
+import { BackgroundGradient } from '../BackgroundGradient/BackgroundGradient';
 import { Device } from '../../Core/Entities/Device';
 import { TextNormal } from '../Text/TextNormal';
 import { TextSmall } from '../Text/TextSmall';

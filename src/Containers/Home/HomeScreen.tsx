@@ -1,17 +1,17 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ToastAndroid } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
-import { Device } from '../Core/Entities/Device';
+import { Device } from '../../Core/Entities/Device';
 import { connect } from 'react-redux';
-import { State } from '../Store/configureStore';
-import { LoadingModal } from '../Components/LoadingModal';
-import { DeviceBreathingModes } from '../Components/DeviceBreathingModes';
-import { BreathingMode, BreathingSpeed, DeviceSavedBreathingMode } from '../Core/Entities/BreathingMode';
-import { routeNames } from '../Navigators/Navigators';
-import { ColorTheme, BackgroundGradient } from '../Components/BackgroundGradient';
+import { State } from '../../Store/configureStore';
+import { LoadingModal } from '../../Components/LoadingModal/LoadingModal';
+import { DeviceBreathingModes } from '../../Components/DeviceBreathingModes/DeviceBreathingModes';
+import { BreathingMode, BreathingSpeed, DeviceSavedBreathingMode } from '../../Core/Entities/BreathingMode';
+import { routeNames } from '../../Navigators/Navigators';
+import { ColorTheme, BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
 import { Dispatch } from 'redux';
-import { DeviceBreathingModeUpdateAction } from '../Store/Actions/Device/deviceBreathingModesActions';
-import { DeviceConnectionInfoBar } from './DeviceConnectionInfoBar';
+import { DeviceBreathingModeUpdateAction } from '../../Store/Actions/Device/deviceBreathingModesActions';
+import { DeviceConnectionInfoBar } from '../DeviceConnectionInfoBar';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -54,7 +54,7 @@ class HomeScreenHOC extends React.Component<Props> {
 
 	private goToModeDetail = (mode: BreathingMode, action: 'edit' | 'add', theme: ColorTheme, index: number, defaultSpeed?: keyof BreathingSpeed) => {
 		const nextAction = (action === 'edit') ? this.props.updateBreathing : this.goToSelectPositionScreen;
-		this.props.navigation.navigate(routeNames.BreathingModeDetail, {
+		this.props.navigation.navigate(routeNames.BreathingModeDetailScreen, {
 			mode,
 			action,
 			defaultSpeed,

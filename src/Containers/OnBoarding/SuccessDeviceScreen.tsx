@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { BackgroundGradient } from '../Components/BackgroundGradient';
-import { Button } from '../Components/Button';
-import { H1 } from '../Components/Text/H1';
-import { TextNormal } from '../Components/Text/TextNormal';
+import { BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
+import { Button } from '../../Components/Button/Button';
+import { H1 } from '../../Components/Text/H1';
+import { TextNormal } from '../../Components/Text/TextNormal';
 import { NavigationInjectedProps } from 'react-navigation';
-import { routeNames } from '../Navigators/Navigators';
+import { routeNames } from '../../Navigators/Navigators';
 
 const styles = StyleSheet.create({
 	wrapper: {

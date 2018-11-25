@@ -1,15 +1,16 @@
 import React from 'react';
 import { NavigationInjectedProps, NavigationScreenProps } from 'react-navigation';
 import { View, StyleSheet } from 'react-native';
-import { BreathingMode, BreathingSpeed, BreathingDefinition, DeviceSavedBreathingMode } from '../Core/Entities/BreathingMode';
-import { BreathingAnimation } from '../Components/BreathingAnimation';
-import { Button } from '../Components/Button';
-import { numberToBreathingConverter, breathingToNumberConverter } from '../Core/Helpers/convertEntities';
-import { TextNormal } from '../Components/Text/TextNormal';
-import { BackgroundGradient, ColorTheme } from '../Components/BackgroundGradient';
-import { Slider } from '../Components/Slider/Slider';
+import { BreathingMode, BreathingSpeed, BreathingDefinition, DeviceSavedBreathingMode } from '../../Core/Entities/BreathingMode';
+import { BreathingAnimation } from '../../Components/BreathingAnimation/BreathingAnimation';
+import { Button } from '../../Components/Button/Button';
+import { numberToBreathingConverter, breathingToNumberConverter } from '../../Core/Helpers/convertEntities';
+import { TextNormal } from '../../Components/Text/TextNormal';
+import { BackgroundGradient, ColorTheme } from '../../Components/BackgroundGradient/BackgroundGradient';
+import { Slider } from '../../Components/Slider/Slider';
 import { connect } from 'react-redux';
-import { State } from '../Store/configureStore';
+import { State } from '../../Store/configureStore';
+import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -17,7 +18,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		textAlign: 'center',
-		paddingTop: 100,
 		paddingBottom: 40,
 	},
 });
@@ -65,7 +65,7 @@ export class BreathingModeDetailScreenHOC extends React.Component<Props, Compone
 		const buttonTitle = this.props.navigation.state.params!.action === 'edit' ? 'Aktualizovat' : 'Pokračovat'
 		return (
 			<BackgroundGradient theme={this.props.navigation.state.params!.theme}>
-				<View style={styles.wrapper}>
+				<HeaderlessView contentContainerStyle={styles.wrapper}>
 					<TextNormal>Dýchejte společně s animací</TextNormal>
 					<BreathingAnimation breathing={this.state.activeBreathingDefinition} />
 					<Slider defaultSliderValue={this.state.sliderValue} onChange={(sliderValue: number) => this.onSlidingComplete(sliderValue)} />
@@ -73,7 +73,7 @@ export class BreathingModeDetailScreenHOC extends React.Component<Props, Compone
 						theme={this.props.navigation.state.params!.theme}
 						title={buttonTitle}
 						onPress={this.buttonCallback} />}
-				</View>
+				</HeaderlessView>
 			</BackgroundGradient>
 		);
 	}
