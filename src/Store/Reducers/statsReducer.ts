@@ -3,38 +3,66 @@ import { NewNotificationObtained } from "../Actions/notificationActions";
 export interface BreathingStatInterval {
 	since: number;
 	to: number;
+	breathingUid: string;
 }
 
-export interface BreathingStat {
-	[breahingId: string]: BreathingStatInterval[];
+export interface DeviceStat {
+	deviceUid: string;
+	stats: BreathingStatInterval[]
 }
 
 export interface StatsState {
-	stats: BreathingStat;
+	stats: DeviceStat[]
 }
 
-export const statsInitialState: StatsState = {
-	stats: {},
+const initialState = {
+	stats: [],
 }
 
 type Action =
 	NewNotificationObtained
 	;
 
-export const statsReducer = (state: StatsState = statsInitialState, action: Action): StatsState => {
+export const statsReducer = (state: StatsState = initialState, action: Action): StatsState => {
 	switch (action.type) {
 		case NewNotificationObtained:
-			const prevStats = !(action.data.breathingUid in state.stats) ? [] : state.stats[action.data.breathingUid];
-			return {
-				...state,
-				stats: {
-					...state.stats,
-					[action.data.breathingUid]: [
-						...prevStats,
+			const foundIndex = state.stats.findIndex((stat: DeviceStat) => stat.deviceUid === action.peripheralId);
+			if (foundIndex === -1) {
+				const deviceStat = {
+					deviceUid: action.peripheralId,
+					stats: [
 						{
-							since: action.data.since,
-							to: action.data.to
+							...action.data
 						}
+					],
+				};
+				return {
+					...state,
+					stats: [
+						...state.stats,
+						deviceStat,
+					]
+				}
+			} else {
+				console.log('state', state);
+				const statsWithoutUpdate = [
+					...state.stats.slice(0, foundIndex),
+					...state.stats.slice(foundIndex + 1)
+				];
+				const updatedStat = {
+					...state.stats[foundIndex],
+					stats: [
+						...state.stats[foundIndex].stats,
+						{
+							...action.data,
+						}
+					],
+				};
+				return {
+					...state,
+					stats: [
+						...statsWithoutUpdate,
+						updatedStat,
 					]
 				}
 			}
