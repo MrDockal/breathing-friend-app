@@ -1,5 +1,5 @@
-import { ColorTheme } from "../../Components/BackgroundGradient";
 import { DeviceSavedBreathingMode } from "../Entities/BreathingMode";
+import { ColorTheme } from "../../Components/BackgroundGradient/BackgroundGradient";
 
 export const getBreathingThemeByIndex = (index?: number): ColorTheme => {
 	switch (index) {

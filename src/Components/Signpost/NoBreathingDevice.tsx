@@ -4,6 +4,7 @@ import { BackgroundGradient } from '../BackgroundGradient/BackgroundGradient';
 import { H1 } from '../Text/H1';
 import { Button } from '../Button/Button';
 import { TextNormal } from '../Text/TextNormal';
+import { i18n } from '../../Core/i18n/i18n';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -29,7 +30,7 @@ export class NoBreathingDevice extends React.Component<NoBreathingDeviceProps> {
 					<Button
 						theme={'black'}
 						onPress={() => this.props.syncNewDevice()}
-						title="Přidat nové zařízení"
+						title={i18n.t('add_new_device')}
 					/>
 				</View>
 			</BackgroundGradient>

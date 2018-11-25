@@ -15,6 +15,7 @@ import { Hr } from '../../Components/Hr/Hr';
 import { BreathingMode } from '../../Core/Entities/BreathingMode';
 import { getBreathingModeByStateAndUid } from '../../Core/Helpers/getBreathingTheme';
 import { ActivityIndicator } from '../../Components/ActivityIndicator/ActivityIndicator';
+import { i18n } from '../../Core/i18n/i18n';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -75,31 +76,33 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 
 	private renderEmpty() {
 		return (
-			<TextNormal>Zatím nejsou k dipozici data o používání</TextNormal>
+			<TextNormal>{i18n.t('no_stats')}</TextNormal>
 		);
 	}
 
 	private renderWithData(theme: ColorTheme) {
 		const data = this.loadData();
 		const getThemeByUid = getBreathingModeByStateAndUid(this.props.device.breathingModes);
+		const totalMinutes = data.totalTime;
+		const totalMinutesText = i18n.t('minutes', {count: totalMinutes});
 		return (
 			<React.Fragment>
 				<View>
 					<View style={styles.overview}>
-						<H1 style={styles.blue}>{data.totalTime.toLocaleString()}</H1>
-						<TextNormal style={styles.blue}> minut</TextNormal>
+						<H1 style={styles.blue}>{totalMinutes.toLocaleString()}</H1>
+						<TextNormal style={styles.blue}> {totalMinutesText}</TextNormal>
 					</View>
-					<TextNormal bold={true}>Celkem nadýcháno</TextNormal>
+					<TextNormal bold={true}>{i18n.t('total_breathing')}</TextNormal>
 				</View>
 				<View>
-					<TextNormal bold={true} style={styles.tableHeader}>Tento měsíc</TextNormal>
+					<TextNormal bold={true} style={styles.tableHeader}>{i18n.t('this_month')}</TextNormal>
 					{
 						Object.keys(data.weekly).map((breathingId: string, index: number) => (
 							<React.Fragment key={index}>
 								<StatsListItem
 									theme={getThemeByUid(breathingId)}
 									rightText={data.weekly[breathingId].toString() + 'x'}
-									title={this.getModeNameByUid(breathingId)}
+									title={i18n.t(this.getModeNameByUid(breathingId))}
 								/>
 								<Hr theme={theme} />
 							</React.Fragment>
@@ -113,7 +116,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 	private getModeNameByUid(modeUid: string) {
 		const found = this.props.breathingMode.find((mode: BreathingMode) => modeUid === mode.uid)
 		if (!found) {
-			return 'Neznámé';
+			return i18n.t('unknown');
 		} else {
 			return found.name;
 		}

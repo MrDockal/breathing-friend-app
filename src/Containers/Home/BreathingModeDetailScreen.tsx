@@ -11,6 +11,7 @@ import { Slider } from '../../Components/Slider/Slider';
 import { connect } from 'react-redux';
 import { State } from '../../Store/configureStore';
 import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
+import { i18n } from '../../Core/i18n/i18n';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -62,11 +63,11 @@ export class BreathingModeDetailScreenHOC extends React.Component<Props, Compone
 	});
 
 	public render() {
-		const buttonTitle = this.props.navigation.state.params!.action === 'edit' ? 'Aktualizovat' : 'Pokračovat'
+		const buttonTitle = this.props.navigation.state.params!.action === 'edit' ? i18n.t('update') : i18n.t('continue');
 		return (
 			<BackgroundGradient theme={this.props.navigation.state.params!.theme}>
 				<HeaderlessView contentContainerStyle={styles.wrapper}>
-					<TextNormal>Dýchejte společně s animací</TextNormal>
+					<TextNormal>{i18n.t('breathe_together_with_animation')}</TextNormal>
 					<BreathingAnimation breathing={this.state.activeBreathingDefinition} />
 					<Slider defaultSliderValue={this.state.sliderValue} onChange={(sliderValue: number) => this.onSlidingComplete(sliderValue)} />
 					{this.props.displayButton && <Button

@@ -8,7 +8,6 @@ export interface FirebaseConnection {
 }
 
 export const createFirebaseConnection = (config: any = defaultConfig.firebase, name: string = defaultName): FirebaseConnection => {
-    console.log('config', config);
     let app;
     try {
         app = Firebase.app(name);

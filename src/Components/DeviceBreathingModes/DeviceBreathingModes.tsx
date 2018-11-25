@@ -7,6 +7,7 @@ import { AvailableBreathingListItemProps } from '../BreathingList/AvailableBreat
 import { ActiveBreathingListItemProps } from '../BreathingList/ActiveBreathingListItem';
 import { getBreathingThemeByIndex } from '../../Core/Helpers/getBreathingTheme';
 import { getActiveBreathingModes } from '../../Core/Helpers/getBreathingModesStatus';
+import { i18n } from '../../Core/i18n/i18n';
 
 interface BreathingModeWithActiveSpeed extends BreathingMode {
 	activeSpeed: keyof BreathingSpeed;
@@ -30,7 +31,9 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 		const minutesFixed = parseFloat(minutes.toFixed(2));
 		const justMinutes = Math.trunc(minutesFixed);
 		const seconds = Math.round((minutesFixed - justMinutes) * 60);
-		return `${justMinutes} minutes ${(seconds > 0) ? `${seconds} seconds` : ''}`;
+		const minutesText = i18n.t('minutes', {count: justMinutes});
+		const secondsText = i18n.t('seconds', {count: seconds});
+		return `${justMinutes} ${minutesText} ${(seconds > 0) ? `${seconds} ${secondsText}` : ''}`;
 	}
 
 	private prepareBreathingModes() {
@@ -40,15 +43,15 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 			return (activeModesUids.indexOf(mode.uid) === -1);
 		});
 		const activeModesList = activeModes.map((mode: BreathingModeWithActiveSpeed, index: number): ActiveBreathingListItemProps => ({
-			title: mode.name,
+			title: i18n.t(mode.name),
 			duration: this.convertMinutesToText(mode.speed[mode.activeSpeed].duration),
 			position: index + 1,
 			theme: getBreathingThemeByIndex(index),
-			speed: mode.activeSpeed,
+			speed: i18n.t(mode.activeSpeed),
 			onPress: () => this.props.goToModeDetail(mode, 'edit', getBreathingThemeByIndex(index), index, mode.activeSpeed),
 		}));
 		const availableModesList = availableModes.map((mode: BreathingMode): AvailableBreathingListItemProps => ({
-			title: mode.name,
+			title: i18n.t(mode.name),
 			duration: this.convertMinutesToText(mode.speed.normal.duration),
 			onPress: () => this.props.goToModeDetail(mode, 'add', getBreathingThemeByIndex(), -1),
 		}));

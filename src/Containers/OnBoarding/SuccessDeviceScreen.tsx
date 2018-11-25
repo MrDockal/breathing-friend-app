@@ -6,6 +6,7 @@ import { H1 } from '../../Components/Text/H1';
 import { TextNormal } from '../../Components/Text/TextNormal';
 import { NavigationInjectedProps } from 'react-navigation';
 import { routeNames } from '../../Navigators/Navigators';
+import { i18n } from '../../Core/i18n/i18n';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -37,10 +38,10 @@ export class SuccessDeviceScreen extends React.Component<SuccessDeviceScreenProp
 				<ScrollView contentContainerStyle={styles.wrapper}>
 					<View />
 					<View>
-						<H1>Gratulujeme!</H1>
-						<TextNormal>Vaše dýchátko se jmenuje: {this.props.navigation.state.params!.deviceName}. Jméno si můžete později změnit v aplikaci.</TextNormal>
+						<H1>{i18n.t('congratulations')}!</H1>
+						<TextNormal>{i18n.t('your_device_name')}{this.props.navigation.state.params!.deviceName}. Jméno si můžete později změnit v aplikaci.</TextNormal>
 					</View>
-					<Button theme={'black'} title={'Jdeme na to!'} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)} />
+					<Button theme={'black'} title={i18n.t('lets_go')} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)} />
 				</ScrollView>
 			</BackgroundGradient>
 		)

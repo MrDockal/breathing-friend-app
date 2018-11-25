@@ -12,6 +12,7 @@ import { State } from '../../Store/configureStore';
 import { getActiveBreathingModes, ActiveBreathingModes } from '../../Core/Helpers/getBreathingModesStatus';
 import { getBreathingThemeByIndex } from '../../Core/Helpers/getBreathingTheme';
 import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
+import { i18n } from '../../Core/i18n/i18n';
 
 interface NavigationParams {
 	mode: BreathingMode;
@@ -63,7 +64,7 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 	}
 
 	static navigationOptions = ({ navigation }: SelectPositionScreenProps) => ({
-		headerTitle: <TextNormal>Výběr pozice</TextNormal>,
+		headerTitle: <TextNormal>{i18n.t('select_position')}</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 	});
@@ -73,8 +74,8 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 			<BackgroundGradient theme={this.state.theme}>
 				<HeaderlessView contentContainerStyle={styles.wrapper}>
 					<View>
-						<H2 bold={true}>"Chvilka pro tebe"</H2>
-						<TextNormal>Nahradí vybranou pozici v zařízení</TextNormal>
+						<H2 bold={true}>{this.props.navigation.state.params!.mode.name}</H2>
+						<TextNormal>{i18n.t('will_replace')}</TextNormal>
 					</View>
 					<View style={styles.fullWidht}>
 						{
@@ -93,7 +94,7 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 							))
 						}
 					</View>
-					<Button theme={this.state.theme} title={'Uložit'} onPress={() => false} />
+					<Button theme={this.state.theme} title={i18n.t('save')} onPress={() => false} />
 				</HeaderlessView>
 			</BackgroundGradient>
 		);

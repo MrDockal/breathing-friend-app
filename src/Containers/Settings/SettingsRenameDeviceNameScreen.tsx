@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { deviceSetNameAction } from '../../Store/Actions/Device/deviceActions';
 import { NavigationInjectedProps, NavigationScreenProps } from 'react-navigation';
 import { TextNormal } from '../../Components/Text/TextNormal';
+import { i18n } from '../../Core/i18n/i18n';
 
 interface StateProps {
 	deviceName: string;
@@ -21,7 +22,7 @@ export type SettingsRenameDeviceNameScreenProps = StateProps & DispatchProps & N
 class SettingsRenameDeviceNameScreenHOC extends React.Component<SettingsRenameDeviceNameScreenProps> {
 
 	static navigationOptions = ({ navigation }: NavigationScreenProps<{}>) => ({
-		headerTitle: <TextNormal>Přejmenovat</TextNormal>,
+		headerTitle: <TextNormal>{i18n.t('rename')}</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 	});

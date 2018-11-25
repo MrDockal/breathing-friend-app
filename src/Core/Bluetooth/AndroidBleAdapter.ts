@@ -4,7 +4,6 @@ import {
 	NativeModules,
 } from 'react-native';
 import { requestBluetoothPermisions, restartBluetoothAdapter } from './requestBluetoothPermisions';
-import { Buffer } from 'buffer';
 import { parseBluetoothMessage } from '../Helpers/parseBluetoothMessage';
 import { stringToArrayBuffer } from '../Helpers/string-converter';
 

@@ -17,6 +17,7 @@ import { SplashScreen } from '../Containers/OnBoarding/SplashScreen';
 import { SettingsRenameDeviceNameScreen } from '../Containers/Settings/SettingsRenameDeviceNameScreen';
 import { SettingsAboutAppScreen } from '../Containers/Settings/SettingsAboutAppScreen';
 import { SettingsReportBugScreen } from '../Containers/Settings/SettingsReportBugScreen';
+import { i18n } from '../Core/i18n/i18n';
 
 export const routeNames = {
 	HomeScreen: 'HomeScreen',
@@ -107,19 +108,19 @@ const MainApp = createBottomTabNavigator(
 		[routeNames.HomeScreen]: {
 			screen: HomeScreenStackNavigation,
 			navigationOptions: () => ({
-				title: `Domů`,
+				title: i18n.t('nav_home'),
 			}),
 		},
 		[routeNames.StatsScreen]: {
 			screen: StatsScreen,
 			navigationOptions: () => ({
-				title: `Analýza`,
+				title: i18n.t('nav_stats'),
 			}),
 		},
 		[routeNames.SettingsScreen]: {
 			screen: SettingsStackNavigation,
 			navigationOptions: () => ({
-				title: `Nastavení`,
+				title: i18n.t('nav_settings'),
 			}),
 		},
 	},

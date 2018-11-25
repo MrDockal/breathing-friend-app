@@ -13,6 +13,7 @@ import { DeviceTile } from '../../Components/DeviceTile/DeviceTile';
 import { DeviceConnectionInfoBar } from '../DeviceConnectionInfoBar';
 import { Device } from '../../Core/Entities/Device';
 import { DeviceConnectionRemoveAction } from '../../Store/Actions/Device/deviceActions';
+import { i18n } from '../../Core/i18n/i18n';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -42,36 +43,36 @@ class SettingsScreenHOC extends React.Component<Props> {
 
 	public render() {
 		const listItems = [{
-			title: 'Baterie zařízení',
+			title: i18n.t('battery'),
 			onPress: () => false,
 			rightText: <TextNormal>10%</TextNormal>,
 			ripple: 'light'
 		}, {
-			title: 'Přejmenovat',
+			title: i18n.t('rename'),
 			onPress: () => this.props.navigation.navigate(routeNames.SettingsRenameDeviceNameScreen),
 			ripple: 'light'
 		}, {
-			title: 'Přepnout zařízení',
+			title: i18n.t('switch_device'),
 			onPress: () => this.props.navigation.navigate(routeNames.SignpostScreen),
 			ripple: 'light'
 		}];
 
 		const listItems2 = [{
-			title: 'O Breathing friend',
+			title: i18n.t('about_app'),
 			onPress: () => this.props.navigation.navigate(routeNames.SettingsAboutAppScreen),
 			ripple: 'light'
 		}, {
-			title: 'Ohodnotit aplikaci',
+			title: i18n.t('rate_app'),
 			onPress: () => false,
 			ripple: 'light'
 		}, {
-			title: 'Nahlásit chybu',
+			title: i18n.t('report_bug'),
 			onPress: () => this.props.navigation.navigate(routeNames.SettingsReportBugScreen),
 			ripple: 'light'
 		}];
 
 		const listItems3 = [{
-			title: 'Odpojit zařízení',
+			title: i18n.t('deprovision_device'),
 			onPress: this.disconnectDevice,
 			ripple: 'light'
 		}, {
@@ -96,12 +97,12 @@ class SettingsScreenHOC extends React.Component<Props> {
 
 	private disconnectDevice = () => {
 		Alert.alert(
-			'Odpojit zařízení',
-			'Tato akce odpojí zařízení od všeho účtu a odstraní statistiky používání. Zařízení si budete moci znovu spárovat.',
+			i18n.t('deprovision_device'),
+			i18n.t('deprovision_device_text'),
 			[
-				{ text: 'Zrušit', onPress: () => false, style: 'cancel' },
+				{ text: i18n.t('cancel'), onPress: () => false, style: 'cancel' },
 				{
-					text: 'Odpojit', onPress: () => {
+					text: i18n.t('detach'), onPress: () => {
 						this.props.navigation.navigate(routeNames.SignpostScreen);
 						this.props.disconnectDevice(this.props.device);
 					}
@@ -114,7 +115,6 @@ class SettingsScreenHOC extends React.Component<Props> {
 
 export const SettingsScreen = connect<StateProps, DispatchProps, OwnProps>(
 	(state: State, _ownProps: OwnProps) => {
-		console.log('SettingsScreen', state.device);
 		return {
 			device: state.device.devices[state.device.activeDeviceIndex],
 		}

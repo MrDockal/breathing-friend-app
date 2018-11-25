@@ -4,6 +4,7 @@ import { BackgroundGradient } from '../BackgroundGradient/BackgroundGradient';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 import { Button } from '../Button/Button';
 import { HeaderlessView } from '../HeaderlessView/HeaderlessView';
+import { i18n } from '../../Core/i18n/i18n';
 
 const renameDeviceScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -51,7 +52,7 @@ export class RenameDeviceView extends React.Component<RenameDeviceViewProps, Com
 						onChangeText={this.onNameChange}
 						value={this.state.name}
 					/>
-					<Button theme={'black'} title={'Pokračovat'} onPress={() => this.props.submit(this.state.name)} />
+					<Button theme={'black'} title={i18n.t('continue')} onPress={() => this.props.submit(this.state.name)} />
 				</HeaderlessView>
 			</BackgroundGradient>
 		);

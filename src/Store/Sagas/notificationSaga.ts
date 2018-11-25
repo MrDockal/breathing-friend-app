@@ -21,7 +21,6 @@ export function* notificationSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispa
 				to: dataUtf8[2],
 			} as NotificationData;
 			const notificationAction = NewNotificationObtainedAction(actionData, data.peripheral, data.characteristic + data.service);
-			console.info('Notification received', notificationAction)
 			dispatch(notificationAction);
 		}
 	}

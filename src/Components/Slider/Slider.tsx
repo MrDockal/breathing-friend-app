@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Slider as SliderRN, StyleSheet, View } from 'react-native';
 import { TextSmall } from '../Text/TextSmall';
+import { i18n } from '../../Core/i18n/i18n';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -52,7 +53,7 @@ export class Slider extends React.Component<SliderProps, State> {
 	}
 
 	public render() {
-		const labels = ['Pomalu', 'Středně', 'Rychle'];
+		const labels = [i18n.t('slow'), i18n.t('normal'), i18n.t('fast')];
 		return (
 			<View style={styles.wrapper}>
 				<View style={styles.labels}>
