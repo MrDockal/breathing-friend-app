@@ -4,7 +4,6 @@ import { NavigationInjectedProps } from 'react-navigation';
 import { Device } from '../../Core/Entities/Device';
 import { connect } from 'react-redux';
 import { State } from '../../Store/configureStore';
-import { LoadingModal } from '../../Components/LoadingModal/LoadingModal';
 import { DeviceBreathingModes } from '../../Components/DeviceBreathingModes/DeviceBreathingModes';
 import { BreathingMode, BreathingSpeed, DeviceSavedBreathingMode } from '../../Core/Entities/BreathingMode';
 import { routeNames } from '../../Navigators/Navigators';
@@ -12,6 +11,7 @@ import { ColorTheme, BackgroundGradient } from '../../Components/BackgroundGradi
 import { Dispatch } from 'redux';
 import { DeviceBreathingModeUpdateAction } from '../../Store/Actions/Device/deviceBreathingModesActions';
 import { DeviceConnectionInfoBar } from '../DeviceConnectionInfoBar';
+import { ActivityIndicator } from '../../Components/ActivityIndicator/ActivityIndicator';
 
 const homeScreenStyles = StyleSheet.create({
 	wrapper: {
@@ -41,7 +41,7 @@ class HomeScreenHOC extends React.Component<Props> {
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
 					{(this.props.loading || !this.props.breathingModes || !this.props.activeDevice) ?
-						<LoadingModal /> :
+						<ActivityIndicator /> :
 						<React.Fragment>
 							<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} />
 						</React.Fragment>
