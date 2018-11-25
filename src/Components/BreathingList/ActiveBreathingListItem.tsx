@@ -27,7 +27,7 @@ export class ActiveBreathingListItem extends React.Component<ActiveBreathingList
 				<TouchableNativeFeedback
 					background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, .1)', false)}
 					onPress={async () => {
-						await wait(100);
+						await wait(1);
 						this.props.onPress();
 					}}
 				>

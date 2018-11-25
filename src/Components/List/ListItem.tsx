@@ -51,7 +51,7 @@ export class ListItem extends React.Component<ListItemProps> {
 	}
 
 	private onPress = async () => {
-		await wait(100);
+		await wait(1);
 		this.props.onPress()
 	}
 }
