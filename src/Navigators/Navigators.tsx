@@ -62,7 +62,9 @@ const SettingsStackNavigation = createStackNavigator(
 SettingsStackNavigation.navigationOptions = ({ navigation }: any) => {
 	const { routeName } = navigation.state.routes[navigation.state.index];
 	const tabBarVisible = !(
-		(routeName === routeNames.SettingsRenameDeviceNameScreen)
+		(routeName === routeNames.SettingsRenameDeviceNameScreen) ||
+		(routeName === routeNames.SettingsReportBugScreen) ||
+		(routeName === routeNames.SettingsAboutAppScreen)
 	);
 	return {
 		tabBarVisible,

@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { TextNormal } from '../../Components/Text/TextNormal';
+import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
+import { H1 } from '../../Components/Text/H1';
+import { BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
 
 export class SettingsAboutAppScreen extends React.Component {
 	
@@ -13,9 +15,11 @@ export class SettingsAboutAppScreen extends React.Component {
 
 	public render() {
 		return (
-			<View>
-				<Text>About App</Text>
-			</View>
+			<BackgroundGradient theme={'black'}>
+				<HeaderlessView>
+					<H1>About app</H1>
+				</HeaderlessView>
+			</BackgroundGradient>
 		);
 	}
 }

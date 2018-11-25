@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, StyleSheet, Button, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Alert } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { routeNames } from '../../Navigators/Navigators';
 import { connect } from 'react-redux';
@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
 });
 
 interface DispatchProps {
+	disconnectDevice: (deviceUid: string) => void;
 	reinitialize: () => void;
 }
 
 interface StateProps {
 	deviceName: string;
+	deviceUid: string;
 }
 
 type OwnProps = NavigationInjectedProps;
@@ -69,11 +71,11 @@ class SettingsScreenHOC extends React.Component<Props> {
 
 		const listItems3 = [{
 			title: 'Odpojit zařízení',
-			onPress: () => false,
+			onPress: this.disconnectDevice,
 			ripple: 'light'
 		}, {
 			title: 'Reinicializace',
-			onPress: () => false,
+			onPress: () => this.props.reinitialize(),
 			ripple: 'light'
 		}];
 		return (
@@ -90,14 +92,30 @@ class SettingsScreenHOC extends React.Component<Props> {
 			</BackgroundGradient>
 		)
 	}
+
+	private disconnectDevice = () => {
+		Alert.alert(
+			'Odpojit zařízení',
+			'Tato akce odpojí zařízení od všeho účtu a odstraní statistiky používání. Zařízení si budete moci znovu spárovat.',
+			[
+			  {text: 'Zrušit', onPress: () => false, style: 'cancel'},
+			  {text: 'Odpojit', onPress: () => this.props.disconnectDevice(this.props.deviceUid)},
+			],
+			{ cancelable: false }
+		  )
+	}
 }
 
 export const SettingsScreen = connect<StateProps, DispatchProps, OwnProps>(
 	(state: State, _ownProps: OwnProps) => ({
-		deviceName: state.device.devices[state.device.activeDeviceIndex].name
+		deviceName: state.device.devices[state.device.activeDeviceIndex].name,
+		deviceUid: state.device.devices[state.device.activeDeviceIndex].uid
 	}),
 	(dispatch: Dispatch) => ({
 		reinitialize: () => {
+			dispatch(BreathingReinitializeAction());
+		},
+		disconnectDevice: (deviceUid: string) => {
 			dispatch(BreathingReinitializeAction());
 		}
 	}),
