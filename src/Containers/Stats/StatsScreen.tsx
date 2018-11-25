@@ -84,7 +84,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 					<TextNormal bold={true}>Celkem nadýcháno</TextNormal>
 				</View>
 				<View>
-					<TextNormal bold={true} style={styles.tableHeader}>Tento tento měsíc</TextNormal>
+					<TextNormal bold={true} style={styles.tableHeader}>Tento měsíc</TextNormal>
 					{
 						Object.keys(data.weekly).map((breathingId: string, index: number) => (
 							<React.Fragment key={index}>

@@ -1,13 +1,13 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
 import { Dispatch } from "redux";
-import { DiscoverBondedDevices, discoveredBondedDevicesAction, discoverBondedDevicesAction, PauseDiscoverBondedDevices, PeripheralBondStart, peripheralBondSucceededAction, peripheralBondFailedAction, PeripheralRemoveBond, peripheralBondRemovedAction, peripheralBondRemoveFailedAction, WatchDeviceConnectionChanges, DeviceConnectedAction, DeviceDisconnectedAction } from "../Actions/Device/devicesBondActions";
+import { DiscoverBondedDevices, discoveredBondedDevicesAction, discoverBondedDevicesAction, PauseDiscoverBondedDevices, PeripheralBondStart, peripheralBondSucceededAction, peripheralBondFailedAction, PeripheralRemoveBond, peripheralBondRemovedAction, peripheralBondRemoveFailedAction, WatchDeviceConnectionChanges, DeviceConnectedAction, DeviceDisconnectedAction, peripheralRemoveBondAction } from "../Actions/Device/devicesBondActions";
 import { State } from "../configureStore";
 import { Device } from "../../Core/Entities/Device";
 import { wait } from "../../Core/Helpers/wait";
 import { ScanForAvailablePeripherals, availablePeripheralObtainedAction, peripheralScanStoppedAction, StopScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
 import { AndroidBleAdapter } from '../../Core/Bluetooth/AndroidBleAdapter';
 import { BleManagerDiscoverPeripheralResponse, BleManagerConnectPeripheralResponse, BleManagerDisconnectPeripheralResponse } from 'react-native-ble-manager';
-import { DeviceConnectionInitialize, DeviceConnectionInitializedAction, setActiveDeviceAction } from '../Actions/Device/deviceActions';
+import { DeviceConnectionInitialize, DeviceConnectionInitializedAction, setActiveDeviceAction, DeviceConnectionRemove, DeviceConnectionRemovedAction } from '../Actions/Device/deviceActions';
 import { BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS } from '../../Core/Bluetooth/BLEConstants';
 import { decodeDeviceBreathingModes, encodeDeviceBreathingMode } from '../../Core/Helpers/convertEntities';
 import { DeviceBreathingModesLoadedAction, DeviceBreathingModeUpdate, DeviceBreathingModeUpdatedAction } from '../Actions/Device/deviceBreathingModesActions';
@@ -28,8 +28,12 @@ export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 			const state: State = yield select();
 
 			const devicesPromise = state.device.devices.map(async (device: Device) => {
+				if (device.disconnecting) {
+					return device;
+				}
 				let connected = false;
 				try {
+					console.log('connecting ', device.uid);
 					await bleAdapter.BLEManager.connect(device.uid);
 					connected = await bleAdapter.BLEManager.isPeripheralConnected(device.uid, []);
 					if (connected === true) {
@@ -109,6 +113,12 @@ export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 
 			yield put(setActiveDeviceAction(action.device))
 			yield put(DeviceConnectionInitializedAction(action.device.uid));
+		}),
+
+		yield takeEvery(DeviceConnectionRemove, function* (action: DeviceConnectionRemove) {
+			yield bleAdapter.BLEManager.disconnect(action.device.uid);
+			yield wait(500);
+			yield put(DeviceConnectionRemovedAction(action.device));
 		}),
 
 		yield takeEvery(DeviceBreathingModeUpdate, function* (action: DeviceBreathingModeUpdate) {

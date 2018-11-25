@@ -1,7 +1,7 @@
 import { Device } from "../../Core/Entities/Device";
 import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
 import { DiscoveredBondedDevices, PeripheralBondStart, PeripheralBondFailed, PeripheralBondSucceeded, DeviceConnected, DeviceDisconnected } from "../Actions/Device/devicesBondActions";
-import { SetActiveDevice, DeviceSetName } from "../Actions/Device/deviceActions";
+import { SetActiveDevice, DeviceSetName, DeviceConnectionRemove, DeviceConnectionRemoved } from "../Actions/Device/deviceActions";
 import { AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
 import { DeviceBreathingModesLoaded } from "../Actions/Device/deviceBreathingModesActions";
 
@@ -47,7 +47,9 @@ type Action =
 	DeviceSetName &
 	DeviceBreathingModesLoaded &
 	DeviceConnected &
-	DeviceDisconnected
+	DeviceDisconnected &
+	DeviceConnectionRemove &
+	DeviceConnectionRemoved
 	;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action): DeviceState => {
@@ -175,6 +177,30 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 			return {
 				...state,
 				devices: devices2,
+			}
+
+		case DeviceConnectionRemove:
+			const devices3 = state.devices.map((device: Device) => {
+				if (device.uid === action.device.uid) {
+					return {
+						...device,
+						disconnecting: true
+					}
+				} else {
+					return device;
+				}
+			});
+			return {
+				...state,
+				devices: devices3,
+			}
+		case DeviceConnectionRemoved:
+			const filteredDevices = state.devices.filter((device: Device) => device.uid !== action.device.uid);
+			return {
+				...state,
+				activeDeviceIndex: -1,
+				devices: filteredDevices,
+				bond: undefined,
 			}
 
 		default:

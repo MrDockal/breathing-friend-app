@@ -1,7 +1,6 @@
 import React from 'react';
 import { Device } from '../../Core/Entities/Device';
 import { NavigationInjectedProps, NavigationEventSubscription } from 'react-navigation';
-import { DeviceState } from '../../Store/Reducers/deviceReducer';
 import { State } from '../../Store/configureStore';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -16,7 +15,7 @@ export interface OwnProps extends NavigationInjectedProps {
 }
 
 export interface StateProps {
-	devices: DeviceState;
+	devices: Device[];
 }
 
 export interface DispatchProps {
@@ -55,10 +54,10 @@ class SignpostScreenHOC extends React.Component<Props> {
 		return (
 			<React.Fragment>
 				{
-					this.props.devices.devices.length === 0 ?
+					this.props.devices.length === 0 ?
 						<NoBreathingDevice syncNewDevice={() => this.props.navigation.navigate(routeNames.SynchronizeDeviceScreen)} /> :
 						<SignPost
-							devices={this.props.devices.devices} initializeDevice={(device: Device) => {
+							devices={this.props.devices} initializeDevice={(device: Device) => {
 								this.props.deviceConnectionInitialize(device);
 								this.props.navigation.navigate(routeNames.MainApp);
 							}}
@@ -72,7 +71,7 @@ class SignpostScreenHOC extends React.Component<Props> {
 
 export const SignpostScreen = connect<StateProps, DispatchProps, OwnProps>(
 	(state: State, _ownProps: OwnProps) => ({
-		devices: state.device,
+		devices: state.device.devices.filter((device: Device) => !device.disconnecting),
 	}),
 	(dispatch: Dispatch) => ({
 		deviceConnectionInitialize: (device: Device) => (

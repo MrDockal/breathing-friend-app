@@ -49,3 +49,27 @@ export const DeviceConnectionInitializedAction = (uid: string): DeviceConnection
 	type: DeviceConnectionInitialized,
 	uid,
 });
+
+/** CONNECTION INTIALIZE */
+export const DeviceConnectionRemove = "Device.Connection.Remove";
+export interface DeviceConnectionRemove {
+	type: typeof DeviceConnectionRemove;
+	device: Device;
+}
+
+export const DeviceConnectionRemoveAction = (device: Device): DeviceConnectionRemove => ({
+	type: DeviceConnectionRemove,
+	device,
+});
+
+/** CONNECTION INTIALIZED */
+export const DeviceConnectionRemoved = "Device.Connection.Removed";
+export interface DeviceConnectionRemoved {
+	type: typeof DeviceConnectionRemoved;
+	device: Device;
+}
+
+export const DeviceConnectionRemovedAction = (device: Device): DeviceConnectionRemoved => ({
+	type: DeviceConnectionRemoved,
+	device,
+});

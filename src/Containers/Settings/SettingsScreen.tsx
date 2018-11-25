@@ -11,6 +11,8 @@ import { List } from '../../Components/List/List';
 import { TextNormal } from '../../Components/Text/TextNormal';
 import { DeviceTile } from '../../Components/DeviceTile/DeviceTile';
 import { DeviceConnectionInfoBar } from '../DeviceConnectionInfoBar';
+import { Device } from '../../Core/Entities/Device';
+import { DeviceConnectionRemoveAction } from '../../Store/Actions/Device/deviceActions';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -25,13 +27,12 @@ const styles = StyleSheet.create({
 });
 
 interface DispatchProps {
-	disconnectDevice: (deviceUid: string) => void;
+	disconnectDevice: (device: Device) => void;
 	reinitialize: () => void;
 }
 
 interface StateProps {
-	deviceName: string;
-	deviceUid: string;
+	device: Device;
 }
 
 type OwnProps = NavigationInjectedProps;
@@ -81,7 +82,7 @@ class SettingsScreenHOC extends React.Component<Props> {
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<DeviceTile name={this.props.deviceName} />
+					<DeviceTile name={this.props.device.name} />
 					<List listItems={listItems} />
 					<View style={styles.emptySpace} />
 					<List listItems={listItems2} />
@@ -98,25 +99,29 @@ class SettingsScreenHOC extends React.Component<Props> {
 			'Odpojit zařízení',
 			'Tato akce odpojí zařízení od všeho účtu a odstraní statistiky používání. Zařízení si budete moci znovu spárovat.',
 			[
-			  {text: 'Zrušit', onPress: () => false, style: 'cancel'},
-			  {text: 'Odpojit', onPress: () => this.props.disconnectDevice(this.props.deviceUid)},
+				{ text: 'Zrušit', onPress: () => false, style: 'cancel' },
+				{
+					text: 'Odpojit', onPress: () => {
+						this.props.navigation.navigate(routeNames.SignpostScreen);
+						this.props.disconnectDevice(this.props.device);
+					}
+				},
 			],
 			{ cancelable: false }
-		  )
+		)
 	}
 }
 
 export const SettingsScreen = connect<StateProps, DispatchProps, OwnProps>(
 	(state: State, _ownProps: OwnProps) => ({
-		deviceName: state.device.devices[state.device.activeDeviceIndex].name,
-		deviceUid: state.device.devices[state.device.activeDeviceIndex].uid
+		device: state.device.devices[state.device.activeDeviceIndex],
 	}),
 	(dispatch: Dispatch) => ({
 		reinitialize: () => {
 			dispatch(BreathingReinitializeAction());
 		},
-		disconnectDevice: (deviceUid: string) => {
-			dispatch(BreathingReinitializeAction());
+		disconnectDevice: (device: Device) => {
+			dispatch(DeviceConnectionRemoveAction(device));
 		}
 	}),
 )(SettingsScreenHOC);
