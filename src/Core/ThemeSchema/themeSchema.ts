@@ -52,6 +52,9 @@ export const themeSchema = {
 		normal: 20,
 		small: 15,
 	},
+	list: {
+		offsetHorizontal: 30,
+	},
 	bottomNavigation: {
 		panel: {
 			height: 52,
