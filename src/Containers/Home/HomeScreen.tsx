@@ -59,16 +59,17 @@ class HomeScreenHOC extends React.Component<Props> {
 			action,
 			defaultSpeed,
 			theme,
-			goNext: (mode: DeviceSavedBreathingMode, position: number) => nextAction(mode, position),
+			goNext: (mode: DeviceSavedBreathingMode) => nextAction(mode),
 		});
 	}
 
 	private goToSelectPositionScreen = (mode: DeviceSavedBreathingMode) => {
-		this.props.navigation.navigate(routeNames.SelectPositionScreen);
+		this.props.navigation.navigate(routeNames.SelectPositionScreen, { mode });
 	}
 
-	private updateBreathing = (mode: DeviceSavedBreathingMode, position: number) => {
-		this.props.updateBreathing(mode, position);
+	private updateBreathing = (mode: DeviceSavedBreathingMode) => {
+		const index = this.props.breathingModes!.findIndex((value: BreathingMode) => value.uid === mode.uid);
+		this.props.updateBreathing(mode, index);
 		this.props.navigation.navigate(routeNames.HomeScreen);
 	}
 }

@@ -91,6 +91,7 @@ export class BreathingModeDetailScreenHOC extends React.Component<Props, Compone
 		const speedText = numberToBreathingConverter(sliderValue);
 		this.setState((prevState: ComponentState) => ({
 			activeBreathingDefinition: this.props.navigation.state.params!.mode.speed[speedText],
+			sliderValue,
 		}))
 	}
 }
