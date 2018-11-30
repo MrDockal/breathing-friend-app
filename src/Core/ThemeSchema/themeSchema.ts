@@ -44,7 +44,8 @@ export const themeSchema = {
 		fontColor: '#fff',
 		buttonBackground: '#fff',
 		buttonFontColor: '#4f5571',
-		green: '#40A79E'
+		green: '#40A79E',
+		red: '#FF5464',
 	},
 	fontSize: {
 		h1: 34,

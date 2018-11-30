@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 		opacity: 0,
 	},
 	disconnected: {
-		backgroundColor: 'red'
+		backgroundColor: themeSchema.color.red
 	},
 })
 

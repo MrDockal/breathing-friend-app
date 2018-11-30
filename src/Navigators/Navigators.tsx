@@ -148,7 +148,7 @@ const MainApp = createBottomTabNavigator(
 			},
 		}),
 		tabBarOptions: {
-			activeTintColor: 'tomato',
+			activeTintColor: themeSchema.color.red,
 			inactiveTintColor: 'gray',
 			labelStyle: {
 				fontSize: themeSchema.fontSize.small,
