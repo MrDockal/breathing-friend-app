@@ -16,6 +16,7 @@ import { i18n } from '../../Core/i18n/i18n';
 import { Dispatch } from 'redux';
 import { DeviceBreathingModeUpdateAction } from '../../Store/Actions/Device/deviceBreathingModesActions';
 import { findBreathingModeDefinitionByUidAndSpeed } from '../../Core/Helpers/findBreathingModeDefinitionByUidAndSpeed';
+import { routeNames } from '../../Navigators/Navigators';
 
 interface NavigationParams {
 	mode: DeviceSavedBreathingMode;
@@ -28,10 +29,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		textAlign: 'center',
 		paddingBottom: 40,
-		paddingHorizontal: 30,
 	},
-	fullWidht: {
-		width: '100%'
+	wider: {
+		width: '80%',
 	}
 });
 
@@ -86,7 +86,7 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 						<H2 bold={true}>{i18n.t(mode!.name)}</H2>
 						<TextNormal>{i18n.t('will_replace')}</TextNormal>
 					</View>
-					<View style={styles.fullWidht}>
+					<View style={styles.wider}>
 						{
 							this.state.options.map((option: BreathingOption, index: number) => (
 								<ColoredSelectBox
@@ -113,8 +113,8 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 		if (this.state.index === -1) {
 			return;
 		}
-		console.log('s', this.state.index);
 		this.props.replaceBreahing(this.props.navigation.state.params!.mode, this.state.index - 1);
+		this.props.navigation.navigate(routeNames.HomeScreen);
 	}
 
 	private changeTheme(theme: ColorTheme) {

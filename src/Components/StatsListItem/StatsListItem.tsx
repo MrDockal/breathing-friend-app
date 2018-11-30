@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 import { TextNormal } from '../Text/TextNormal';
 import { TextSmall } from '../Text/TextSmall';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
-const whiteBfImage = require('../../assets/white-bf.png');
+import { CustomIcon } from '../CustomIcon/CustomIcon';
 
 export interface StatsListItemProps {
 	theme: ColorTheme;
@@ -14,7 +14,7 @@ export interface StatsListItemProps {
 
 const styles = StyleSheet.create({
 	wrapper: {
-		paddingVertical: 6,
+		paddingVertical: 10,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -23,26 +23,20 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flexDirection: 'row',
 	},
-	bfImage: {
-		alignSelf: 'center',
-		height: 50,
-		width: 50,
-	},
+	text: {
+		paddingLeft: 20,
+	}
 });
 
 export class StatsListItem extends React.Component<StatsListItemProps> {
 	public render() {
-		const image = this.getBfImage();
+		const color = themeSchema.button[this.props.theme].fontColor;
 		return <View style={[styles.wrapper]}>
 			<View style={styles.inner}>
-				<Image source={image} style={styles.bfImage} resizeMode={'cover'} />
-				<TextSmall>{this.props.title}</TextSmall>
+				<CustomIcon name={'bf-yelow'} size={35} color={color} />
+				<TextSmall style={styles.text}>{this.props.title}</TextSmall>
 			</View>
-			<TextNormal style={{ color: themeSchema.button[this.props.theme].fontColor }}>{this.props.rightText}</TextNormal>
+			<TextNormal style={{ color }}>{this.props.rightText}</TextNormal>
 		</View>
-	}
-
-	private getBfImage() {
-		return whiteBfImage;
 	}
 }

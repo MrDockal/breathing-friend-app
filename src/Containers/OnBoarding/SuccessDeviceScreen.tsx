@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, Image } from 'react-native';
 import { BackgroundGradient } from '../../Components/BackgroundGradient/BackgroundGradient';
 import { Button } from '../../Components/Button/Button';
 import { H1 } from '../../Components/Text/H1';
@@ -7,6 +7,7 @@ import { TextNormal } from '../../Components/Text/TextNormal';
 import { NavigationInjectedProps } from 'react-navigation';
 import { routeNames } from '../../Navigators/Navigators';
 import { i18n } from '../../Core/i18n/i18n';
+const successImage = require('../../assets/success.svg')
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -36,7 +37,9 @@ export class SuccessDeviceScreen extends React.Component<SuccessDeviceScreenProp
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<View />
+					<View>
+						<Image source={successImage} resizeMode={'cover'} />
+					</View>
 					<View>
 						<H1>{i18n.t('congratulations')}!</H1>
 						<TextNormal>{i18n.t('your_device_name')}{this.props.navigation.state.params!.deviceName}. Jméno si můžete později změnit v aplikaci.</TextNormal>

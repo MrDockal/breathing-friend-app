@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { TouchableNativeFeedback, View } from 'react-native';
-import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
 import { BackgroundGradient, ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 import { BreathingListItem } from './BreathingListItem';
+import { DeviceImageWithIndex } from '../DeviceImageWithIndex/DeviceImageWithIndex';
 
 export interface ActiveBreathingListItemProps {
 	title: string;
@@ -12,16 +12,13 @@ export interface ActiveBreathingListItemProps {
 	position: number;
 	onPress: () => void;
 	theme: ColorTheme;
+	index: number;
 }
 
 export class ActiveBreathingListItem extends React.Component<ActiveBreathingListItemProps> {
 
 	public render() {
-		const icon = <Icon
-			name='chevron-right'
-			color='white'
-			size={30}
-		/>;
+		const icon = <DeviceImageWithIndex index={this.props.index.toString()} theme={this.props.theme} />
 		return (
 			<BackgroundGradient theme={this.props.theme}>
 				<TouchableNativeFeedback

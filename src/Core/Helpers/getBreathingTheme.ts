@@ -4,9 +4,9 @@ import { ColorTheme } from "../../Components/BackgroundGradient/BackgroundGradie
 export const getBreathingThemeByIndex = (index?: number): ColorTheme => {
 	switch (index) {
 		case 0:
-			return 'red';
-		case 1:
 			return 'blue';
+		case 1:
+			return 'red';
 		case 2:
 			return 'orange';
 		default:

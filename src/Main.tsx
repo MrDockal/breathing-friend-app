@@ -10,7 +10,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore, Persistor } from 'redux-persist';
 import { DEVICE_SERVICE, BREATHING_SERVICE, STATS_SERVICE, BATTERY_SERVICE } from './Core/Bluetooth/BLEConstants';
 import { AndroidBleAdapter } from './Core/Bluetooth/AndroidBleAdapter';
-import { i18n } from './Core/i18n/i18n';
 
 export default class App extends React.Component<{}, {}> {
 
@@ -31,9 +30,6 @@ export default class App extends React.Component<{}, {}> {
 	}
 
 	public render() {
-		console.log(i18n.t('minutes', {count: 2}));
-		console.log(i18n.t('minutes', {count: 1}));
-		
 		return (
 			<Provider store={this.store}>
 				<PersistGate loading={null} persistor={this.persistor}>

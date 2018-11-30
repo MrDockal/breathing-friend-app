@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'stretch',
 	},
-	emptySpace: {
-		paddingVertical: 10,
+	deviceTitleWrapper: {
+		paddingVertical: 30,
 	}
 });
 
@@ -84,7 +84,9 @@ class SettingsScreenHOC extends React.Component<Props> {
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={styles.wrapper}>
-					<DeviceTile name={this.props.device.name} />
+					<View style={styles.deviceTitleWrapper}>
+						<DeviceTile name={this.props.device.name} />
+					</View>
 					<List listItems={listItems} />
 					<List listItems={listItems2} />
 					<List listItems={listItems3} />

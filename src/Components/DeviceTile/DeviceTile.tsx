@@ -5,7 +5,7 @@ const whiteBfImage = require('../../assets/white-bf.png');
 
 const styles = StyleSheet.create({
 	wrapper: {
-		paddingVertical: 20,
+		paddingVertical: 0,
 	},
 	bfImage: {
 		alignSelf: 'center',

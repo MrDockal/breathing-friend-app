@@ -6,14 +6,17 @@ import { H2 } from '../Text/H2';
 const styles = StyleSheet.create({
 	wrapper: {
 		paddingHorizontal: 20,
-		paddingVertical: 10,
+		paddingVertical: 25,
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignContent: 'center'
+		alignContent: 'center',
 	},
 	hide: {
 		opacity: 0,
+	},
+	iconWrapper: {
+		justifyContent: 'center',
 	}
 });
 
@@ -35,12 +38,14 @@ export class BreathingListItem extends React.Component<BreathingListItemProps, {
 				</View>
 				<View>
 					<TextSmall>{this.props.textTop}</TextSmall>
-					<H2>{this.props.textCenter}</H2>
+					<H2 bold={true}>{this.props.textCenter}</H2>
 					<TextSmall>{this.props.textBottom}</TextSmall>
 				</View>
-				{
-					this.props.Icon
-				}
+				<View style={styles.iconWrapper}>
+					{
+						this.props.Icon
+					}
+				</View>
 			</View>
 		);
 	}

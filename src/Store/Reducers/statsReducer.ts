@@ -44,7 +44,6 @@ export const statsReducer = (state: StatsState = initialState, action: Action): 
 					]
 				}
 			} else {
-				console.log('state', state);
 				const statsWithoutUpdate = [
 					...state.stats.slice(0, foundIndex),
 					...state.stats.slice(foundIndex + 1)

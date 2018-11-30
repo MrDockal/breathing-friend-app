@@ -19,7 +19,7 @@ export class BreathingList extends React.Component<BreathingListProps, {}> {
 			<View style={styles.wrapper}>
 				{
 					this.props.active.map((listItem: ActiveBreathingListItemProps, index: number) => (
-						<ActiveBreathingListItem {...listItem} key={index} />
+						<ActiveBreathingListItem {...listItem} key={index} index={index + 1} />
 					))
 				}
 				{

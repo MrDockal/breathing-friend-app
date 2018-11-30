@@ -129,7 +129,6 @@ export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 				throw new Error('Cannot update breathing mode that does not exists');
 			}
 
-			console.log('action.mode.speed', action.mode.speed);
 			const newModes = state.device.devices[state.device.activeDeviceIndex].breathingModes
 				.map((savedBreathingMode: DeviceSavedBreathingMode, index: number): DeviceToBeSavedBreathingMode => {
 					if (index === action.index) {

@@ -1,18 +1,19 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import { BackgroundGradient } from '../BackgroundGradient/BackgroundGradient';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 import { Button } from '../Button/Button';
 import { HeaderlessView } from '../HeaderlessView/HeaderlessView';
 import { i18n } from '../../Core/i18n/i18n';
+import { TextSmall } from '../Text/TextSmall';
 
-const renameDeviceScreenStyles = StyleSheet.create({
+const styles = StyleSheet.create({
 	wrapper: {
 		flex: 1,
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		textAlign: 'center',
-		padding: 40,
+		paddingBottom: 40,
 	},
 	input: {
 		borderBottomWidth: 1,
@@ -20,8 +21,19 @@ const renameDeviceScreenStyles = StyleSheet.create({
 		color: themeSchema.color.green,
 		width: '90%',
 		fontSize: themeSchema.fontSize.normal,
-		textAlign: 'center'
-	}
+		textAlign: 'center',
+		paddingTop: 20,
+	},
+	renameInputWrapper: {
+		width: '100%',
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+	},
+	buttonWrapper: {
+		flex: 1,
+		justifyContent: 'flex-end',
+	},
 });
 
 export interface RenameDeviceViewProps {
@@ -45,14 +57,20 @@ export class RenameDeviceView extends React.Component<RenameDeviceViewProps, Com
 	public render() {
 		return (
 			<BackgroundGradient theme={'black'}>
-				<HeaderlessView contentContainerStyle={renameDeviceScreenStyles.wrapper}>
-					<View />
-					<TextInput
-						style={renameDeviceScreenStyles.input}
-						onChangeText={this.onNameChange}
-						value={this.state.name}
-					/>
-					<Button theme={'black'} title={i18n.t('continue')} onPress={() => this.props.submit(this.state.name)} />
+				<HeaderlessView>
+					<View style={styles.wrapper}>
+						<View style={styles.renameInputWrapper}>
+							<TextSmall>{i18n.t('bf_rename_text')}</TextSmall>
+							<TextInput
+								style={styles.input}
+								onChangeText={this.onNameChange}
+								value={this.state.name}
+							/>
+						</View>
+						<View style={styles.buttonWrapper}>
+							<Button theme={'black'} title={i18n.t('continue')} onPress={() => this.props.submit(this.state.name)} />
+						</View>
+					</View>
 				</HeaderlessView>
 			</BackgroundGradient>
 		);

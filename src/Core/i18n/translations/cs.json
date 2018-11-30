@@ -53,5 +53,8 @@
 		"one": "hodina",
 		"few": "hodiny",
 		"other": "hodin"
-	}
+	},
+	"welcome": "Vítejte!",
+	"welcome_text": "ujistěte se, že je vaše dýchátko zapnuté, a pokračujte podle kroků v aplikaci",
+	"bf_rename_text": "Jméno tvého breathing friend"
 }

@@ -14,7 +14,6 @@ export function* breathingSaga(firestore: RNFirebase.firestore.Firestore) {
 			modes.forEach((mode: RNFirebase.firestore.DocumentSnapshot) => {
 				breathingModes.push(mode.data() as BreathingMode);
 			});
-			console.log('breathingModes', breathingModes);
 			yield put(BreathingInitLoadedAction(breathingModes));
 		}),
 		yield takeEvery(BreathingReinitialize, function* (_action: BreathingReinitialize) {

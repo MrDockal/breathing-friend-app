@@ -16,6 +16,7 @@ import { BreathingMode } from '../../Core/Entities/BreathingMode';
 import { getBreathingModeByStateAndUid } from '../../Core/Helpers/getBreathingTheme';
 import { ActivityIndicator } from '../../Components/ActivityIndicator/ActivityIndicator';
 import { i18n } from '../../Core/i18n/i18n';
+import { Title } from '../../Components/Text/Title';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -24,11 +25,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		alignItems: 'stretch',
 		paddingHorizontal: 30,
+		paddingTop: 20,
 	},
 	overview: {
 		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'flex-end'
+		alignItems: 'flex-end',
+		paddingVertical: 5,
 	},
 	blue: {
 		color: themeSchema.button.blue.fontColor
@@ -89,7 +92,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 			<React.Fragment>
 				<View>
 					<View style={styles.overview}>
-						<H1 style={styles.blue}>{totalMinutes.toLocaleString()}</H1>
+						<Title style={styles.blue}>{totalMinutes.toLocaleString()}</Title>
 						<TextNormal style={styles.blue}> {totalMinutesText}</TextNormal>
 					</View>
 					<TextNormal bold={true}>{i18n.t('total_breathing')}</TextNormal>
@@ -104,7 +107,7 @@ export class StatsScreenHOC extends React.Component<StateProps> {
 									rightText={data.weekly[breathingId].toString() + 'x'}
 									title={i18n.t(this.getModeNameByUid(breathingId))}
 								/>
-								<Hr theme={theme} />
+								<Hr theme={'black'} />
 							</React.Fragment>
 						))
 					}

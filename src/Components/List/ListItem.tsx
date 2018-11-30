@@ -16,7 +16,7 @@ export interface ListItemProps {
 
 const styles = StyleSheet.create({
 	listItem: {
-		paddingVertical: 10,
+		paddingVertical: 15,
 		flex: 1,
 		alignItems: 'center',
 		flexDirection: 'row',

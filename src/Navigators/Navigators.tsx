@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createBottomTabNavigator, createStackNavigator, createNavigationContainer, createSwitchNavigator, NavigationScreenConfig } from 'react-navigation';
-import { Icon } from 'react-native-elements';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
@@ -18,6 +17,7 @@ import { SettingsRenameDeviceNameScreen } from '../Containers/Settings/SettingsR
 import { SettingsAboutAppScreen } from '../Containers/Settings/SettingsAboutAppScreen';
 import { SettingsReportBugScreen } from '../Containers/Settings/SettingsReportBugScreen';
 import { i18n } from '../Core/i18n/i18n';
+import { CustomIcon } from '../Components/CustomIcon/CustomIcon';
 
 export const routeNames = {
 	HomeScreen: 'HomeScreen',
@@ -129,22 +129,19 @@ const MainApp = createBottomTabNavigator(
 			tabBarIcon: ({ focused, tintColor }: { focused: boolean, tintColor: string }) => {
 				const { routeName } = navigation.state;
 				let iconName = 'N/A';
-				let type = '';
 				if (routeName === routeNames.HomeScreen) {
 					iconName = `home`;
-					type = 'feather'
 				} else if (routeName === routeNames.StatsScreen) {
-					type = 'font-awesome'
-					iconName = `bar-chart`;
+					iconName = `chart`;
 				} else if (routeName === routeNames.SettingsScreen) {
-					iconName = `settings`;
+					iconName = `bf-yelow`;
 				}
 
 				// You can return any component that you like here! We usually use an
 				// icon component from react-native-vector-icons
 				//return <MaterialIcons
 				//return <MaterialIcons name={ iconName } size = { horizontal? 20 : 25} color = { tintColor } />;
-				return <Icon name={iconName} type={type} size={themeSchema.fontSize.normal} color={tintColor} />
+				return <CustomIcon name={iconName} size={themeSchema.fontSize.normal} color={tintColor} />
 			},
 		}),
 		tabBarOptions: {
