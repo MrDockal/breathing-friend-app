@@ -57,7 +57,7 @@ export class BreathingModeDetailScreenHOC extends React.Component<Props, Compone
 	}
 
 	static navigationOptions = ({ navigation }: NavigationScreenProps<BreathingModeDetailScreenNavigationParams>) => ({
-		headerTitle: <TextNormal>{navigation.state.params!.mode.name}</TextNormal>,
+		headerTitle: <TextNormal>{i18n.t(navigation.state.params!.mode.name)}</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 	});
