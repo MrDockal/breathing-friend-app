@@ -14,6 +14,7 @@ import { DeviceConnectionInfoBar } from '../DeviceConnectionInfoBar';
 import { Device } from '../../Core/Entities/Device';
 import { DeviceConnectionRemoveAction } from '../../Store/Actions/Device/deviceActions';
 import { i18n } from '../../Core/i18n/i18n';
+import { Hr } from '../../Components/Hr/Hr';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -85,10 +86,9 @@ class SettingsScreenHOC extends React.Component<Props> {
 				<ScrollView contentContainerStyle={styles.wrapper}>
 					<DeviceTile name={this.props.device.name} />
 					<List listItems={listItems} />
-					<View style={styles.emptySpace} />
 					<List listItems={listItems2} />
-					<View style={styles.emptySpace} />
 					<List listItems={listItems3} />
+					<Hr theme={'white'} />
 				</ScrollView>
 				<DeviceConnectionInfoBar />
 			</BackgroundGradient>
