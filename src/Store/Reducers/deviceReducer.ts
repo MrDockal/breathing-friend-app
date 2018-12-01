@@ -3,7 +3,7 @@ import { BleManagerDiscoverPeripheralResponse } from "react-native-ble-manager";
 import { DiscoveredBondedDevices, PeripheralBondStart, PeripheralBondFailed, PeripheralBondSucceeded, DeviceConnected, DeviceDisconnected } from "../Actions/Device/devicesBondActions";
 import { SetActiveDevice, DeviceSetName, DeviceConnectionRemove, DeviceConnectionRemoved } from "../Actions/Device/deviceActions";
 import { AvailablePeripheralObtained, CleanScannedPeripherals, PeripheralScanStopped, ScanForAvailablePeripherals } from "../Actions/Device/deviceScanActions";
-import { DeviceBreathingModesLoaded } from "../Actions/Device/deviceBreathingModesActions";
+import { DeviceBreathingModesLoaded, DeviceBatteryLoaded } from "../Actions/Device/deviceBreathingModesActions";
 
 export interface DeviceBondState {
 	peripheral: BleManagerDiscoverPeripheralResponse;
@@ -49,7 +49,8 @@ type Action =
 	DeviceConnected &
 	DeviceDisconnected &
 	DeviceConnectionRemove &
-	DeviceConnectionRemoved
+	DeviceConnectionRemoved &
+	DeviceBatteryLoaded
 	;
 
 export const devicesReducer = (state: DeviceState = devicesInitialState, action: Action): DeviceState => {
@@ -203,6 +204,21 @@ export const devicesReducer = (state: DeviceState = devicesInitialState, action:
 				bond: undefined,
 			}
 
+		case DeviceBatteryLoaded:
+			const batteryLoadedDevice = state.devices.map((device: Device) => {
+				if (device.uid === action.deviceUid) {
+					return {
+						...device,
+						battery: action.battery,
+					}
+				} else {
+					return device;
+				}
+			});
+			return {
+				...state,
+				devices: batteryLoadedDevice,
+			}
 		default:
 			return state;
 	}

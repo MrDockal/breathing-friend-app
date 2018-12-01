@@ -86,3 +86,17 @@ export const DeviceBreathingModeUpdatedAction = (mode: DeviceSavedBreathingMode,
 	mode,
 	index,
 });
+
+/** LOAD BATTERY LEVEL */
+export const DeviceBatteryLoaded = "Device.Battery.Loaded";
+export interface DeviceBatteryLoaded {
+	type: typeof DeviceBatteryLoaded;
+	battery: string;
+	deviceUid: string;
+}
+
+export const DeviceBatteryLoadedAction = (deviceUid: string, battery: string): DeviceBatteryLoaded => ({
+	type: DeviceBatteryLoaded,
+	battery,
+	deviceUid
+});

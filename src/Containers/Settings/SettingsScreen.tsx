@@ -43,10 +43,11 @@ type Props = OwnProps & DispatchProps & StateProps;
 class SettingsScreenHOC extends React.Component<Props> {
 
 	public render() {
+		const battery = this.props.device.battery ? `${this.props.device.battery}%` : 'n/a';
 		const listItems = [{
 			title: i18n.t('battery'),
 			onPress: () => false,
-			rightText: <TextNormal>10%</TextNormal>,
+			rightText: <TextNormal>{battery}</TextNormal>,
 			ripple: 'light'
 		}, {
 			title: i18n.t('rename'),

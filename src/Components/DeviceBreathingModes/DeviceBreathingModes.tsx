@@ -43,6 +43,7 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 			return (activeModesUids.indexOf(mode.uid) === -1);
 		});
 		const activeModesList = activeModes.map((mode: BreathingModeWithActiveSpeed, index: number): ActiveBreathingListItemProps => ({
+			index,
 			title: i18n.t(mode.name),
 			duration: this.convertMinutesToText(mode.speed[mode.activeSpeed].duration),
 			position: index + 1,

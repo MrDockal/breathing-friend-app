@@ -40,7 +40,7 @@ class HomeScreenHOC extends React.Component<Props> {
 		return (
 			<BackgroundGradient theme={'black'}>
 				<ScrollView contentContainerStyle={homeScreenStyles.wrapper}>
-					{(this.props.loading || !this.props.breathingModes || !this.props.activeDevice || this.props.activeDevice.breathingModes.length === 0) ?
+					{(this.props.loading || !this.props.breathingModes || this.props.breathingModes.length === 0 || !this.props.activeDevice || this.props.activeDevice.breathingModes.length === 0) ?
 						<ActivityIndicator /> :
 						<React.Fragment>
 							<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} />
