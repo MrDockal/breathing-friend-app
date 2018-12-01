@@ -56,5 +56,7 @@
 	},
 	"welcome": "Vítejte!",
 	"welcome_text": "ujistěte se, že je vaše dýchátko zapnuté, a pokračujte podle kroků v aplikaci",
-	"bf_rename_text": "Jméno tvého breathing friend"
+	"bf_rename_text": "Jméno tvého breathing friend",
+	"updated_at": "Aktualizováno",
+	"breathing_updated": "Dechové cvičení bylo uloženo"
 }

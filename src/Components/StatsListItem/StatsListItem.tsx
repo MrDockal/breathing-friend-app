@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
 export class StatsListItem extends React.Component<StatsListItemProps> {
 	public render() {
-		const color = themeSchema.button[this.props.theme].fontColor;
+		const color = this.getColor();
 		return <View style={[styles.wrapper]}>
 			<View style={styles.inner}>
 				<CustomIcon name={'bf-yelow'} size={35} color={color} />
@@ -38,5 +38,13 @@ export class StatsListItem extends React.Component<StatsListItemProps> {
 			</View>
 			<TextNormal style={{ color }}>{this.props.rightText}</TextNormal>
 		</View>
+	}
+
+	private getColor() {
+		if (this.props.theme === 'black') {
+			return 'white';
+		} else {
+			return themeSchema.button[this.props.theme].fontColor;
+		}
 	}
 }

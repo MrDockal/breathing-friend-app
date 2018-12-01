@@ -12,20 +12,23 @@ export interface DeviceStat {
 }
 
 export interface StatsState {
-	stats: DeviceStat[]
+	stats: DeviceStat[];
+	updatedAt: Date,
 }
 
-const initialState = {
+export const statsInitialState = {
 	stats: [],
+	updatedAt: new Date(),
 }
 
 type Action =
 	NewNotificationObtained
 	;
 
-export const statsReducer = (state: StatsState = initialState, action: Action): StatsState => {
+export const statsReducer = (state: StatsState = statsInitialState, action: Action): StatsState => {
 	switch (action.type) {
 		case NewNotificationObtained:
+			const updatedAt = new Date();
 			const foundIndex = state.stats.findIndex((stat: DeviceStat) => stat.deviceUid === action.peripheralId);
 			if (foundIndex === -1) {
 				const deviceStat = {
@@ -38,6 +41,7 @@ export const statsReducer = (state: StatsState = initialState, action: Action): 
 				};
 				return {
 					...state,
+					updatedAt,
 					stats: [
 						...state.stats,
 						deviceStat,
@@ -59,6 +63,7 @@ export const statsReducer = (state: StatsState = initialState, action: Action): 
 				};
 				return {
 					...state,
+					updatedAt,
 					stats: [
 						...statsWithoutUpdate,
 						updatedStat,

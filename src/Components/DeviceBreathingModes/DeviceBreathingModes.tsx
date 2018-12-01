@@ -16,7 +16,7 @@ interface BreathingModeWithActiveSpeed extends BreathingMode {
 export interface OwnProps {
 	activeDevice: Device;
 	breathingModes: BreathingMode[];
-	goToModeDetail: (mode: BreathingMode, action: 'add' | 'edit', theme: ColorTheme, position: number, defaultSpeed?: keyof BreathingSpeed) => void;
+	onPress: (mode: BreathingMode, action: 'add' | 'edit', theme: ColorTheme, position: number, defaultSpeed?: keyof BreathingSpeed) => void;
 }
 
 export class DeviceBreathingModes extends React.Component<OwnProps> {
@@ -49,12 +49,12 @@ export class DeviceBreathingModes extends React.Component<OwnProps> {
 			position: index + 1,
 			theme: getBreathingThemeByIndex(index),
 			speed: i18n.t(mode.activeSpeed),
-			onPress: () => this.props.goToModeDetail(mode, 'edit', getBreathingThemeByIndex(index), index, mode.activeSpeed),
+			onPress: () => this.props.onPress(mode, 'edit', getBreathingThemeByIndex(index), index, mode.activeSpeed),
 		}));
 		const availableModesList = availableModes.map((mode: BreathingMode): AvailableBreathingListItemProps => ({
 			title: i18n.t(mode.name),
 			duration: this.convertMinutesToText(mode.speed.normal.duration),
-			onPress: () => this.props.goToModeDetail(mode, 'add', getBreathingThemeByIndex(), -1),
+			onPress: () => this.props.onPress(mode, 'add', getBreathingThemeByIndex(), -1),
 		}));
 		return {
 			activeModesList,

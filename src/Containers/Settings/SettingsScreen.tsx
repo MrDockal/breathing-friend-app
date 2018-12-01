@@ -77,6 +77,12 @@ class SettingsScreenHOC extends React.Component<Props> {
 			title: i18n.t('deprovision_device'),
 			onPress: this.disconnectDevice,
 			ripple: 'light'
+		}];
+
+		const listItemsDev3 = [{
+			title: i18n.t('deprovision_device'),
+			onPress: this.disconnectDevice,
+			ripple: 'light'
 		}, {
 			title: 'Reinicializace',
 			onPress: () => this.props.reinitialize(),

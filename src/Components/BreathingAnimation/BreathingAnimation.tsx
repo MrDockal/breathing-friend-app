@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
 	},
 	shadow: {
 		position: 'absolute',
-		top: 130,
+		top: 142,
+		left: -53,
 		height: 130,
 		width: 110,
 	},
@@ -60,13 +61,13 @@ export class BreathingAnimation extends React.Component<BreathingAnimationProps,
 							{
 								scaleX: this.state.sizeValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: [1, 3]
+									outputRange: [1, 3.5]
 								}),
 							},
 							{
 								scaleY: this.state.sizeValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: [1, 3]
+									outputRange: [1, 3.5]
 								})
 							}
 						]

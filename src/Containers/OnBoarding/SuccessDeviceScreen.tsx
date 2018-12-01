@@ -7,16 +7,29 @@ import { TextNormal } from '../../Components/Text/TextNormal';
 import { NavigationInjectedProps } from 'react-navigation';
 import { routeNames } from '../../Navigators/Navigators';
 import { i18n } from '../../Core/i18n/i18n';
-const successImage = require('../../assets/success.svg')
+const successImage = require('../../assets/success.png')
 
 const styles = StyleSheet.create({
 	wrapper: {
 		flex: 1,
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		textAlign: 'center',
 		padding: 40,
 	},
+	image: {
+		width: 180,
+		height: 180,
+	},
+	contentWrapper: {
+		flex: 9/14,
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		textAlign: 'center',
+	},
+	buttonWrapper: {
+		alignItems: 'flex-start',
+		textAlign: 'center',
+	}
 });
 
 export interface SuccessDeviceScreenPropsNavigationParams {
@@ -36,16 +49,16 @@ export class SuccessDeviceScreen extends React.Component<SuccessDeviceScreenProp
 	public render() {
 		return (
 			<BackgroundGradient theme={'black'}>
-				<ScrollView contentContainerStyle={styles.wrapper}>
-					<View>
-						<Image source={successImage} resizeMode={'cover'} />
-					</View>
-					<View>
+				<View style={styles.wrapper}>
+					<View style={styles.contentWrapper}>
+						<Image source={successImage} resizeMode={'cover'} style={styles.image} />
 						<H1>{i18n.t('congratulations')}!</H1>
 						<TextNormal>{i18n.t('your_device_name')}{this.props.navigation.state.params!.deviceName}. Jméno si můžete později změnit v aplikaci.</TextNormal>
 					</View>
-					<Button theme={'black'} title={i18n.t('lets_go')} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)} />
-				</ScrollView>
+					<View style={styles.buttonWrapper}>
+						<Button theme={'black'} title={i18n.t('lets_go')} onPress={() => this.props.navigation.navigate(routeNames.SignpostScreen)} />
+					</View>
+				</View>
 			</BackgroundGradient>
 		)
 	}

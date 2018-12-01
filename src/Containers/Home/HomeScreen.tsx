@@ -43,7 +43,7 @@ class HomeScreenHOC extends React.Component<Props> {
 					{(this.props.loading || !this.props.breathingModes || this.props.breathingModes.length === 0 || !this.props.activeDevice || this.props.activeDevice.breathingModes.length === 0) ?
 						<ActivityIndicator /> :
 						<React.Fragment>
-							<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} goToModeDetail={this.goToModeDetail} />
+							<DeviceBreathingModes activeDevice={this.props.activeDevice} breathingModes={this.props.breathingModes} onPress={this.goToModeDetail} />
 						</React.Fragment>
 					}
 				</ScrollView>
@@ -59,7 +59,7 @@ class HomeScreenHOC extends React.Component<Props> {
 			action,
 			defaultSpeed,
 			theme,
-			goNext: (mode: DeviceSavedBreathingMode) => nextAction(mode),
+			goNext: (mode: DeviceSavedBreathingMode) => nextAction(mode, index),
 		});
 	}
 
@@ -67,8 +67,8 @@ class HomeScreenHOC extends React.Component<Props> {
 		this.props.navigation.navigate(routeNames.SelectPositionScreen, { mode });
 	}
 
-	private updateBreathing = (mode: DeviceSavedBreathingMode) => {
-		const index = this.props.breathingModes!.findIndex((value: BreathingMode) => value.uid === mode.uid);
+	private updateBreathing = (mode: DeviceSavedBreathingMode, index: number) => {
+		console.log('updateBreathing index 2', index);
 		this.props.updateBreathing(mode, index);
 		this.props.navigation.navigate(routeNames.HomeScreen);
 	}
