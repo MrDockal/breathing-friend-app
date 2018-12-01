@@ -7,6 +7,7 @@ import { Dispatch } from 'redux';
 import { WatchDeviceConnectionChangesAction } from '../Store/Actions/Device/devicesBondActions';
 import { themeSchema } from '../Core/ThemeSchema/themeSchema';
 import { Device } from '../Core/Entities/Device';
+import { i18n } from '../Core/i18n/i18n';
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
 		opacity: 0,
 	},
 	disconnected: {
-		backgroundColor: 'red'
+		backgroundColor: themeSchema.color.red
 	},
 })
 
@@ -41,7 +42,7 @@ class DeviceConnectionInfoBarHOC extends React.Component<Props> {
 		const isConnected = this.props.device && this.props.device.connected;
 		return (
 			<View style={isConnected ? styles.connected : styles.disconnected}>
-				<TextSmall>{!isConnected && 'zařízení je offline'}</TextSmall>
+				<TextSmall>{!isConnected && i18n.t('device_is_offline')}</TextSmall>
 			</View>
 		)
 	}

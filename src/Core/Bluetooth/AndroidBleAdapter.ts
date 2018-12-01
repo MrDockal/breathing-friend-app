@@ -4,8 +4,8 @@ import {
 	NativeModules,
 } from 'react-native';
 import { requestBluetoothPermisions, restartBluetoothAdapter } from './requestBluetoothPermisions';
-import { Buffer } from 'buffer';
 import { parseBluetoothMessage } from '../Helpers/parseBluetoothMessage';
+import { stringToArrayBuffer } from '../Helpers/string-converter';
 
 export class AndroidBleAdapter {
 
@@ -28,7 +28,7 @@ export class AndroidBleAdapter {
 			await BLEManager.scan([], scanDuration, false);
 			const listener = (data: BleManagerDiscoverPeripheralResponse) => {
 				const found = peripherals.findIndex((peripheral: BleManagerDiscoverPeripheralResponse) => peripheral.id === data.id);
-				const isValid = data.advertising.serviceUUIDs.sort().join('').toLowerCase() === this.serviceUUIDs.sort().join('').toLowerCase()
+				const isValid = data.advertising.serviceUUIDs.sort().join('').toLowerCase() === this.serviceUUIDs.sort().join('').toLowerCase();
 				if (found === -1 && isValid) {
 					peripherals.push(data);
 					discoveredPeripheral(data);
@@ -57,15 +57,11 @@ export class AndroidBleAdapter {
 	public async write(peripheralId: string, serviceUUID: string, characteristicUUID: string, data: any, maxByteSize?: number) {
 		let strData;
 		try {
-			strData = JSON.parse(data);
+			strData = JSON.stringify(data);
 		} catch (e) {
 			strData = '{}';
 		}
-		const buffer = Buffer.from(strData, 'utf8');
-		let myBuffer = [];
-		for (var i = 0; i < buffer.length; i++) {
-			myBuffer.push(buffer[i]);
-		}
+		const myBuffer = stringToArrayBuffer(strData);
 		return await this.BLEManager.write(peripheralId, serviceUUID, characteristicUUID, myBuffer, maxByteSize);
 	}
 

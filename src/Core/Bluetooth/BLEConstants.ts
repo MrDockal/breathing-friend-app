@@ -2,7 +2,9 @@ export const DEVICE_SERVICE = '9910';
 export const BREATHING_SERVICE = '9920';
 export const STATS_SERVICE = '9930';
 export const BATTERY_SERVICE = '180F';
+export const CURRENT_TIME_SERVICE = '1805';
 
 export const BREATHING_MODES_CHARACTERISCTICS = '9921';
 export const STATS_SERVICE_CHARACTERISTICS = '9931';
 export const BATTERY_LEVEL = '2A19';
+export const CURRENT_TIME_CHARACTERISTICS = '2A2B';

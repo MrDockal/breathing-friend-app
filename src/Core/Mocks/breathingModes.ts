@@ -2,7 +2,7 @@ import { BreathingMode } from "../Entities/BreathingMode";
 
 export const breathingModes: BreathingMode[] = [{
 	uid: 'abc01',
-	name: 'Odpočiň si',
+	name: 'mode_relax',
 	speed: {
 		fast: {
 			duration: 30,
@@ -34,7 +34,7 @@ export const breathingModes: BreathingMode[] = [{
 	}
 }, {
 	uid: 'abc02',
-	name: 'Chvilka pro tebe',
+	name: 'mode_moment_for_you',
 	speed: {
 		fast: {
 			duration: 10,
@@ -66,7 +66,7 @@ export const breathingModes: BreathingMode[] = [{
 	}
 }, {
 	uid: 'abc03',
-	name: 'Sladké sny',
+	name: 'mode_sweet_dreams',
 	speed: {
 		fast: {
 			duration: 0.9333333333,
@@ -98,7 +98,7 @@ export const breathingModes: BreathingMode[] = [{
 	}
 }, {
 	uid: 'abc04',
-	name: 'Rozdýchej to',
+	name: 'mode_breathe_it_out',
 	speed: {
 		fast: {
 			duration: 10,

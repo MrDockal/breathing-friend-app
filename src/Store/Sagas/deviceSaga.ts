@@ -8,13 +8,15 @@ import { ScanForAvailablePeripherals, availablePeripheralObtainedAction, periphe
 import { AndroidBleAdapter } from '../../Core/Bluetooth/AndroidBleAdapter';
 import { BleManagerDiscoverPeripheralResponse, BleManagerConnectPeripheralResponse, BleManagerDisconnectPeripheralResponse } from 'react-native-ble-manager';
 import { DeviceConnectionInitialize, DeviceConnectionInitializedAction, setActiveDeviceAction, DeviceConnectionRemove, DeviceConnectionRemovedAction, DeviceConnectionInitializeAction } from '../Actions/Device/deviceActions';
-import { BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS } from '../../Core/Bluetooth/BLEConstants';
+import { BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, STATS_SERVICE, STATS_SERVICE_CHARACTERISTICS, CURRENT_TIME_SERVICE, CURRENT_TIME_CHARACTERISTICS, BATTERY_SERVICE, BATTERY_LEVEL } from '../../Core/Bluetooth/BLEConstants';
 import { decodeDeviceBreathingModes, encodeDeviceBreathingMode } from '../../Core/Helpers/convertEntities';
-import { DeviceBreathingModesLoadedAction, DeviceBreathingModeUpdate, DeviceBreathingModeUpdatedAction } from '../Actions/Device/deviceBreathingModesActions';
+import { DeviceBreathingModesLoadedAction, DeviceBreathingModeUpdate, DeviceBreathingModeUpdatedAction, DeviceBatteryLoadedAction } from '../Actions/Device/deviceBreathingModesActions';
 import { NotificationListenerStartAction } from '../Actions/notificationActions';
 import { DeviceSavedBreathingMode, DeviceToBeSavedBreathingMode } from '../../Core/Entities/BreathingMode';
 import { findBreathingModeDefinitionByUidAndSpeed } from '../../Core/Helpers/findBreathingModeDefinitionByUidAndSpeed';
 import { stringToArrayBuffer } from '../../Core/Helpers/string-converter';
+import { ToastAndroid } from 'react-native';
+import { i18n } from '../../Core/i18n/i18n';
 
 export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 	let discoverBondedAction = false;
@@ -103,7 +105,14 @@ export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 		}),
 
 		yield takeEvery(DeviceConnectionInitialize, function* (action: DeviceConnectionInitialize) {
-			yield bleAdapter.BLEManager.retrieveServices(action.device.uid, []);
+			const services = yield bleAdapter.BLEManager.retrieveServices(action.device.uid, []);
+			console.log('services', services);
+
+			const now = new Date();
+			yield bleAdapter.write(action.device.uid, CURRENT_TIME_SERVICE, CURRENT_TIME_CHARACTERISTICS, now.valueOf());
+
+			const batteryLevel = yield bleAdapter.read(action.device.uid, BATTERY_SERVICE, BATTERY_LEVEL);
+			yield put(DeviceBatteryLoadedAction(action.device.uid, batteryLevel));
 			const breathingModesBytes = yield bleAdapter.read(action.device.uid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS);
 			const modes = decodeDeviceBreathingModes(breathingModesBytes);
 			yield put(DeviceBreathingModesLoadedAction(action.device.uid, modes));
@@ -146,13 +155,16 @@ export function* deviceSaga(bleAdapter: AndroidBleAdapter, dispatch: Dispatch) {
 				});
 			for (let modeToBeSaved of newModes) {
 				const encoded = encodeDeviceBreathingMode(modeToBeSaved.uid, modeToBeSaved.speed, modeToBeSaved.mode);
-				const data = stringToArrayBuffer(JSON.stringify(encoded));
-				console.log('data to save', data);
-				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, data);
-				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, [1, 95]);
+				yield bleAdapter.write(activeDeviceUid, BREATHING_SERVICE, BREATHING_MODES_CHARACTERISCTICS, encoded);
 			}
-
-			yield put(DeviceBreathingModeUpdatedAction(action.mode, action.index));
+			(ToastAndroid as any).showWithGravityAndOffset(
+				i18n.t('breathing_updated'),
+				ToastAndroid.LONG,
+				ToastAndroid.BOTTOM,
+				0,
+				150,
+			);	
+			yield put(DeviceBreathingModesLoadedAction(activeDeviceUid, newModes));
 		}),
 	];
 }

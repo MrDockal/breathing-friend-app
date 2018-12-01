@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
+import { ColorTheme, BackgroundGradient } from '../BackgroundGradient/BackgroundGradient';
 import { TextNormal } from '../Text/TextNormal';
 import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 
@@ -62,18 +62,32 @@ export class ColoredSelectBox extends React.Component<OwnProps> {
 			}
 		});
 		return (
-			<View style={[styles.wrapper, themeColor.wrapperColor]}>
-				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, .1)', true)} onPress={this.props.onPress}>
-					<View style={styles.wrapperInner}>
-						<View style={styles.optionBox}>
-							<TextNormal>{this.props.optionId}</TextNormal>
-							<View style={[styles.circle, this.props.selected && styles.circleSelected]} />
-						</View>
-						<TextNormal bold={true}>{this.props.title}</TextNormal>
-						<View style={styles.empty} />
+			<React.Fragment>
+				{
+					(this.props.selected) ?
+						<View style={[styles.wrapper, themeColor.wrapperColor]}>
+							{this.renderInnerContent()}
+						</View> :
+						<BackgroundGradient theme={this.props.theme} customStyle={[styles.wrapper, themeColor.wrapperColor]}>
+							{this.renderInnerContent()}
+						</BackgroundGradient>
+				}
+			</React.Fragment>
+		);
+	}
+
+	private renderInnerContent() {
+		return (
+			<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, .1)', true)} onPress={this.props.onPress}>
+				<View style={styles.wrapperInner}>
+					<View style={styles.optionBox}>
+						<TextNormal>{this.props.optionId}</TextNormal>
+						<View style={[styles.circle, this.props.selected && styles.circleSelected]} />
 					</View>
-				</TouchableNativeFeedback>
-			</View>
+					<TextNormal bold={true}>{this.props.title}</TextNormal>
+					<View style={styles.empty} />
+				</View>
+			</TouchableNativeFeedback>
 		);
 	}
 }

@@ -6,4 +6,5 @@ export interface Device {
 	connected: boolean;
 	breathingModes: DeviceSavedBreathingMode[];
 	disconnecting?: boolean;
+	battery?: string;
 }

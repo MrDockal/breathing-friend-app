@@ -6,7 +6,6 @@ import { ColorTheme } from '../BackgroundGradient/BackgroundGradient';
 
 const styles = StyleSheet.create({
 	parentWrapper: {
-		backgroundColor: 'white',
 		borderRadius: 25,
 		shadowOffset: {
 			width: 0,
@@ -15,6 +14,12 @@ const styles = StyleSheet.create({
 		shadowRadius: 5,
 		shadowOpacity: 1,
 		elevation: 8,
+	},
+	disabledParentWrapper: {
+		elevation: 0,
+	},
+	disabledWrapper: {
+		backgroundColor: 'rgba(255, 255, 255, 0.3)'
 	},
 	wrapper: {
 		backgroundColor: 'white',
@@ -38,6 +43,20 @@ export interface ButtonProps {
 export class Button extends React.Component<ButtonProps> {
 
 	public render() {
+		return (
+			<View style={[styles.parentWrapper, this.props.disabled && styles.disabledParentWrapper]}>
+				{
+					this.props.disabled ?
+					this.renderInnerContent() :
+					<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#e0e0e0', true)} onPress={this.onPress}>
+						{this.renderInnerContent()}
+					</TouchableNativeFeedback>
+				}
+			</View>
+		);
+	}
+
+	private renderInnerContent() {
 		const themeStyles = StyleSheet.create({
 			wrapper: {
 				shadowColor: themeSchema.button[this.props.theme].shadowColor,
@@ -47,12 +66,8 @@ export class Button extends React.Component<ButtonProps> {
 			}
 		});
 		return (
-			<View style={styles.parentWrapper}>
-				<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#e0e0e0', true)} onPress={this.onPress}>
-					<View style={[styles.wrapper, themeStyles.wrapper]}>
-						<Text style={[styles.text, themeStyles.text]}>{this.props.title}</Text>
-					</View>
-				</TouchableNativeFeedback>
+			<View style={[styles.wrapper, themeStyles.wrapper, this.props.disabled && styles.disabledWrapper]}>
+				<Text style={[styles.text, themeStyles.text]}>{this.props.title}</Text>
 			</View>
 		);
 	}

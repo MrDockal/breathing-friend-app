@@ -4,7 +4,7 @@ import { ColoredSelectBox } from '../../Components/ColoredSelectBox/ColoredSelec
 import { NavigationInjectedProps } from 'react-navigation';
 import { TextNormal } from '../../Components/Text/TextNormal';
 import { BackgroundGradient, ColorTheme } from '../../Components/BackgroundGradient/BackgroundGradient';
-import { BreathingMode, DeviceSavedBreathingMode } from '../../Core/Entities/BreathingMode';
+import { DeviceSavedBreathingMode, BreathingMode } from '../../Core/Entities/BreathingMode';
 import { H2 } from '../../Components/Text/H2';
 import { Button } from '../../Components/Button/Button';
 import { connect } from 'react-redux';
@@ -12,11 +12,15 @@ import { State } from '../../Store/configureStore';
 import { getActiveBreathingModes, ActiveBreathingModes } from '../../Core/Helpers/getBreathingModesStatus';
 import { getBreathingThemeByIndex } from '../../Core/Helpers/getBreathingTheme';
 import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
+import { i18n } from '../../Core/i18n/i18n';
+import { Dispatch } from 'redux';
+import { DeviceBreathingModeUpdateAction } from '../../Store/Actions/Device/deviceBreathingModesActions';
+import { findBreathingModeDefinitionByUidAndSpeed } from '../../Core/Helpers/findBreathingModeDefinitionByUidAndSpeed';
+import { routeNames } from '../../Navigators/Navigators';
 
 interface NavigationParams {
-	mode: BreathingMode;
+	mode: DeviceSavedBreathingMode;
 }
-
 
 const styles = StyleSheet.create({
 	wrapper: {
@@ -25,10 +29,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		textAlign: 'center',
 		paddingBottom: 40,
-		paddingHorizontal: 30,
 	},
-	fullWidht: {
-		width: '100%'
+	wider: {
+		width: '80%',
 	}
 });
 
@@ -42,6 +45,7 @@ interface BreathingOption {
 export interface ComponentState {
 	options: BreathingOption[];
 	theme: ColorTheme;
+	index: number;
 }
 
 interface StateProps {
@@ -49,7 +53,11 @@ interface StateProps {
 	breathingModes: BreathingMode[];
 }
 
-export type SelectPositionScreenProps = NavigationInjectedProps<NavigationParams> & StateProps;
+interface DispatchProps {
+	replaceBreahing: (mode: DeviceSavedBreathingMode, position: number) => void;
+}
+
+export type SelectPositionScreenProps = NavigationInjectedProps<NavigationParams> & StateProps & DispatchProps;
 
 class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps, ComponentState> {
 
@@ -59,24 +67,26 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 		this.state = {
 			theme: 'black',
 			options,
+			index: -1,
 		}
 	}
 
 	static navigationOptions = ({ navigation }: SelectPositionScreenProps) => ({
-		headerTitle: <TextNormal>Výběr pozice</TextNormal>,
+		headerTitle: <TextNormal>{i18n.t('select_position')}</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 	});
 
 	public render() {
+		const mode = this.props.breathingModes.find((mode: BreathingMode) => mode.uid === this.props.navigation.state.params!.mode.uid);
 		return (
 			<BackgroundGradient theme={this.state.theme}>
 				<HeaderlessView contentContainerStyle={styles.wrapper}>
 					<View>
-						<H2 bold={true}>"Chvilka pro tebe"</H2>
-						<TextNormal>Nahradí vybranou pozici v zařízení</TextNormal>
+						<H2 bold={true}>{i18n.t(mode!.name)}</H2>
+						<TextNormal>{i18n.t('will_replace')}</TextNormal>
 					</View>
-					<View style={styles.fullWidht}>
+					<View style={styles.wider}>
 						{
 							this.state.options.map((option: BreathingOption, index: number) => (
 								<ColoredSelectBox
@@ -84,7 +94,7 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 									optionId={option.index}
 									selected={option.selected}
 									theme={option.theme}
-									title={option.title}
+									title={i18n.t(option.title)}
 									onPress={() => {
 										this.selectOption(option.index);
 										this.changeTheme(option.theme)
@@ -93,10 +103,18 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 							))
 						}
 					</View>
-					<Button theme={this.state.theme} title={'Uložit'} onPress={() => false} />
+					<Button theme={this.state.theme} title={i18n.t('save')} onPress={this.submit} disabled={(this.state.index === -1)} />
 				</HeaderlessView>
 			</BackgroundGradient>
 		);
+	}
+
+	private submit = () => {
+		if (this.state.index === -1) {
+			return;
+		}
+		this.props.replaceBreahing(this.props.navigation.state.params!.mode, this.state.index - 1);
+		this.props.navigation.navigate(routeNames.HomeScreen);
 	}
 
 	private changeTheme(theme: ColorTheme) {
@@ -123,7 +141,8 @@ class SelectPositionScreenHOC extends React.Component<SelectPositionScreenProps,
 				}
 			});
 			return {
-				options: updatedOptions
+				options: updatedOptions,
+				index,
 			}
 		});
 	}
@@ -146,4 +165,11 @@ export const SelectPositionScreen = connect<StateProps>(
 			breathingModes: state.breathing.modes
 		}
 	},
+	(dispatch: Dispatch) => {
+		return {
+			replaceBreahing: (mode: DeviceSavedBreathingMode, position: number) => {
+				dispatch(DeviceBreathingModeUpdateAction(mode, position));
+			}
+		}
+	}
 )(SelectPositionScreenHOC);

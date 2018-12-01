@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { BluetoothStatus } from 'react-native-bluetooth-status';
 import { wait } from '../Helpers/wait';
+import { i18n } from '../i18n/i18n';
 
 export const requestBluetoothPermisions = async () => {
 	if (Platform.OS === 'android' && Platform.Version >= 23) {
@@ -19,7 +20,7 @@ export const requestBluetoothPermisions = async () => {
 		if (!granted) {
 			const grantedAfterRequest = await PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
 			if (!grantedAfterRequest) {
-				alert('Sorry you have to grant permissions in order to connect your device!');
+				alert(i18n.t('bluetooth_not_granted'));
 			}
 		}
 	}

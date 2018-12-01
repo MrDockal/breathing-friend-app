@@ -3,6 +3,7 @@ import { View, TouchableNativeFeedback, StyleSheet } from 'react-native';
 import { TextNormal } from '../Text/TextNormal';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
+import { themeSchema } from '../../Core/ThemeSchema/themeSchema';
 
 export type Ripple = 'dark' | 'light';
 
@@ -15,14 +16,16 @@ export interface ListItemProps {
 
 const styles = StyleSheet.create({
 	listItem: {
-		paddingVertical: 8,
+		paddingVertical: 15,
 		flex: 1,
 		alignItems: 'center',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		paddingHorizontal: themeSchema.list.offsetHorizontal,
 	},
 	wrapperView: {
-		backgroundColor: 'transparent'
+		backgroundColor: 'transparent',
+		marginHorizontal: -themeSchema.list.offsetHorizontal,
 	}
 });
 

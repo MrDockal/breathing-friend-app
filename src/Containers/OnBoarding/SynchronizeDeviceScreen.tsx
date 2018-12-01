@@ -13,6 +13,8 @@ import { TextNormal } from '../../Components/Text/TextNormal';
 import { List } from '../../Components/List/List';
 import { Ripple } from '../../Components/List/ListItem';
 import { HeaderlessView } from '../../Components/HeaderlessView/HeaderlessView';
+import { i18n } from '../../Core/i18n/i18n';
+import { Hr } from '../../Components/Hr/Hr';
 
 const syncrhonizeDeviceScreensStyles = StyleSheet.create({
 	wrapper: {
@@ -50,7 +52,7 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 	}
 
 	static navigationOptions = ({ navigation }: NavigationScreenProps<NavigationParams>) => ({
-		headerTitle: <TextNormal>Synchronizovat</TextNormal>,
+		headerTitle: <TextNormal>{i18n.t('sync')}</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 		headerRight: <SyncButton
@@ -86,7 +88,11 @@ export class SynchronizeDeviceScreenHOC extends React.Component<Props, {}> {
 				>
 					{
 						newDevices.length > 0 &&
-						<List listItems={newDevices} />
+						<React.Fragment>
+							<Hr theme={'black'} />
+							<List listItems={newDevices} hideFirstHr={true} />
+							<Hr theme={'black'} />
+						</React.Fragment>
 					}
 				</HeaderlessView>
 			</BackgroundGradient>

@@ -11,6 +11,7 @@ import { routeNames } from '../../Navigators/Navigators';
 import { TextNormal } from '../../Components/Text/TextNormal';
 import { SuccessDeviceScreenPropsNavigationParams } from './SuccessDeviceScreen';
 import { RenameDeviceView } from '../../Components/RenameDeviceView/RenameDeviceView';
+import { i18n } from '../../Core/i18n/i18n';
 
 interface StateProps {
 	bonded: boolean;
@@ -38,7 +39,7 @@ type Props = StateProps & DispatchProps & OwnProps & NavigationInjectedProps<Nav
 class RenameDeviceScreenHOC extends React.Component<Props, State> {
 
 	static navigationOptions = ({ navigation }: NavigationScreenProps<NavigationParams>) => ({
-		headerTitle: <TextNormal>Přejmenovat</TextNormal>,
+		headerTitle: <TextNormal>{i18n.t('rename')}</TextNormal>,
 		headerTransparent: true,
 		headerTintColor: 'white',
 	});

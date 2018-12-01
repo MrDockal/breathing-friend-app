@@ -44,13 +44,19 @@ export const themeSchema = {
 		fontColor: '#fff',
 		buttonBackground: '#fff',
 		buttonFontColor: '#4f5571',
-		green: '#40A79E'
+		green: '#4EC9BE',
+		red: '#FF5464',
+		redDisabled: '#f59fa9'
 	},
 	fontSize: {
+		title: 40,
 		h1: 34,
 		h2: 30,
 		normal: 20,
-		small: 15,
+		small: 17,
+	},
+	list: {
+		offsetHorizontal: 30,
 	},
 	bottomNavigation: {
 		panel: {

@@ -3,13 +3,7 @@ import { TouchableNativeFeedback, View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { wait } from '../../Core/Helpers/wait';
 import { BreathingListItem } from './BreathingListItem';
-
-const styles = StyleSheet.create({
-	borderLine: {
-		borderBottomWidth: 1,
-		borderColor: 'white',
-	}
-});
+import { Hr } from '../Hr/Hr';
 
 export interface AvailableBreathingListItemProps {
 	title: string;
@@ -33,8 +27,9 @@ export class AvailableBreathingListItem extends React.Component<AvailableBreathi
 					this.props.onPress();
 				}}
 			>
-				<View style={styles.borderLine}>
+				<View>
 					<BreathingListItem textTop={this.props.duration} textCenter={this.props.title} textBottom={''} Icon={icon} />
+					<Hr theme={'black'}/>
 				</View>
 			</TouchableNativeFeedback>
 		);
