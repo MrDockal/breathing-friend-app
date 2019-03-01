@@ -1,3 +1,17 @@
+# Mobile app for Breathing friend
+## DIMPLOMA THESIS
+
+The project is a part of the dime work, which was created at the University of Economics, Prague, Faculty of Informatics and Statistics. Under the leadership of Mr. Ing. et Ing. Stanislav Vojir, Ph.D.
+
+### Background
+The work focuses on mobile development of the Android application for Breathing friend, which helps with the elimination of long-term stress through an electronic anti-stress device. A feature of the application is the ability to communicate via Bluetooth with an anti-stress device. The React Native multiplatform framework is used to develop a mobile application. On the basis of the requirements of the contracting authorities, a specification is proposed, the result of which will be tailored to the needs of the users. Finding the right solution is done through a series of user testing. Depending on the test results, a graphical design is created, which is implemented in the last row.
+
+### Additional Requirements
+For the full use of the application, it is recommended to run a related [project](https://github.com/MrDockal/breathing-friend-ble-peripheral) simulating peripheral Bluetooth devices.
+
+### Licence
+The application is released under [Apache 2 licence](https://github.com/MrDockal/breathing-friend-app/blob/master/LICENSE)
+
 # Mobilní aplikace pro zařízení Breathing friend
 ## DIPLOMOVÁ PRÁCE
 
